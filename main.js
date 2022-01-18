@@ -5,4 +5,8 @@ function msg(message) {
     document.getElementById("msg").innerHTML += message;
 }
 
-// Estoy en Github
+// git add .
+// git tag 0.1 -m "..."
+// git commit -m "..."
+// git push origin master
+// git push origin 0.1
