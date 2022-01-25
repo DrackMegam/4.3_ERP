@@ -26,19 +26,78 @@ let StoreHouse = (function() {
     function init() {
         // Defino la clase de StoreHouse.
         class StoreHouse {
+            // Atributos privados.
+            #name = "Casa chula";
+            #products = [];
+            #categories = [];
+            #shops = [];
+            #stock = [];
+            // Categoría creada por defecto. Por si algún producto o tienda no tiene otro lugar.
+            #defaultCategory = [];
+            #defaultShop = [];
+
+
             // Constructor vacío.
             constructor() {
                 if (!new.target) throw new MyError("ERROR EN EL SINGLETON.");
             }
 
-            // Atributos privados.
-            #name = "Casa chula";
+            
 
             // Getters y Setters
             get name() {
                 return this.#name;
             }
+            set name(newName){
+                // Controlo la excepción del nombre.
+                if(newName.length<=0) throw new MyError("El nombre no puede estar vacío.");
+                this.#name = newName;
+            }
+            get categories(){
+                // ... Iterador
+            }
+            get shops(){
+                // ... Iterador
+            }
+
+            addCategory(){
+                // ...
+            }
+            removeCategory(){
+                // Elimina categoría y sus productos pasan a default.
+            }
+            addProduct(){
+                // Añade un producto asociado a una categoría.
+            }
+            removeProduct(){
+                // Elimina un producto y TODAS sus relacciones con otros objetos.
+            }
+            addProductInShop(){
+                // Añade Product en Shop, con un nº de uds.
+            }
+            addQuantityProductInShop(){
+                // Suma nº a un producto de una tienda, ya existente dicho producto.
+            }
+            getCategoryProducts(){
+                // Dada una categoría, devuelve sus productos en modo iterador.
+            }
+            addShop(){
+                // ...
+            }
+            removeShop(){
+                // Elimina Shop y sus cosas a default.
+            }
+            getShopProducts(){
+                // Iterador de todos los productos de una tienda.
+            }
+
+
         }
+
+
+        let sh = new StoreHouse(); //Devolvemos el objeto ShoppingCart para que sea una instancia única.
+		Object.freeze(sh);
+		return sh;
     }
     return {
         // Devolver el objeto
@@ -54,33 +113,3 @@ let StoreHouse = (function() {
 
 
 
-
-function testAlpha() {
-    console.log("Comprobando el objeto singleton...");
-    let instancia1 = StoreHouse.getInstance();
-    let instancia2 = StoreHouse.getInstance();
-    console.log("¿Instancias iguales?: " + (instancia1 === instancia2));
-    console.log("");
-    console.log(StoreHouse.getInstance().getName());
-}
-
-
-function testAll() {
-    testAlpha();
-}
-
-window.onload = testAll;
-
-
-
-/*
-    TODO
-        - StoreHouse
-            - Objeto de estilo Singleton
-            - POR QUE POLLAS ME FORMATÉA EL #
-            - Category
-                - Almacena objetos Product
-                    - Subclases heredados de Product
-            - Coords
-            - Store
-*/
