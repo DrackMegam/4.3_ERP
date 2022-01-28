@@ -112,4 +112,173 @@ let StoreHouse = (function() {
 })();
 
 
+/* ++++++++++++++++++++++++++++++++++++++++ Definición de objetos ++++++++++++++++++++++++++++++++++++++++ */
+class Category {
+    #title;
+    #description;
+    constructor(title, description){
+        this.#title = title;
+        this.#description = description;
+    }
 
+    // Getters y setters
+    get title(){
+        return this.#title;
+    }
+
+    set title(newTitle){
+        if(newTitle.length<=0) throw new MyError("El título de la categoría no puede estar vacío.");
+        this.#title = newTitle;
+    }
+
+    get description(){
+        return this.#description;
+    }
+
+    set description(newDescription){
+        if(newDescription.length<=0) throw new MyError("La descripción de la categoría no puede estar vacía.");
+        this.#description = newDescription;
+    }
+
+    // Funciones del objeto.
+    toString() {
+        return this.#title + " - " + this.#description;
+    }
+
+}
+
+class Coords {
+    #latitude;
+    #longitude;
+    constructor(latitude, longitude){
+        this.#latitude = latitude;
+        this.#longitude = longitude;
+    }
+
+    // Getters y setters
+    get latitude(){
+        return this.#latitude;
+    }
+
+    set latitude(newlatitude){
+        this.#latitude = newlatitude;
+    }
+
+    get longitude(){
+        return this.#longitude;
+    }
+
+    set longitude(newlongitude){
+        this.#longitude = newlongitude;
+    }
+
+    // Funciones del objeto.
+    toString() {
+        return this.#latitude + " - " + this.#longitude;
+    }
+
+}
+
+class Store {
+    #CIF;
+    #name;
+    #address;
+    #phone;
+    #coords;
+    constructor(CIF, name,address,phone,coords){
+        this.#CIF = CIF;
+        this.#name = name;
+        this.#address = address;
+        this.#phone = phone;
+        this.#coords = coords;
+    }
+
+    // Getters y setters
+    get CIF(){
+        return this.#CIF;
+    }
+
+    set CIF(newCIF){
+        this.#CIF = newCIF;
+    }
+
+    get name(){
+        return this.#name;
+    }
+
+    set name(newname){
+        this.#name = newname;
+    }
+
+    get address(){
+        return this.#address;
+    }
+
+    set address(newAddress){
+        this.#address = newAddress;
+    }
+    get phone(){
+        return this.#phone;
+    }
+
+    set phone(newPhone){
+        this.#phone = newPhone;
+    }
+
+    get coords(){
+        return this.#coords;
+    }
+
+    set coords(newCoords){
+        this.#coords = newCoords;
+    }
+
+    // Funciones del objeto.
+    toString() {
+        return this.#CIF + " - " + this.#name+ " - " + this.#address + " - " + this.#phone + " - " + this.#coords ;
+    }
+
+}
+
+function testStoreHouseAlpha() {
+    console.log("Comprobando el objeto singleton...");
+    let sh = StoreHouse.getInstance();
+    let instancia2 = StoreHouse.getInstance();
+    console.log("¿Instancias iguales?: " + (sh === instancia2));
+    console.log("");
+    console.log("Nombre del almacén: "+sh.name);
+    sh.name = "StoreHouse chulo";
+    console.log("Nuevo nombre: "+sh.name);
+}
+
+function testCategoryAlpha(){
+    console.log("Comprobando el objeto Category...");
+    let ctg = new Category("Cucharas","Redondas y perfectas para sopa.");
+    console.log(ctg.toString());
+    console.log("Cambiando elementos del objeto...");
+    ctg.title = "Tenecuchachillo";
+    ctg.description = "Omnipotente.";
+    console.log(ctg.toString());
+}
+
+
+function testAll() {
+    // testAlpha();
+    // testCategoryAlpha();
+}
+
+window.onload = testAll;
+
+
+
+/*
+    TODO
+        - StoreHouse
+            - Objeto de estilo Singleton
+            - POR QUE POLLAS ME FORMATÉA EL #
+            - Category
+                - Almacena objetos Product
+                    - Subclases heredados de Product
+            - Coords
+            - Store
+*/
