@@ -28,13 +28,12 @@ let StoreHouse = (function() {
         class StoreHouse {
             // Atributos privados.
             #name = "Almacén chulo";
-            #products = []; // Productos almacenados
-            #categories = [];   // Categorías registradas junto los productos
+            #products = []; // Productos almacenados y sus cantidades.
+            #categories = new Map();   // Categorías registradas junto los productos.
             #shops = [];    // Tiendas a las que suministra/guarda productos.
-            #stock = [];    // Stock de productos.
             // Categoría creada por defecto. Por si algún producto o tienda no tiene otro lugar.
-            #defaultCategory = [];
-            #defaultShop = [];
+            #defaultCategory = [];  // Acumula los productos que han perdido categoría propia.
+            #defaultShop = [];  // Acumula productos que han perdido tienda propia.
 
 
             // Constructor vacío.
@@ -62,27 +61,55 @@ let StoreHouse = (function() {
 
             addCategory(newCategory){
                 if(!(newCategory instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
-                return (this.#categories.push(newCategory));
+                this.#categories.set(newCategory,[]); // Añado la categoría y un array vacío de futuros productos.
+                return this.#categories.size;
 
             }
             removeCategory(){
-                /*
-                    En esta solución propuesta, las categorías son objetos independientes.
-                    Son los productos los que tienen asignado una categoría, no las categorías
-                    quienes guardan productos.
-                */
-                if(!(newCategory instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                
                 
             }
+            // Estos métodos son para visualizar mejor los contenidos.
+            // Devuelve un String con todas las categorías registradas.
             showCategories(){
                 let string = "";
-                this.#categories.forEach(category => {
-                    string= string + " - " + category.title;
-                });
+                for (let [k,v] of this.#categories.entries()){
+                    string+= k  +" || ";
+                }
                 return string;
             }
-            addProduct(){
+            // Ejecuta varios logs con los nombres de las categorías y todos sus productos asociados.
+            showCategoriesAndProducts(){
+                for (let [k,v] of this.#categories.entries()){
+                    console.log(k.title + ": " + v);
+                }
+            }
+            // Devuelve una cadena con los nombres de todos los productos asociados a una categoría.
+            showProductsOfCategory(category){
+                if(!(category instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                let string = "";
+                // Array con todos los objetos productos.
+                let products = this.#categories.get(category);
+
+                products.forEach(product => {
+                    string+= product.name+" - ";
+                });
+
+                return string;
+            }
+            addProduct(newProduct,category){
                 // Añade un producto asociado a una categoría.
+                if(!(category instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                // La instancia funciona tanto como para Product como para herederos.
+                if(!(newProduct instanceof Product)) throw new MyError("Este objeto no es un producto.");
+                if(newProduct == null) throw new MyError("El producto no puede ser nulo.")
+                
+                // Lo añado al mapa de categorías y productos asociados.
+                // No se pide controlar que exista la categoría a la que se asocia el producto.
+                this.#categories.get(category).push(newProduct); // Get devuelve el array asociado a la categoría.
+                
+                // Después lo añado al array de "productos registrados".
+                return (this.#products.push(newProduct));
             }
             removeProduct(){
                 // Elimina un producto y TODAS sus relacciones con otros objetos.
@@ -96,8 +123,11 @@ let StoreHouse = (function() {
             getCategoryProducts(){
                 // Dada una categoría, devuelve sus productos en modo iterador.
             }
-            addShop(){
-                // ...
+            addShop(newShop){
+                if(!(newShop instanceof Store)) throw new MyError("Este objeto no es una tienda.");
+                if(newShop == null) throw new MyError("La tienda no puede ser nula.");
+                if(this.#shops.includes(newShop)) throw new MyError("Esta tienda ya existe.");
+                return (this.#shops.push(newShop));
             }
             removeShop(){
                 // Elimina Shop y sus cosas a default.
@@ -457,13 +487,40 @@ function testStoreHouseMethods() {
     let ctg2 = new Category("Tenedores","No me pinches.");
     console.log("Añadiendo categoría... Nuevo tamaño: "+ sh.addCategory(ctg1));
     console.log("Añadiendo categoría... Nuevo tamaño: "+ sh.addCategory(ctg2));
-    console.log("Categorías: "+sh.showCategories());
+    //console.log("Categorías: "+sh.showCategories());
     console.log("Añadiendo objeto no-categoría para provocar fallo...");
     try {
         sh.addCategory(new Technology(155,"Laptop","Ligero y portable", 800, 21, "...","MSI"))
     } catch (err) { console.log(err.msg) }
     console.log("Eliminando categoría...");
 
+    // Entrada de productos.
+    console.log("");
+    let tech1 = new Technology(155,"Laptop","Ligero y portable", 800, 21, "...","MSI");
+    let tech2 = new Technology(199,"Movil","Batería durarera",200, 21, "...","Iphone");
+    console.log("Añadiendo producto a la categoría. Nuevo tamaño: "+ sh.addProduct(tech1,ctg1));
+    console.log("Añadiendo producto a la categoría. Nuevo tamaño: "+ sh.addProduct(tech2,ctg1));
+    console.log("Añadiendo algo que no es un producto...");
+    try {
+        console.log("Añadiendo producto a la categoría. Nuevo tamaño: "+ sh.addProduct(ctg1,ctg1));
+    } catch (err) { console.log(err.msg) }
+    console.log("Mostrando categorías...");
+    console.log(sh.showCategories());
+    //console.log("Mostrando categorías y productos asociados...");
+    //sh.showCategoriesAndProducts();
+    console.log("Mostrando productos asociados a la categoría "+ctg1.title + ": "+sh.showProductsOfCategory(ctg1));
+    
+    // Entrada de tiendas.
+    console.log("");
+    let shop1 = new Store("A6I4","Tienda chula","En la esquina",652014789,new Coords(19.21,-158.02));
+    let shop2 = new Store("T7M2","Tienda distinta","En la otra esquina",926105887,new Coords(-129.21,258.02));
+    console.log("Añadiendo una nueva tienda. Nuevo tamaño: "+sh.addShop(shop1));
+    console.log("Añadiendo una nueva tienda. Nuevo tamaño: "+sh.addShop(shop2));
+    console.log("Añadiendo una tienda ya existente...");
+    try {
+        console.log("Añadiendo una nueva tienda. Nuevo tamaño: "+sh.addShop(shop2));
+    } catch (err) { console.log(err.msg) }
+    console.log("");
     console.log("");
 }
 
