@@ -54,10 +54,12 @@ let StoreHouse = (function() {
                 this.#name = newName;
             }
             get categories(){
-                // ... Iterador
+                // Devuelvo un iterador con las categorías y sus productos internos.
+                return this.#categories[Symbol.iterator]();
             }
             get shops(){
-                // ... Iterador
+                // Devuelvo un iterador con los objetos de las tiendas.
+                return this.#shops[Symbol.iterator]();
             }
 
             addCategory(newCategory){
@@ -184,8 +186,12 @@ let StoreHouse = (function() {
             }
 
             getShopProducts(){
-                // Iterador de todos los productos de una tienda.
+                // Iterador de todos los productos de una tienda junto su Stock.
+                return this.#shops.products.entries();
             }
+
+
+/* ++++++++++++++++++++++++++++++++++++++++ Definición del objeto Singleton ++++++++++++++++++++++++++++++++++++++++ */
 
 
             // Devuelve un String con todas las categorías registradas.
@@ -661,9 +667,25 @@ function testStoreHouseMethods() {
     sh.removeProduct(food1);
     console.log("Mostrando relacciones de " + food1.name + " tras su eliminación...");
     sh.showCategoriesAndProducts();
-    sh.showProductsInShop(shop3);   // No retorna nada, pues la tienda ahora está vacía.
+    sh.showProductsInShop(shop3);   // No retorna nada, pues la tienda ahora está vacía. 
 
     console.log("");
+
+    /*
+    let iteratorSymbol = sh.categories;
+    console.log(iteratorSymbol.next());
+    console.log(iteratorSymbol.next());
+    console.log(iteratorSymbol.next());
+    console.log(iteratorSymbol.next());
+    console.log(iteratorSymbol.next());
+    
+    let iteratorSymbolShop = sh.shops;
+    console.log(iteratorSymbolShop.next());
+    console.log(iteratorSymbolShop.next());
+    console.log(iteratorSymbolShop.next());
+    console.log(iteratorSymbolShop.next());
+    console.log(iteratorSymbolShop.next());
+    */
 }
 
 function testAll() {
