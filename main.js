@@ -97,8 +97,36 @@ let StoreHouse = (function() {
                 return (this.#products.push(newProduct));
             }
 
-            removeProduct(){
+            removeProduct(deletedProduct){
                 // Elimina un producto y TODAS sus relacciones con otros objetos.
+                if(!(deletedProduct instanceof Product)) throw new MyError("Este objeto no es un producto.");
+                if(!this.#products.includes(deletedProduct)) throw new MyError("Este producto no existe.");
+
+                // Lo tenemos que eliminar de 3 sitios: products, categorías y stores.
+                // CATEGORÍAS
+                for (let [k,v] of this.#categories.entries()){
+                    // v es un array con productos. Recorremos v para eliminar el producto.
+                    // Para no ir a lo loco, primero miramos si lo contiene.
+                    if(v.includes(deletedProduct)){
+                        let index = v.findIndex((x) => x == deletedProduct);
+                        v.splice(index,1);
+                    }
+                }
+
+                // STORES
+                // Recorremos todas las tiendas.
+                this.#shops.forEach(shop => {
+                    // Si no lo encuentra, retorna false. Tampoco ocasiona problema.
+                    shop.products.delete(deletedProduct);
+                });
+                // También lo eliminamos de la tienda por defecto.
+                this.#defaultShop.delete(deletedProduct);
+
+                // PRODUCTS
+                let index = this.#products.findIndex((v) => v == deletedProduct);
+                this.#products.splice(index,1);
+
+                return -1; // NOTA: No entiendo exactamente que nº de elementos he de retornar.
             }
             addProductInShop(shop,product,quantity){
                 // Añade Product en Shop, con un nº de uds.
@@ -616,6 +644,25 @@ function testStoreHouseMethods() {
     console.log("Eliminando la tienda "+shop2.name+". Productos devueltos a la tienda por defecto: "+sh.removeShop(shop2));
     console.log("Mostrando tiendas: "+sh.showShops());
     console.log("");
+    // Eliminación de producto y sus relacciones.
+    console.log("Creando un nuevo producto...");
+    let food1 = new Food(905,"Queso","Increiblemente rico y malholiente", 15, 21, "...","Ayer");
+    console.log("Insertando producto nuevo en múltiples sitios...");
+    let shop3 = new Store("78E6","Tienda rara","Por ahí perdida",654877033,new Coords(-185.26,-208.02));
+    let ctg3 = new Category("Lacteos","Vienen de la leche y por ende de las vacas.");
+    sh.addCategory(ctg3);
+    sh.addShop(shop3);
+    sh.addProduct(food1,ctg3);
+    sh.addProductInShop(shop3,food1,22);
+    console.log("Mostrando el producto " + food1.name + " añadido en varios objetos...");
+    sh.showCategoriesAndProducts();
+    sh.showProductsInShop(shop3);
+    console.log("Procediendo a la eliminación del objeto Producto y de sus relacciones...");
+    sh.removeProduct(food1);
+    console.log("Mostrando relacciones de " + food1.name + " tras su eliminación...");
+    sh.showCategoriesAndProducts();
+    sh.showProductsInShop(shop3);   // No retorna nada, pues la tienda ahora está vacía.
+
     console.log("");
 }
 
