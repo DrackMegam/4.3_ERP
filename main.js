@@ -63,6 +63,7 @@ let StoreHouse = (function() {
             }
 
             addCategory(newCategory){
+                if(newCategory==null) throw new MyError("La categoría no puede ser nula.");
                 if(!(newCategory instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
                 this.#categories.set(newCategory,[]); // Añado la categoría y un array vacío de futuros productos.
                 return this.#categories.size;
@@ -156,8 +157,14 @@ let StoreHouse = (function() {
                 // Devuelvo el stock de ese producto en concreto.
                 return this.#shops[index].products.get(product);
             }
-            getCategoryProducts(){
+            getCategoryProducts(category){
                 // Dada una categoría, devuelve sus productos en modo iterador.
+                if(!(category instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                if(category==null) throw new MyError("La categoría no puede ser nula.");
+
+                // Retorno el array dentro del mapa en forma de iterador.
+                return (this.#categories.get(category)[Symbol.iterator]());
+
             }
             addShop(newShop){
                 if(!(newShop instanceof Store)) throw new MyError("Este objeto no es una tienda.");
@@ -171,6 +178,7 @@ let StoreHouse = (function() {
                 // Lo primero será obtener los productos registrados en la tienda.
                 // No se especifica si el stock también se mantiene, pero lo haré por si acaso.
                 let index = this.#shops.findIndex((v) => v == shop);
+                if(index==-1) throw new MyError("No se ha encontrado la tienda.");
                 
                 let savedProducts = 0;
                 for (let [k,v] of this.#shops[index].products.entries()){
@@ -185,9 +193,10 @@ let StoreHouse = (function() {
                 return savedProducts;
             }
 
-            getShopProducts(){
+            getShopProducts(shop){
                 // Iterador de todos los productos de una tienda junto su Stock.
-                return this.#shops.products.entries();
+                let index = this.#shops.findIndex((v) => v == shop);
+                return this.#shops[index].products.entries();
             }
 
 
@@ -589,8 +598,13 @@ function testProductAlpha(){
 
 function testStoreHouseMethods() {
     let sh = StoreHouse.getInstance();
+    console.log("+ + + + + + + + Comenzando el testeo de la práctica.");
     console.log("StoreHouse creado: "+sh.name);
-    
+    let instancia2 = StoreHouse.getInstance();
+    console.log("¿Instancias iguales?: " + (sh === instancia2));
+
+    console.log("");
+    console.log("+ + + + + + + + addCategory.");
     let ctg1 = new Category("Cucharas","Redondas y perfectas para sopa.");
     let ctg2 = new Category("Tenedores","No me pinches.");
     console.log("Añadiendo categoría... Nuevo tamaño: "+ sh.addCategory(ctg1));
@@ -600,10 +614,15 @@ function testStoreHouseMethods() {
     try {
         sh.addCategory(new Technology(155,"Laptop","Ligero y portable", 800, 21, "...","MSI"))
     } catch (err) { console.log(err.msg) }
-    console.log("Eliminando categoría...");
+    console.log("Añadiendo categoría null para provocar fallo...");
+    try {
+        sh.addCategory(null);
+    } catch (err) { console.log(err.msg) }
+
 
     // Entrada de productos.
     console.log("");
+    console.log("+ + + + + + + + addProduct.");
     let tech1 = new Technology(155,"Laptop","Ligero y portable", 800, 21, "...","MSI");
     let tech2 = new Technology(199,"Movil","Batería durarera",200, 21, "...","Iphone");
     console.log("Añadiendo producto a la categoría. Nuevo tamaño: "+ sh.addProduct(tech1,ctg1));
@@ -612,6 +631,8 @@ function testStoreHouseMethods() {
     try {
         console.log("Añadiendo producto a la categoría. Nuevo tamaño: "+ sh.addProduct(ctg1,ctg1));
     } catch (err) { console.log(err.msg) }
+    console.log("");
+    console.log("+ + + + + + + + removeCategory.");
     console.log("Mostrando categorías...");
     console.log(sh.showCategories());
     //console.log("Mostrando categorías y productos asociados...");
@@ -620,12 +641,17 @@ function testStoreHouseMethods() {
     console.log("Eliminando la categoría "+ctg1.title+". Nuevo tamaño: "+sh.removeCategory(ctg1));
     console.log("Mostrando categorías...");
     console.log(sh.showCategories());
+    console.log("Eliminando una categoría que no está para provocar fallo...")
+    try {
+        console.log("Eliminando la categoría "+ctg1.title+". Nuevo tamaño: "+sh.removeCategory(ctg1));
+    } catch (err) { console.log(err.msg) }
     console.log("Mostrando productos asociados a la categoría DEFAULT: "+sh.showProductsOfCategory(sh.defaultCategory));
 
 
 
     // Entrada de tiendas.
     console.log("");
+    console.log("+ + + + + + + + addShop.");
     let shop1 = new Store("A6I4","Tienda chula","En la esquina",652014789,new Coords(19.21,-158.02));
     let shop2 = new Store("T7M2","Tienda distinta","En la otra esquina",926105887,new Coords(-129.21,258.02));
     console.log("Añadiendo una nueva tienda. Nuevo tamaño: "+sh.addShop(shop1));
@@ -634,11 +660,19 @@ function testStoreHouseMethods() {
     try {
         console.log("Añadiendo una nueva tienda. Nuevo tamaño: "+sh.addShop(shop2));
     } catch (err) { console.log(err.msg) }
+    console.log("Añadiendo una tienda null...");
+    try {
+        console.log("Añadiendo una nueva tienda. Nuevo tamaño: "+sh.addShop(null));
+    } catch (err) { console.log(err.msg) }
+    console.log("");
+    console.log("+ + + + + + + + addProductInShop.");
     console.log("Mostrando tiendas: "+sh.showShops());
     console.log("Añadiendo productos a la tienda "+shop1.name+". Catidad de productos actuales: "+sh.addProductInShop(shop1,tech1,5));
     console.log("Añadiendo productos a la tienda "+shop1.name+". Catidad de productos actuales: "+sh.addProductInShop(shop1,tech2,5));
     console.log("Visualizando productos de la tienda "+shop1.name);
     sh.showProductsInShop(shop1);
+    console.log("");
+    console.log("+ + + + + + + + addQuantityProductInShop.");
     console.log("Sumando stock a la tienda "+shop1.name+". Nuevo stock: "+sh.addQuantityProductInShop(shop1,tech1,12));
     console.log("Sumando stock a la tienda "+shop1.name+". Nuevo stock: "+sh.addQuantityProductInShop(shop1,tech2,3));
     console.log("Visualizando productos de la tienda "+shop1.name);
@@ -646,11 +680,19 @@ function testStoreHouseMethods() {
     // Para testear la eliminación, añadiré 10 elementos a la segunda tienda.
     sh.addProductInShop(shop2,tech1,5);
     sh.addProductInShop(shop2,tech2,5);
+    console.log("");
+    console.log("+ + + + + + + + removeShop.");
     console.log("Añadiendo elementos a "+shop2.name+"...");
     console.log("Eliminando la tienda "+shop2.name+". Productos devueltos a la tienda por defecto: "+sh.removeShop(shop2));
     console.log("Mostrando tiendas: "+sh.showShops());
+    console.log("Eliminando tienda inexistente para provocar fallo...");
+    try {
+        console.log("Eliminando la tienda "+shop2.name+". Productos devueltos a la tienda por defecto: "+sh.removeShop(shop2));
+    } catch (err) { console.log(err.msg) }
     console.log("");
     // Eliminación de producto y sus relacciones.
+    console.log("");
+    console.log("+ + + + + + + + removeProduct.");
     console.log("Creando un nuevo producto...");
     let food1 = new Food(905,"Queso","Increiblemente rico y malholiente", 15, 21, "...","Ayer");
     console.log("Insertando producto nuevo en múltiples sitios...");
@@ -668,8 +710,18 @@ function testStoreHouseMethods() {
     console.log("Mostrando relacciones de " + food1.name + " tras su eliminación...");
     sh.showCategoriesAndProducts();
     sh.showProductsInShop(shop3);   // No retorna nada, pues la tienda ahora está vacía. 
+    console.log("Eliminando producto que no existe...");
+    try {
+        sh.removeProduct(food1);
+    } catch (err) { console.log(err.msg) }
 
     console.log("");
+    console.log("+ + + + + + + + Métodos que devuelven iteradores.");
+    console.log(sh.categories);
+    console.log(sh.shops);
+    console.log(sh.getCategoryProducts(ctg2));
+    console.log(sh.getShopProducts(shop1));
+
 
     /*
     let iteratorSymbol = sh.categories;
