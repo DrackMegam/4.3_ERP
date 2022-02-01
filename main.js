@@ -30,20 +30,26 @@ let StoreHouse = (function() {
             #name = "Almacén chulo";
             #products = []; // Productos almacenados y sus cantidades.
             #categories = new Map();   // Categorías registradas junto los productos.
+            #defaultCategory = new Category("DEFAULT","DEFAULT");
+            
             #shops = [];    // Tiendas a las que suministra/guarda productos.
             // Categoría creada por defecto. Por si algún producto o tienda no tiene otro lugar.
-            #defaultCategory = [];  // Acumula los productos que han perdido categoría propia.
             #defaultShop = [];  // Acumula productos que han perdido tienda propia.
 
 
             // Constructor vacío.
             constructor() {
                 if (!new.target) throw new MyError("ERROR EN EL SINGLETON.");
+                // Añado la categoría por defecto.
+                this.#categories.set(this.#defaultCategory,[]);
             }
 
             
 
             // Getters y Setters
+            get defaultCategory() {
+                return this.#defaultCategory;
+            }
             get name() {
                 return this.#name;
             }
@@ -65,10 +71,22 @@ let StoreHouse = (function() {
                 return this.#categories.size;
 
             }
-            removeCategory(){
-                
-                
+            removeCategory(deleteCategory){
+                if(!(deleteCategory instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                if(!this.#categories.has(deleteCategory)) throw new MyError("No se ha encontrado la categoría.");
+                if(deleteCategory==this.#defaultCategory) throw new MyError("No puedes eliminar la categoría por defecto.");
+                // Lo primero será guardar los productos de esa categoría para pasarlos a default.
+                let products = this.#categories.get(deleteCategory);
+                // Los inserto en el array de la categoría por defecto.
+                products.forEach(product => {
+                    this.#categories.get(this.#defaultCategory).push(product);
+                });
+
+                // Finalmente, elimino la categoría.
+                this.#categories.delete(deleteCategory);
+                return this.#categories.size;
             }
+
             // Estos métodos son para visualizar mejor los contenidos.
             // Devuelve un String con todas las categorías registradas.
             showCategories(){
@@ -509,7 +527,13 @@ function testStoreHouseMethods() {
     //console.log("Mostrando categorías y productos asociados...");
     //sh.showCategoriesAndProducts();
     console.log("Mostrando productos asociados a la categoría "+ctg1.title + ": "+sh.showProductsOfCategory(ctg1));
-    
+    console.log("Eliminando la categoría "+ctg1.title+". Nuevo tamaño: "+sh.removeCategory(ctg1));
+    console.log("Mostrando categorías...");
+    console.log(sh.showCategories());
+    console.log("Mostrando productos asociados a la categoría DEFAULT: "+sh.showProductsOfCategory(sh.defaultCategory));
+
+
+
     // Entrada de tiendas.
     console.log("");
     let shop1 = new Store("A6I4","Tienda chula","En la esquina",652014789,new Coords(19.21,-158.02));
