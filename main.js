@@ -30,21 +30,16 @@ let StoreHouse = (function() {
             #name = "Almacén chulo";
             #products = []; // Productos almacenados y sus cantidades.
             #categories = new Map();   // Categorías registradas junto los productos.
-            #defaultCategory = new Category("DEFAULT","DEFAULT");
-            
+            #defaultCategory = new Category("DEFAULT","DEFAULT");   // Categoría por defecto.
             #shops = [];    // Tiendas a las que suministra/guarda productos.
-            // Categoría creada por defecto. Por si algún producto o tienda no tiene otro lugar.
-            #defaultShop = [];  // Acumula productos que han perdido tienda propia.
-
+            #defaultShop = new Map();  // Acumula productos que han perdido tienda propia.
 
             // Constructor vacío.
             constructor() {
                 if (!new.target) throw new MyError("ERROR EN EL SINGLETON.");
-                // Añado la categoría por defecto.
+                // Inicializo la categoría por defecto.
                 this.#categories.set(this.#defaultCategory,[]);
             }
-
-            
 
             // Getters y Setters
             get defaultCategory() {
@@ -87,34 +82,6 @@ let StoreHouse = (function() {
                 return this.#categories.size;
             }
 
-            // Estos métodos son para visualizar mejor los contenidos.
-            // Devuelve un String con todas las categorías registradas.
-            showCategories(){
-                let string = "";
-                for (let [k,v] of this.#categories.entries()){
-                    string+= k  +" || ";
-                }
-                return string;
-            }
-            // Ejecuta varios logs con los nombres de las categorías y todos sus productos asociados.
-            showCategoriesAndProducts(){
-                for (let [k,v] of this.#categories.entries()){
-                    console.log(k.title + ": " + v);
-                }
-            }
-            // Devuelve una cadena con los nombres de todos los productos asociados a una categoría.
-            showProductsOfCategory(category){
-                if(!(category instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
-                let string = "";
-                // Array con todos los objetos productos.
-                let products = this.#categories.get(category);
-
-                products.forEach(product => {
-                    string+= product.name+" - ";
-                });
-
-                return string;
-            }
             addProduct(newProduct,category){
                 // Añade un producto asociado a una categoría.
                 if(!(category instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
@@ -129,6 +96,7 @@ let StoreHouse = (function() {
                 // Después lo añado al array de "productos registrados".
                 return (this.#products.push(newProduct));
             }
+
             removeProduct(){
                 // Elimina un producto y TODAS sus relacciones con otros objetos.
             }
@@ -167,6 +135,61 @@ let StoreHouse = (function() {
                 if(this.#shops.includes(newShop)) throw new MyError("Esta tienda ya existe.");
                 return (this.#shops.push(newShop));
             }
+
+            removeShop(shop){
+                // Elimina Shop y sus cosas a default.
+                // Lo primero será obtener los productos registrados en la tienda.
+                // No se especifica si el stock también se mantiene, pero lo haré por si acaso.
+                let index = this.#shops.findIndex((v) => v == shop);
+                
+                let savedProducts = 0;
+                for (let [k,v] of this.#shops[index].products.entries()){
+                    this.#defaultShop.set(k,v);
+                    savedProducts+=v;
+                }
+
+                // Por último, busco y elimino la tienda.
+                this.#shops.splice(index,1);
+
+                // Retorno el nº de elementos.
+                return savedProducts;
+            }
+
+            getShopProducts(){
+                // Iterador de todos los productos de una tienda.
+            }
+
+
+            // Devuelve un String con todas las categorías registradas.
+            showCategories(){
+                let string = "";
+                for (let [k,v] of this.#categories.entries()){
+                    string+= k  +" || ";
+                }
+                return string;
+            }
+
+            // Ejecuta varios logs con los nombres de las categorías y todos sus productos asociados.
+            showCategoriesAndProducts(){
+                for (let [k,v] of this.#categories.entries()){
+                    console.log(k.title + ": " + v);
+                }
+            }
+
+            // Devuelve una cadena con los nombres de todos los productos asociados a una categoría.
+            showProductsOfCategory(category){
+                if(!(category instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                let string = "";
+                // Array con todos los objetos productos.
+                let products = this.#categories.get(category);
+
+                products.forEach(product => {
+                    string+= product.name+" - ";
+                });
+
+                return string;
+            }
+
             // Muestra los nombres de las tiendas registradas.
             showShops(){
                 let string = "";
@@ -175,6 +198,7 @@ let StoreHouse = (function() {
                 });
                 return string;
             }
+
             // Muestra los nombres de los productos y sus cantidades en una tienda registrada.
             showProductsInShop(shop){
                 let index = this.#shops.findIndex((v) => v == shop);
@@ -182,14 +206,6 @@ let StoreHouse = (function() {
                     console.log(k.name + ": " + v);
                 }
             }
-            removeShop(){
-                // Elimina Shop y sus cosas a default.
-            }
-            getShopProducts(){
-                // Iterador de todos los productos de una tienda.
-            }
-
-
         }
 
 
@@ -593,6 +609,12 @@ function testStoreHouseMethods() {
     console.log("Sumando stock a la tienda "+shop1.name+". Nuevo stock: "+sh.addQuantityProductInShop(shop1,tech2,3));
     console.log("Visualizando productos de la tienda "+shop1.name);
     sh.showProductsInShop(shop1);
+    // Para testear la eliminación, añadiré 10 elementos a la segunda tienda.
+    sh.addProductInShop(shop2,tech1,5);
+    sh.addProductInShop(shop2,tech2,5);
+    console.log("Añadiendo elementos a "+shop2.name+"...");
+    console.log("Eliminando la tienda "+shop2.name+". Productos devueltos a la tienda por defecto: "+sh.removeShop(shop2));
+    console.log("Mostrando tiendas: "+sh.showShops());
     console.log("");
     console.log("");
 }
