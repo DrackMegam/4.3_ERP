@@ -132,11 +132,31 @@ let StoreHouse = (function() {
             removeProduct(){
                 // Elimina un producto y TODAS sus relacciones con otros objetos.
             }
-            addProductInShop(){
+            addProductInShop(shop,product,quantity){
                 // Añade Product en Shop, con un nº de uds.
+                if(!this.#products.includes(product)) throw new MyError("El producto no existe.");
+                if(!this.#shops.includes(shop)) throw new MyError("La tienda no existe.");
+                if(quantity<=0) throw new MyError("Cantidad incorrecta.");
+
+                // Busco la tienda con la que trabajaremos.
+                let index = this.#shops.findIndex((v) => v == shop);
+                // Modifico el atributo "products" del objeto Store, donde guarda la cantidad.
+                this.#shops[index].products.set(product,quantity);
+                // Devuelvo la CANTIDAD de productos en esa tienda.
+                return this.#shops[index].products.size;
+
             }
-            addQuantityProductInShop(){
-                // Suma nº a un producto de una tienda, ya existente dicho producto.
+            addQuantityProductInShop(shop,product,quantity){
+                if(!this.#products.includes(product)) throw new MyError("El producto no existe.");
+                if(!this.#shops.includes(shop)) throw new MyError("La tienda no existe.");
+                if(quantity<=0) throw new MyError("Cantidad incorrecta.");
+
+                // Busco la tienda con la que trabajaremos.
+                let index = this.#shops.findIndex((v) => v == shop);
+                // Funciona igual que el anterior, pero tengo que sumar la canditad actual a la nueva.
+                this.#shops[index].products.set(product,((this.#shops[index].products.get(product))+quantity));
+                // Devuelvo el stock de ese producto en concreto.
+                return this.#shops[index].products.get(product);
             }
             getCategoryProducts(){
                 // Dada una categoría, devuelve sus productos en modo iterador.
@@ -146,6 +166,21 @@ let StoreHouse = (function() {
                 if(newShop == null) throw new MyError("La tienda no puede ser nula.");
                 if(this.#shops.includes(newShop)) throw new MyError("Esta tienda ya existe.");
                 return (this.#shops.push(newShop));
+            }
+            // Muestra los nombres de las tiendas registradas.
+            showShops(){
+                let string = "";
+                this.#shops.forEach(store => {
+                    string+=store.name+" - ";
+                });
+                return string;
+            }
+            // Muestra los nombres de los productos y sus cantidades en una tienda registrada.
+            showProductsInShop(shop){
+                let index = this.#shops.findIndex((v) => v == shop);
+                for (let [k,v] of this.#shops[index].products.entries()){
+                    console.log(k.name + ": " + v);
+                }
             }
             removeShop(){
                 // Elimina Shop y sus cosas a default.
@@ -248,12 +283,14 @@ class Store {
     #address;
     #phone;
     #coords;
+    #products;
     constructor(CIF, name,address,phone,coords){
         this.#CIF = CIF;
         this.#name = name;
         this.#address = address;
         this.#phone = phone;
         this.#coords = coords;
+        this.#products = new Map(); // Almacenará los productos y sus cantidades. Similar a StoreHouse.categories.
     }
 
     // Getters y setters
@@ -294,6 +331,9 @@ class Store {
 
     set coords(newCoords){
         this.#coords = newCoords;
+    }
+    get products(){
+        return this.#products;
     }
 
     // Funciones del objeto.
@@ -544,6 +584,15 @@ function testStoreHouseMethods() {
     try {
         console.log("Añadiendo una nueva tienda. Nuevo tamaño: "+sh.addShop(shop2));
     } catch (err) { console.log(err.msg) }
+    console.log("Mostrando tiendas: "+sh.showShops());
+    console.log("Añadiendo productos a la tienda "+shop1.name+". Catidad de productos actuales: "+sh.addProductInShop(shop1,tech1,5));
+    console.log("Añadiendo productos a la tienda "+shop1.name+". Catidad de productos actuales: "+sh.addProductInShop(shop1,tech2,5));
+    console.log("Visualizando productos de la tienda "+shop1.name);
+    sh.showProductsInShop(shop1);
+    console.log("Sumando stock a la tienda "+shop1.name+". Nuevo stock: "+sh.addQuantityProductInShop(shop1,tech1,12));
+    console.log("Sumando stock a la tienda "+shop1.name+". Nuevo stock: "+sh.addQuantityProductInShop(shop1,tech2,3));
+    console.log("Visualizando productos de la tienda "+shop1.name);
+    sh.showProductsInShop(shop1);
     console.log("");
     console.log("");
 }
