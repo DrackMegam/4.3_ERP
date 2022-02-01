@@ -10,6 +10,16 @@ function msg(message) {
 // git commit -m "..."
 // git push origin master
 // git push origin 0.1
+/* ++++++++++++++++++++++++++++++++++++++++ NOTA ++++++++++++++++++++++++++++++++++++++++ */
+/*
+    A la hora de formatear el código, aquellos atributos privados (#atrib) me los eliminaba o
+    me hacía cosas raras, por lo que no he podido formatear correctamente el código.
+    He estado mirando y es un problema de mis extensiones, pero he intentado ordenar el código
+    lo mejor posible.
+*/
+
+
+/* ++++++++++++++++++++++++++++++++++++++++ Objeto personaliado para los errores ++++++++++++++++++++++++++++++++++++++++ */
 
 
 function MyError(n) {
@@ -18,6 +28,7 @@ function MyError(n) {
 // Heredo los atributos de la clase Error.
 MyError.prototype = Object.create(Error.prototype);
 MyError.prototype.constructor = MyError;
+
 
 /* ++++++++++++++++++++++++++++++++++++++++ Definición de objeto Singleton ++++++++++++++++++++++++++++++++++++++++ */
 
@@ -200,8 +211,13 @@ let StoreHouse = (function() {
             }
 
 
-/* ++++++++++++++++++++++++++++++++++++++++ Definición del objeto Singleton ++++++++++++++++++++++++++++++++++++++++ */
-
+            /* ++++++++++++++++++++++++++++++++++++++++ Funciones personalizadas ++++++++++++++++++++++++++++++++++++++++ */
+            /*
+                Estas funciones son las que he usado para testear el código y para visualizar
+                el comportamiento del mismo.
+                Los objetos iteradores son útiles, pero de momento me siento más cómodo
+                visualizando Strings, por eso he usado estos métodos en el testeo.
+            */
 
             // Devuelve un String con todas las categorías registradas.
             showCategories(){
@@ -269,7 +285,7 @@ let StoreHouse = (function() {
 })();
 
 
-/* ++++++++++++++++++++++++++++++++++++++++ Definición de objetos ++++++++++++++++++++++++++++++++++++++++ */
+/* ++++++++++++++++++++++++++++++++++++++++ Definición de objetos varios ++++++++++++++++++++++++++++++++++++++++ */
 class Category {
     #title;
     #description;
@@ -342,7 +358,7 @@ class Store {
     #address;
     #phone;
     #coords;
-    #products;
+    #products;  // Almacena los productos relaccionados con la tienda.
     constructor(CIF, name,address,phone,coords){
         this.#CIF = CIF;
         this.#name = name;
@@ -409,8 +425,6 @@ class Product {
     #price;
     #tax;
     #images;
-    #category;  // A qué categoría pertenece.
-    #shops; // En qué tiendas se encuentran.
     constructor(serialNumber, name,description,price,tax,images){
         this.#serialNumber = serialNumber;
         this.#name = name;
@@ -466,22 +480,6 @@ class Product {
 
     set images(newImages){
         this.#images = newImages;
-    }
-
-    get category(){
-        return this.#category;
-    }
-
-    set category(newcategory){
-        this.#category = newcategory;
-    }
-
-    get shops(){
-        return this.#shops;
-    }
-
-    set shops(newshops){
-        this.#shops = newshops;
     }
 
     // Funciones del objeto.
@@ -563,6 +561,7 @@ class Clothing extends Product {
 }
 
 
+/* ++++++++++++++++++++++++++++++++++++++++ Funciones de testeo varias ++++++++++++++++++++++++++++++++++++++++ */
 
 function testStoreHouseAlpha() {
     console.log("Comprobando el objeto singleton...");
@@ -595,6 +594,8 @@ function testProductAlpha(){
     tech1.price=750;
     console.log(tech1.toString());
 }
+
+/* ++++++++++++++++++++++++++++++++++++++++ Función de testeo principal ++++++++++++++++++++++++++++++++++++++++ */
 
 function testStoreHouseMethods() {
     let sh = StoreHouse.getInstance();
@@ -756,10 +757,10 @@ window.onload = testAll;
 let _stores = [
     {
         store: store,
-        coords:coords,
+        coords:coords,???
         products:[
             {
-                product: product,
+                --> product: product,
                 categories: []
             }
         ]
