@@ -72,6 +72,9 @@ let StoreHouse = (function() {
                 // Devuelvo un iterador con los objetos de las tiendas.
                 return this.#shops[Symbol.iterator]();
             }
+            get products(){
+                return this.#products;
+            }
 
             addCategory(newCategory){
                 if(newCategory==null) throw new MyError("La categoría no puede ser nula.");
@@ -748,9 +751,11 @@ function testAll() {
     testStoreHouseMethods();
 }
 
-window.onload = testAll;
+//window.onload = testAll;
 
 
+export default StoreHouse;
+export {MyError, Category, Coords, Store, Product, Technology, Food, Clothing};
 
 
 /*

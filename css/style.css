@@ -1,0 +1,825 @@
+/*
+    FLEXBOX
+    https://css-tricks.com/snippets/css/a-guide-to-flexbox/
+
+    Botones chulos
+    https://freefrontend.com/css-buttons/
+
+    Bordes to'guapos.
+    https://bennettfeely.com/clippy/
+
+    Gradientes
+    https://cssgradient.io/
+*/
+
+
+/* Por si el contenido no ocupa todo, que se coloree.*/
+
+.mainJS{
+    color: black;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.37);
+}
+
+
+body {
+    background: url("../img/background2.jpg");
+}
+
+.header {
+    /* Para que se quede pegado a los bordes*/
+    top: 0px;
+    left: 0px;
+    background-color: rgb(15, 15, 15);
+    width: 100%;
+    height: 80px;
+    position: absolute;
+    color: white;
+    /* Flex */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    z-index: 1;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++ IZQUIERDA ++++++++++++++++++++++++++++++++++ */
+
+.header__logo {
+    /* Flex para que el logo y la imagen queden "bien" */
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+}
+
+.header__logo-title {
+    letter-spacing: 5px;
+    font-weight: bolder;
+    font-size: 40px;
+    font-style: italic;
+    padding-top: 15px;
+    padding-left: 20px;
+    color: blueviolet;
+}
+
+.header__logo-img {
+    padding-top: 5px;
+    margin-left: 10px;
+    width: 60px;
+    height: 60px;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++ CENTER ++++++++++++++++++++++++++++++++++ */
+
+.header__center__nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    background-color: #500075;
+    /* Este método es más simple que el de INICIAR SESION */
+    /*                 ARRIBA IZQUIERDA   | ABAJO DERECHA?    | ARRIBA IZQUIERDA?? | ABAJO IZQUIERDA | */
+    clip-path: polygon( 0 0%, 10% 0, 90% 0, 100% 0%, 95% 100%, 90% 100%, 10% 100%, 0% 100%, 5% 100%)
+}
+
+.header__center__nav-elem {
+    font-weight: bolder;
+    font-size: 21px;
+    letter-spacing: 1px;
+    text-decoration: none;
+    color: white;
+}
+
+.header__center__search {
+    padding-top: 10px;
+    position: sticky;
+    bottom: 50px;
+    top: 20px;
+}
+
+.header__center__search-img {
+    /*
+        La imagen se puede poner en "header__center__search" como background.
+        Peeero no me sale ajustarla, así que la meto como elemento aparte en HTML.
+    */
+    position: absolute;
+    width: 17px;
+    height: 17px;
+    padding-top: 2px;
+    padding-left: 2px;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++ DERECHA ++++++++++++++++++++++++++++++++++ */
+
+.header__loggin-button {
+    width: 280px;
+    height: 60px;
+    font-weight: bold;
+    font-size: 20px;
+    /* Para añadir un "pico" al botón. */
+    background: linear-gradient(45deg, transparent 5%, #500075 5%);
+    border: 0;
+    color: rgb(255, 255, 255);
+    letter-spacing: 4px;
+    line-height: 60px;
+    box-shadow: 17px 3px 20px #903ab8;
+    position: relative;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++ PRINCIPAL INDEX ++++++++++++++++++++++++++++++++++ */
+
+.webmap {
+    position: fixed;
+    top: 200px;
+    left: 0px;
+    width: 100px;
+    background: radial-gradient(circle, #8d0886 0%, #500075 100%);
+    padding-top: 50px;
+    padding-bottom: 50px;
+    clip-path: polygon(0 0, 40% 0, 80% 20%, 80% 80%, 40% 100%, 0 100%, 0% 70%, 0% 30%);
+    border: 3px solid;
+    border-color: #4f006e;
+}
+
+.webmap-img {
+    height: 55px;
+    width: 55px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 5px;
+}
+
+.contenido {
+    position: static;
+    padding-top: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.contenido__filter {
+    margin-left: 10%;
+    width: 15%;
+    height: 100%;
+    border: 3px #430063 solid;
+    background-color: gray;
+    background: radial-gradient(circle, rgba(128, 128, 128, 0.712) 0%, rgb(0, 0, 0) 100%);
+}
+
+.contenido__filter__header {
+    position: -webkit-sticky;
+    padding-left: 5px;
+    position: sticky;
+    top: 0;
+    background: radial-gradient(circle, #4b0a69 0%, black 100%);
+    color: white;
+    font-size: 25px;
+    font-weight: bolder;
+    letter-spacing: 1px;
+}
+
+.contenido__filter__header__options {
+    color: white;
+    font-size: 20px;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.contenido__main {
+    margin-right: 5%;
+    width: 65%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.contenido__main__item {
+    height: 195px;
+    width: 200px;
+    border: 3px solid;
+    border-color: #4b0a69;
+    display: flex;
+    flex-direction: column;
+    margin: 1%;
+}
+
+
+/* Publicidad */
+
+.contenido__main__adversitement {
+    height: 195px;
+    width: 1000px;
+    border: 3px solid;
+    border-color: #4b0a69;
+    border-width: 4px;
+    justify-content: center;
+    margin: 1%;
+    margin-left: 70px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.contenido__main__adversitement-img {
+    width: 100%;
+    height: 100%;
+}
+
+.contenido__main-intermedio {
+    height: 130px;
+    width: 1000px;
+    border: 3px solid;
+    border-color: #4b0a69;
+    justify-content: center;
+    margin: 1%;
+    margin-left: 70px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    text-align: center;
+    letter-spacing: 7px;
+    font-weight: bolder;
+    font-size: 25px;
+    color: white;
+    background-color: #4b0a69;
+    clip-path: polygon(30% 10%, 69% 10%, 75% 30%, 75% 68%, 69% 90%, 30% 90%, 25% 70%, 25% 30%);
+}
+
+
+/* Imagen relativa y contenedor absolute para poner texto sobre imagen. */
+
+.contenido__main__item-img {
+    position: relative;
+    height: 150px;
+    width: 200px;
+    z-index: 1;
+}
+
+.contenido__main__item__img {
+    background: linear-gradient(11deg, rgba(0, 0, 0, 1) 10%, rgba(255, 255, 255, 0.411) 100%);
+    position: absolute;
+    height: 150px;
+    width: 200px;
+    /*
+    background-image: url("../img/knife1.png");
+    background-size: cover;
+    */
+    text-align: right;
+}
+
+.contenido__main__item__img-time {
+    font-size: 30px;
+    font-weight: bolder;
+    z-index: 0;
+}
+
+.contenido__main__item__img-img {
+    height: 150px;
+    width: 200px;
+}
+
+.contenido__main__item__info {
+    border-top: 3px solid;
+    border-color: #4b0a69;
+    color: rgb(202, 202, 202);
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, #4b0a69 70%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contenido__main__item__info-name {
+    font-size: 15px;
+    letter-spacing: 1px;
+    font-weight: bolder;
+    font-style: italic;
+}
+
+.contenido__main__item__info-price {
+    font-size: 24px;
+    font-weight: bolder;
+    align-self: flex-start;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++ PERFIL ++++++++++++++++++++++++++++++++++ */
+
+.perfil {
+    position: fixed;
+    background-color: blue;
+    left: 0;
+    top: 0;
+    padding-top: 80px;
+    height: 100%;
+    width: 450px;
+    background-image: url("../img/verticalBackground.jpg");
+    border-right: 8px black solid;
+    /* Para que las barras laterales no se superpongan. */
+    z-index: 0;
+}
+
+.perfil__principal {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.perfil__principal-foto {
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+}
+
+.perfil__principal__info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    color: white;
+    font-weight: bold;
+}
+
+.perfil__principal__info-name {
+    font-size: 30px;
+}
+
+.perfil__principal__info-rank {
+    align-self: center;
+    font-size: 40px;
+    font-style: italic;
+}
+
+.perfil__extra {
+    border: #500075;
+    border-width: 5px;
+    border-style: solid;
+    margin-top: 50px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.perfil__extra__money {
+    margin-top: 15px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bolder;
+}
+
+.perfil__extra__money-text {
+    padding-top: 5px;
+    font-size: 25px;
+}
+
+.perfil__extra__money-number {
+    margin-right: 30px;
+    font-size: 30px;
+}
+
+.perfil__extra__total {
+    margin-top: 35px;
+    margin-left: 20px;
+    margin-right: 20px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-weight: bolder;
+}
+
+.perfil__extra__total-text {
+    padding-top: 5px;
+    font-size: 25px;
+}
+
+.perfil__extra__total-number {
+    margin-right: 65px;
+    font-size: 30px;
+}
+
+.perfil__extra__games {
+    margin-top: 10px;
+    margin-left: 20px;
+    letter-spacing: 1px;
+}
+
+.perfil__extra__games-text {
+    padding-top: 5px;
+    font-size: 15px;
+    font-style: italic;
+}
+
+.perfil__extra__games-number {
+    padding-left: 10px;
+    font-size: 20px;
+    font-weight: bolder;
+}
+
+
+/* Luego se hace un canvas con JS, de momento, dejo una imagen. */
+
+.perfil__extra__graph {
+    margin-top: 60px;
+    align-self: center;
+}
+
+.perfil__extra__graph-img {
+    height: 300px;
+    width: 300px;
+    border-radius: 50%;
+}
+
+.contenido__profile {
+    position: static;
+    /* Estos márgenes van según la barra lateral y vertical */
+    margin-top: 100px;
+    margin-left: 500px;
+    /* Provisional hasta implementar barras laterales. */
+    width: 1200px;
+}
+
+
+/* Cosas de las pestañas. */
+
+.contenido__profile__category {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    margin-left: 25%;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style: none;
+    width: 600px;
+    background-color: #500075;
+    clip-path: polygon(10% 0, 90% 0, 100% 50%, 91% 100%, 10% 100%, 0% 50%);
+}
+
+.contenido__profile__category-elem {
+    width: 20%;
+    text-align: center;
+    border-radius: 4px 4px 0 0;
+    background-color: #430063;
+    clip-path: polygon(30% 10%, 70% 10%, 100% 20%, 100% 80%, 70% 90%, 30% 90%, 0 80%, 0 20%);
+}
+
+.contenido__profile__category a {
+    color: #fff;
+    font-size: 20px;
+    letter-spacing: 2px;
+    padding: 1rem 0.5rem;
+    display: block;
+    border: none;
+    text-decoration: none;
+    text-shadow: none;
+}
+
+.contenido__profile__inventory__item {
+    margin-left: 75px;
+    margin-bottom: 30px;
+    height: 100px;
+    width: 1000px;
+    background-color: rgb(29, 29, 29);
+    clip-path: polygon(5% 0, 95% 0, 100% 30%, 100% 70%, 95% 100%, 5% 100%, 0 70%, 0 31%);
+    display: flex;
+    flex-direction: row;
+}
+
+.contenido__profile__inventory__item-img {
+    border-width: 4px;
+    background-color: rgb(54, 54, 54);
+    border-color: #500075;
+    border-style: solid;
+    margin-left: 50px;
+    height: 90px;
+    width: 90px;
+}
+
+.contenido__profile__inventory__item__data {
+    display: flex;
+    flex-direction: column;
+}
+
+.contenido__profile__inventory__item__data-name {
+    color: white;
+    padding-left: 15px;
+    padding-top: 10px;
+    letter-spacing: 2px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.contenido__profile__inventory__item__data-game {
+    color: rgb(212, 212, 212);
+    padding-left: 15px;
+    padding-top: 3px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-style: italic;
+}
+
+.contenido__profile__inventory__item-date {
+    margin-left: 100px;
+    align-self: center;
+    padding-bottom: 10px;
+    color: white;
+    padding-left: 15px;
+    padding-top: 10px;
+    letter-spacing: 2px;
+    font-size: 20px;
+}
+
+.contenido__profile__inventory__item-price {
+    margin-left: 50px;
+    align-self: center;
+    padding-bottom: 10px;
+    color: white;
+    padding-left: 15px;
+    padding-top: 10px;
+    letter-spacing: 2px;
+    font-size: 30px;
+    font-weight: bolder;
+}
+
+
+/*  Para que funcione el esconder pestañas */
+
+[role="tabpanel"][aria-hidden="true"] {
+    display: none;
+}
+
+.fondo {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 5px;
+    padding-bottom: 10px;
+    background-color: #500075;
+    clip-path: polygon(0 0%, 10% 0, 90% 0, 100% 0%, 95% 100%, 90% 100%, 10% 100%, 0% 100%, 5% 100%);
+    font-weight: bolder;
+    font-size: 22px;
+    letter-spacing: 2px;
+    text-decoration: none;
+    color: white;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++ INICIO ++++++++++++++++++++++++++++++++++ */
+
+.contenido__inicio {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.contenido__inicio__logo {
+    background-color: rgba(255, 171, 252, 0.912);
+    border: 0px solid;
+    border-radius: 100px;
+    text-align: center;
+    padding: 10px;
+}
+
+.contenido__inicio__logo-img {
+    height: 100px;
+    width: 100px;
+    align-items: center;
+}
+
+.contenido__inicio__logo-name {
+    font-size: 50px;
+    color: rgb(191, 151, 255);
+}
+
+.formInicio {
+    background-color: #500075;
+    color: aliceblue;
+    border: 3px solid rgb(144, 75, 255);
+    border-radius: 6px;
+    padding: 30px;
+    padding-left: 60px;
+    padding-right: 60px;
+    text-align: center;
+    position: absolute;
+    top: 20%;
+    font-size: 25px;
+}
+
+.button {
+    background-color: #374cc7;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 14px 28px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    -webkit-transition-duration: 0.3s;
+    /* Safari */
+    transition-duration: 0.2s;
+    cursor: pointer;
+    background-color: white;
+    color: black;
+    border: 3px solid black;
+    border-radius: 8px;
+}
+
+.button:hover {
+    background-color: rgb(191, 151, 255);
+    color: white;
+}
+
+.registerText {
+    position: absolute;
+    color: white;
+    top: 60%;
+    padding: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+    border: 1px solid black;
+    border-radius: 4px;
+    background-color: #500075;
+    color: white;
+}
+
+a {
+    color: #cd60ff;
+}
+
+.special[type=text] {
+    width: 100%;
+    padding: 8px 12px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+
+/* ++++++++++++++++++++++++++++++++++ PRODUCTO  ++++++++++++++++++++++++++++++++++ */
+
+.contenido__producto__item {
+    display: flex;
+    margin-bottom: 50px;
+}
+
+.contenido__producto__item-img {
+    height: 500px;
+    width: 500px;
+}
+
+.contenido__producto__item__info {
+    border-top: 3px solid;
+    border-color: #4b0a69;
+    color: rgb(202, 202, 202);
+    background: radial-gradient(circle, rgba(0, 0, 0, 1) 0%, #4b0a69 70%);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.contenido__producto__item__info-name {
+    font-size: 30px;
+    letter-spacing: 1px;
+    font-weight: bolder;
+    padding: 5px 5px 5px 5px;
+    margin-left: 10px;
+    font-style: normal;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
+}
+
+.contenido__producto__item__info-price {
+    font-size: 24px;
+    font-weight: bolder;
+    align-self: flex-start;
+}
+
+.contenido__producto__item__info__puja-pujar {
+    background-color: white;
+    font-size: 35px;
+    margin-left: 70px;
+    color: black;
+    border: 2px solid #555555;
+}
+
+.contenido__producto__item__info__puja-pujar:hover {
+    background-color: #555555;
+    color: white;
+}
+
+.contenido__producto__item__info__puja-time {
+    font-size: 40px;
+    margin-left: 50px;
+}
+
+.contenido__producto__item__info-descr {
+    font-size: 20px;
+    height: 100x;
+    width: 450px;
+    margin-left: 18px;
+    margin-right: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
+}
+
+.contenido__producto__item__info__puja-price {
+    font-size: 60px;
+    margin-left: 60px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana;
+}
+
+.contenido__producto__pujas__puja__item__img-img {
+    height: 80px;
+    width: 80px;
+}
+
+.contenido__producto {
+    position: static;
+    /* Estos márgenes van según la barra lateral y vertical */
+    margin-top: 100px;
+    margin-left: 500px;
+    /* Provisional hasta implementar barras laterales. */
+    width: 1200px;
+}
+
+.contenido__producto__pujas__puja {
+    position: static;
+    /* Estos márgenes van según la barra lateral y vertical */
+    margin-top: 50px;
+    margin-right: 20px;
+    /* Provisional hasta implementar barras laterales. */
+    width: 250px;
+    border-style: dotted;
+    border: 2px solid #903ab8;
+    border-radius: 12px;
+    padding: 5px;
+    display: flex;
+    background-color: rgba(233, 200, 255, 0.575);
+    text-align: center;
+}
+
+.contenido__producto__pujas__puja__item__info {
+    margin-left: 9px;
+    font-size: 18px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.contenido__producto__pujas {
+    display: flex;
+}
+
+.pie {
+    bottom: 0;
+    color: black;
+    font-size: 17px;
+    height: 100px;
+    width: 1000px;
+    margin-left: 25%;
+    margin-top: 50px;
+    background: radial-gradient(circle, #8d0886 0%, #500075 100%);
+    clip-path: polygon(15% 0, 85% 0, 100% 30%, 100% 100%, 0 100%, 0 30%);
+    /* Configuración de grid */
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    /* Una fila está "vacia" para evitar tocar el borde el footer. */
+    grid-template-rows: 30px 30px 30px;
+}
+
+.pie__titulo {
+    text-align: center;
+    grid-column-start: 2;
+    grid-row-start: 2;
+}
+
+.pie__texto1 {
+    color: darkgray;
+    text-align: center;
+    grid-column-start: 1;
+    grid-row-start: 3;
+}
+
+.pie__texto2 {
+    color: darkgray;
+    text-align: center;
+    grid-column-start: 2;
+    grid-row-start: 3;
+}
+
+.pie__texto3 {
+    color: darkgray;
+    text-align: center;
+    grid-column-start: 3;
+    grid-row-start: 3;
+}
