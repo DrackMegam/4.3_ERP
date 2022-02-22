@@ -19,6 +19,8 @@ class StoreHouseController{
         this.#viewStoreHouse.bindShowShop(this.handleShowShop);
         this.#viewStoreHouse.bindShowProductFile(this.handleShowProductFile);
         this.#viewStoreHouse.bindShowCategorias(this.handleShowCategorias);
+        // Nuevo apartado T6.1 para mostrar producto en nueva ventana.
+        this.#viewStoreHouse.bindShowNewWindow(this.handleShowNewWindow);
     }
 
     // Evento privado que carga los objetos.
@@ -84,8 +86,6 @@ class StoreHouseController{
         // Vuelvo a vincular el método, pues ahora hay nuevos botones.
         this.#viewStoreHouse.bindShowShop(this.handleShowShop);
         this.#viewStoreHouse.bindShowCategorias(this.handleShowCategorias);
-
-        
     }
 
     // Método para ver productos de una tienda.
@@ -102,6 +102,7 @@ class StoreHouseController{
 
         this.#viewStoreHouse.showShop(data);
         this.#viewStoreHouse.bindShowProductFile(this.handleShowProductFile);
+        this.#viewStoreHouse.bindShowNewWindow(this.handleShowNewWindow);
 
     }
 
@@ -124,6 +125,23 @@ class StoreHouseController{
         //console.log(data);
         this.#viewStoreHouse.showCategorias(data);
     }
+
+    // Manejador de eventos para abrir una nueva ventana del producto. T6.1
+    handleShowNewWindow = (target) => {
+        //console.log(target);
+        let productos = this.#modelStoreHouse.products;
+
+        let data;
+        //console.log(productos);
+        // Solo necesito un único producto, así que lo busco.
+        for(let producto of productos){
+            if(producto.serialNumber==target){
+                data = producto;
+            }
+        }
+        this.#viewStoreHouse.showNewWindow(data);
+    }
+
 
 
 }

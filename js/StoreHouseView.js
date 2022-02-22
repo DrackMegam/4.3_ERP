@@ -60,17 +60,35 @@ class StoreHouseView {
         this.main.empty();
 
         this.main.append("<h1>" + data.name + " " + data.CIF + "</h1> <span>(Haz click en 'SkinBits' para volver...)</span>");
-        let htmlChulo = "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Cantidad</th><th>Enlace</th></tr>"
+        let htmlChulo = "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Cantidad</th><th>Enlace</th><th>Nueva ventana</th></tr>"
 
         /* TODO MOSTRAR LAS CATEGORÍAS Y PRODUCTOS */
         for (let [key, value] of data.products.entries()) {
             //console.log(key+" "+value)
-            htmlChulo += ("<tr><td>" + key.serialNumber + "</td><td>" + key.name + "</td><td>" + value + "</td><td>  <a name='" + key.serialNumber + "' id='" + key.serialNumber + "' class='btn btn-primary producto' href='#' role='button'>Entrar</a>  </td></tr>");
+            htmlChulo += ("<tr><td>" + key.serialNumber + "</td><td>" + key.name + "</td><td>" + value + "</td> <td>  <a name='" + key.serialNumber + "' id='" + key.serialNumber + "' class='btn btn-primary producto' href='#' role='button'>Entrar</a>  </td>  <td> <a name='" + key.serialNumber + "' id='" + key.serialNumber + "' class='btn btn-primary nuevaVentana' href='#' role='button'>Abrir</a>  </td></tr>");
         }
 
         this.main.append(htmlChulo);
 
     }
+
+    // Añado el nuevo evento posible para abrir nueva ventana. T6.1
+    showNewWindow(data){
+        //this.main.empty();
+        //let htmlChulo = "<h1>FUNCIONO"+data.name+"</h1>";
+        //this.main.append(htmlChulo);
+
+        window.open("auxPage.html", "Ventana", "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no");
+
+    }
+    bindShowNewWindow(handler){
+        $(".nuevaVentana").click((event) => {
+            //console.log(event.target);
+            handler(event.target.id);
+        })
+    }
+
+
 
     bindShowShop(handler) {
         // Afecta a todos los botones de las tiendas.
@@ -120,7 +138,8 @@ class StoreHouseView {
         })
     }
 
-    showCategorias(data){
+
+    showCategorias(data) {
         this.main.empty();
         let htmlChulo = "";
         //console.log(data);
@@ -128,16 +147,16 @@ class StoreHouseView {
         // Aquí me doy cuenta de que las categorías son un poco raras.
         // Pero tienen cierto "orden". [0] = CAT; [1] array de productos.
         // Debería haber usado un mapa.
-        for(let v of data){
+        for (let v of data) {
             // Título de la categoría.
-            htmlChulo+="<div class='card bg-dark text-white'><div class='card-header'><h1>"+v[0].title+"</h1>";
-            htmlChulo+="<h4>"+v[0].description+"</h4></div>";
+            htmlChulo += "<div class='card bg-dark text-white'><div class='card-header'><h1>" + v[0].title + "</h1>";
+            htmlChulo += "<h4>" + v[0].description + "</h4></div>";
             // Productos relaccionados.
-            htmlChulo+="<div class='card-body'>";
+            htmlChulo += "<div class='card-body'>";
             for (let i = 0; i < v[1].length; i++) {
-                htmlChulo+="<li>"+v[1][i].name+"</li>";
+                htmlChulo += "<li>" + v[1][i].name + "</li>";
             }
-            htmlChulo+="</div></div>";
+            htmlChulo += "</div></div>";
 
         }
 
