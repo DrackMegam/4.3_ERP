@@ -76,7 +76,7 @@ class StoreHouseView {
 
     // Añado el nuevo evento posible para abrir nueva ventana. T6.1
     showNewWindow(data) {
-        
+
         // Creo un botón para cerrar la ventana.
         let cerrarVentana = $('<button class="btn btn-danger m-1 cerramiento">Cerrar Ventana</button>');
         cerrarVentana.click((event) => {
@@ -93,7 +93,7 @@ class StoreHouseView {
         // Si no está abierta la ventana, la creo. Si lo está, la focuseo.
         if (!this.newWindow || this.newWindow.closed) {
             console.log("Abriendo nueva ventana...");
-            this.newWindow = window.open("auxPage.html", "Ventana", "width=800, height=600, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no");
+            this.newWindow = window.open("auxPage.html", "Ventana", "width=800, height=130, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no");
             // Añado el botón para cerrar la nueva ventana.
             this.main.append(cerrarVentana);
 
@@ -104,27 +104,31 @@ class StoreHouseView {
                 que en mi portatil este tiempo tan justo hace cosas raras.
                 Dejo la variable en caso de que explote.
             */
-           let ms = 500;
-            setTimeout(()=>{
+            let ms = 100;
+            setTimeout(() => {
                 // Procedo a añadir contenido a esta nueva ventana.
                 let productWindow = $(this.newWindow.document);
                 let htmlChulo = "";
                 if (data instanceof Technology) {
+                    // Cambio el título de la ventana.
+                    this.newWindow.document.title = "Tecnología";
                     htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Marca</th></tr>"
                     htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.brand + "</td></tr>";
                 } else if (data instanceof Food) {
+                    this.newWindow.document.title = "Comida";
                     htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Fecha caducidad</th></tr>"
                     htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.expirationDate + "</td></tr>";
-        
+
                 } else if (data instanceof Clothing) {
+                    this.newWindow.document.title = "Ropa";
                     htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Talla</th></tr>"
                     htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.size + "</td></tr>";
-        
+
                 }
                 productWindow.find("main").append(htmlChulo);
 
-            },ms);
-            
+            }, ms);
+
         } else {
             console.log("Focus a ventana ya creada");
             this.newWindow.focus();
