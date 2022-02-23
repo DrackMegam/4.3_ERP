@@ -12,8 +12,7 @@ class StoreHouseView {
 
     // Código HTML creado.
     init(data) {
-        window.history.pushState(this.indexWindow, null);
-        this.indexWindow++;
+
         this.main.empty(); // Evita que se genere siempre.
         this.main.append("<h1>Tiendas disponibles</h1> <span>(Haz click en 'SkinBits'...)</span>");
 
@@ -46,28 +45,12 @@ class StoreHouseView {
 
 
             // Añado los botones para moverse por el historial.
-            let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
-            let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
             let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-            btnRetroceder.click(() => {
-                console.log(window.history);
-                window.history.back();
-            });
-            btnAvanzar.click(() => {
-                console.log(window.history);
-                window.history.forward();
-            });
             btnInicio.click(() => {
                 console.log(window.history);
                 window.history.go();
             });
-            this.main.append(btnRetroceder);
-            this.main.append(btnAvanzar);
             this.main.append(btnInicio);
-
-            // window.history.pushState(this.indexWindow,null);
-
-
         }
 
 
@@ -87,8 +70,7 @@ class StoreHouseView {
         T6.1
     */
     showShop(data) {
-        window.history.pushState(this.indexWindow, null);
-        this.indexWindow++; //console.log(data);
+        //console.log(data);
         // Reinicio el contenido del main.
         this.main.empty();
 
@@ -102,33 +84,20 @@ class StoreHouseView {
         }
 
         this.main.append(htmlChulo);
-
         // Añado los botones para moverse por el historial.
-        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
-        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-        btnRetroceder.click(() => {
-            console.log(window.history);
-            window.history.back();
-        });
-        btnAvanzar.click(() => {
-            console.log(window.history);
-            window.history.forward();
-        });
         btnInicio.click(() => {
             console.log(window.history);
             window.history.go();
         });
-        this.main.append(btnRetroceder);
-        this.main.append(btnAvanzar);
         this.main.append(btnInicio);
 
     }
 
     // Añado el nuevo evento posible para abrir nueva ventana. T6.1
     showNewWindow(data) {
-        window.history.pushState(this.indexWindow, null);
-        this.indexWindow++; // Creo un botón para cerrar la ventana.
+
+        // Creo un botón para cerrar la ventana.
         let cerrarVentana = $('<button class="btn btn-danger m-1 cerramiento">Cerrar Ventana</button>');
         cerrarVentana.click((event) => {
             if (this.newWindow[(this.newWindow.length) - 1] && !(this.newWindow[(this.newWindow.length) - 1].closed)) {
@@ -194,23 +163,11 @@ class StoreHouseView {
         }, ms);
 
         // Añado los botones para moverse por el historial.
-        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
-        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-        btnRetroceder.click(() => {
-            console.log(window.history);
-            window.history.back();
-        });
-        btnAvanzar.click(() => {
-            console.log(window.history);
-            window.history.forward();
-        });
         btnInicio.click(() => {
             console.log(window.history);
             window.history.go();
         });
-        this.main.append(btnRetroceder);
-        this.main.append(btnAvanzar);
         this.main.append(btnInicio);
     }
     bindShowNewWindow(handler) {
@@ -234,8 +191,6 @@ class StoreHouseView {
 
     // Para mostrar las fichas de los productos.
     showProductFile(data) {
-        window.history.pushState(this.indexWindow, null);
-        this.indexWindow++;
         this.main.empty();
         //console.log(data);
         //console.log(data instanceof Technology);
@@ -264,25 +219,12 @@ class StoreHouseView {
         this.main.append("<span>(Haz click en 'SkinBits' para volver...)</span>");
 
         this.main.append(htmlChulo);
-
         // Añado los botones para moverse por el historial.
-        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
-        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-        btnRetroceder.click(() => {
-            console.log(window.history);
-            window.history.back();
-        });
-        btnAvanzar.click(() => {
-            console.log(window.history);
-            window.history.forward();
-        });
         btnInicio.click(() => {
             console.log(window.history);
             window.history.go();
         });
-        this.main.append(btnRetroceder);
-        this.main.append(btnAvanzar);
         this.main.append(btnInicio);
     }
 
@@ -294,8 +236,6 @@ class StoreHouseView {
 
 
     showCategorias(data) {
-        window.history.pushState(this.indexWindow, null);
-        this.indexWindow++;
         this.main.empty();
         let htmlChulo = "";
         //console.log(data);
@@ -317,24 +257,13 @@ class StoreHouseView {
         }
 
         this.main.append(htmlChulo);
+
         // Añado los botones para moverse por el historial.
-        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
-        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-        btnRetroceder.click(() => {
-            console.log(window.history);
-            window.history.back();
-        });
-        btnAvanzar.click(() => {
-            console.log(window.history);
-            window.history.forward();
-        });
         btnInicio.click(() => {
             console.log(window.history);
             window.history.go();
         });
-        this.main.append(btnRetroceder);
-        this.main.append(btnAvanzar);
         this.main.append(btnInicio);
 
     }
