@@ -6,7 +6,8 @@ class StoreHouseView {
         // Usaremos el main que he embutido por ahí.
         this.main = $("main");
         // Defino aquí la nueva ventana, pues así es "única".
-        this.newWindow = null;
+        this.newWindow = [];
+        this.indexWindow = 0;
     }
 
     // Código HTML creado.
@@ -55,7 +56,11 @@ class StoreHouseView {
         })
     }
 
-    // Evento relaccionado con mostrar una tienda y sus propiedades.
+    /*
+        Evento para mostrar un producto en una ventana distinta.
+        Maneja el control de las múltiples ventanas así como su contenido.
+        T6.1
+    */
     showShop(data) {
         //console.log(data);
         // Reinicio el contenido del main.
@@ -80,59 +85,68 @@ class StoreHouseView {
         // Creo un botón para cerrar la ventana.
         let cerrarVentana = $('<button class="btn btn-danger m-1 cerramiento">Cerrar Ventana</button>');
         cerrarVentana.click((event) => {
-            if (this.newWindow && !(this.newWindow.closed)) {
-                this.newWindow.close();
+            if (this.newWindow[(this.newWindow.length)-1] && !(this.newWindow[(this.newWindow.length)-1].closed)) {
+                this.newWindow[(this.newWindow.length)-1].close();
+                // Procedo a cerrar TODAS las ventanas.
+                for (let i = 0; i < this.newWindow.length; i++) {
+                    this.newWindow[i].close();
+                }
+                // Limpio el array
+                this.newWindow = [];
                 console.log('Acabas de cerrar la ventana.');
                 // Elimino este propio botón tras activarlo.
                 this.main.find(".cerramiento").remove();
             } else {
                 console.log('La ventana está cerrada.');
+                this.main.find(".cerramiento").remove();
             }
         });
+        // Añado el botón para cerrar la nueva ventana si es la primera vez que se abre.
+        if(this.newWindow.length==0){
+            this.main.append(cerrarVentana);
+        }
 
         // Si no está abierta la ventana, la creo. Si lo está, la focuseo.
-        if (!this.newWindow || this.newWindow.closed) {
-            console.log("Abriendo nueva ventana...");
-            this.newWindow = window.open("auxPage.html", "Ventana", "width=800, height=130, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no");
-            // Añado el botón para cerrar la nueva ventana.
-            this.main.append(cerrarVentana);
+        console.log("Abriendo nueva ventana...");
+        // "_blank" para poder abrir MULTIPLES ventanas
+        this.newWindow.push(window.open("auxPage.html", "_blank", "width=800, height=130, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no"));
+        console.log(this.newWindow);
 
-            // Espero X tiempo a que "carge" la ventana antes de tocarla.
-            /*
-                NOTA:
-                En mi torre 500ms es más que suficiente, pero bien es cierto
-                que en mi portatil este tiempo tan justo hace cosas raras.
-                Dejo la variable en caso de que explote.
-            */
-            let ms = 100;
-            setTimeout(() => {
-                // Procedo a añadir contenido a esta nueva ventana.
-                let productWindow = $(this.newWindow.document);
-                let htmlChulo = "";
-                if (data instanceof Technology) {
-                    // Cambio el título de la ventana.
-                    this.newWindow.document.title = "Tecnología";
-                    htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Marca</th></tr>"
-                    htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.brand + "</td></tr>";
-                } else if (data instanceof Food) {
-                    this.newWindow.document.title = "Comida";
-                    htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Fecha caducidad</th></tr>"
-                    htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.expirationDate + "</td></tr>";
+        
+        
 
-                } else if (data instanceof Clothing) {
-                    this.newWindow.document.title = "Ropa";
-                    htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Talla</th></tr>"
-                    htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.size + "</td></tr>";
+        // Espero X tiempo a que "carge" la ventana antes de tocarla.
+        /*
+            NOTA:
+            En mi torre 500ms es más que suficiente, pero bien es cierto
+            que en mi portatil este tiempo tan justo hace cosas raras.
+            Dejo la variable en caso de que explote.
+        */
+        let ms = 100;
+        setTimeout(() => {
+            // Procedo a añadir contenido a esta nueva ventana, la última del array.
+            let productWindow = $(this.newWindow[(this.newWindow.length)-1].document);
+            let htmlChulo = "";
+            if (data instanceof Technology) {
+                // Cambio el título de la ventana.
+                this.newWindow[(this.newWindow.length)-1].document.title = "Tecnología";
+                htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Marca</th></tr>"
+                htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.brand + "</td></tr>";
+            } else if (data instanceof Food) {
+                this.newWindow[(this.newWindow.length)-1].document.title = "Comida";
+                htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Fecha caducidad</th></tr>"
+                htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.expirationDate + "</td></tr>";
 
-                }
-                productWindow.find("main").append(htmlChulo);
+            } else if (data instanceof Clothing) {
+                this.newWindow[(this.newWindow.length)-1].document.title = "Ropa";
+                htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Talla</th></tr>"
+                htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.size + "</td></tr>";
 
-            }, ms);
+            }
+            productWindow.find("main").append(htmlChulo);
 
-        } else {
-            console.log("Focus a ventana ya creada");
-            this.newWindow.focus();
-        }
+        }, ms);
+
 
     }
     bindShowNewWindow(handler) {
