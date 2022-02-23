@@ -177,7 +177,7 @@ class StoreHouseView {
         })
     }
 
-
+ 
 
     bindShowShop(handler) {
         // Afecta a todos los botones de las tiendas.
