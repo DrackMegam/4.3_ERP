@@ -12,7 +12,8 @@ class StoreHouseView {
 
     // Código HTML creado.
     init(data) {
-
+        window.history.pushState(this.indexWindow, null);
+        this.indexWindow++;
         this.main.empty(); // Evita que se genere siempre.
         this.main.append("<h1>Tiendas disponibles</h1> <span>(Haz click en 'SkinBits'...)</span>");
 
@@ -41,8 +42,32 @@ class StoreHouseView {
             htmlChulo += "<a id='categorias' name='categorias' class='btn btn-primary categorias' href='#' role='button'>Categorias</a>";
 
 
-
             this.main.append(htmlChulo);
+
+
+            // Añado los botones para moverse por el historial.
+            let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
+            let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
+            let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+            btnRetroceder.click(() => {
+                console.log(window.history);
+                window.history.back();
+            });
+            btnAvanzar.click(() => {
+                console.log(window.history);
+                window.history.forward();
+            });
+            btnInicio.click(() => {
+                console.log(window.history);
+                window.history.go();
+            });
+            this.main.append(btnRetroceder);
+            this.main.append(btnAvanzar);
+            this.main.append(btnInicio);
+
+            // window.history.pushState(this.indexWindow,null);
+
+
         }
 
 
@@ -62,7 +87,8 @@ class StoreHouseView {
         T6.1
     */
     showShop(data) {
-        //console.log(data);
+        window.history.pushState(this.indexWindow, null);
+        this.indexWindow++; //console.log(data);
         // Reinicio el contenido del main.
         this.main.empty();
 
@@ -77,16 +103,36 @@ class StoreHouseView {
 
         this.main.append(htmlChulo);
 
+        // Añado los botones para moverse por el historial.
+        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
+        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        btnRetroceder.click(() => {
+            console.log(window.history);
+            window.history.back();
+        });
+        btnAvanzar.click(() => {
+            console.log(window.history);
+            window.history.forward();
+        });
+        btnInicio.click(() => {
+            console.log(window.history);
+            window.history.go();
+        });
+        this.main.append(btnRetroceder);
+        this.main.append(btnAvanzar);
+        this.main.append(btnInicio);
+
     }
 
     // Añado el nuevo evento posible para abrir nueva ventana. T6.1
     showNewWindow(data) {
-
-        // Creo un botón para cerrar la ventana.
+        window.history.pushState(this.indexWindow, null);
+        this.indexWindow++; // Creo un botón para cerrar la ventana.
         let cerrarVentana = $('<button class="btn btn-danger m-1 cerramiento">Cerrar Ventana</button>');
         cerrarVentana.click((event) => {
-            if (this.newWindow[(this.newWindow.length)-1] && !(this.newWindow[(this.newWindow.length)-1].closed)) {
-                this.newWindow[(this.newWindow.length)-1].close();
+            if (this.newWindow[(this.newWindow.length) - 1] && !(this.newWindow[(this.newWindow.length) - 1].closed)) {
+                this.newWindow[(this.newWindow.length) - 1].close();
                 // Procedo a cerrar TODAS las ventanas.
                 for (let i = 0; i < this.newWindow.length; i++) {
                     this.newWindow[i].close();
@@ -102,7 +148,7 @@ class StoreHouseView {
             }
         });
         // Añado el botón para cerrar la nueva ventana si es la primera vez que se abre.
-        if(this.newWindow.length==0){
+        if (this.newWindow.length == 0) {
             this.main.append(cerrarVentana);
         }
 
@@ -112,8 +158,8 @@ class StoreHouseView {
         this.newWindow.push(window.open("auxPage.html", "_blank", "width=800, height=130, top=250, left=250, titlebar=yes, toolbar=no, menubar=no, location=no"));
         console.log(this.newWindow);
 
-        
-        
+
+
 
         // Espero X tiempo a que "carge" la ventana antes de tocarla.
         /*
@@ -125,20 +171,20 @@ class StoreHouseView {
         let ms = 100;
         setTimeout(() => {
             // Procedo a añadir contenido a esta nueva ventana, la última del array.
-            let productWindow = $(this.newWindow[(this.newWindow.length)-1].document);
+            let productWindow = $(this.newWindow[(this.newWindow.length) - 1].document);
             let htmlChulo = "";
             if (data instanceof Technology) {
                 // Cambio el título de la ventana.
-                this.newWindow[(this.newWindow.length)-1].document.title = "Tecnología";
+                this.newWindow[(this.newWindow.length) - 1].document.title = "Tecnología";
                 htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Marca</th></tr>"
                 htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.brand + "</td></tr>";
             } else if (data instanceof Food) {
-                this.newWindow[(this.newWindow.length)-1].document.title = "Comida";
+                this.newWindow[(this.newWindow.length) - 1].document.title = "Comida";
                 htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Fecha caducidad</th></tr>"
                 htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.expirationDate + "</td></tr>";
 
             } else if (data instanceof Clothing) {
-                this.newWindow[(this.newWindow.length)-1].document.title = "Ropa";
+                this.newWindow[(this.newWindow.length) - 1].document.title = "Ropa";
                 htmlChulo += "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Descripción</th><th>Precio</th><th>Impuestos</th><th>Talla</th></tr>"
                 htmlChulo += "<tr><td>" + data.serialNumber + "</td><td>" + data.name + "</td><td>" + data.description + "</td><td>" + data.price + "€</td><td>" + data.tax + "%</td><td>" + data.size + "</td></tr>";
 
@@ -147,7 +193,25 @@ class StoreHouseView {
 
         }, ms);
 
-
+        // Añado los botones para moverse por el historial.
+        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
+        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        btnRetroceder.click(() => {
+            console.log(window.history);
+            window.history.back();
+        });
+        btnAvanzar.click(() => {
+            console.log(window.history);
+            window.history.forward();
+        });
+        btnInicio.click(() => {
+            console.log(window.history);
+            window.history.go();
+        });
+        this.main.append(btnRetroceder);
+        this.main.append(btnAvanzar);
+        this.main.append(btnInicio);
     }
     bindShowNewWindow(handler) {
         $(".nuevaVentana").click((event) => {
@@ -170,6 +234,8 @@ class StoreHouseView {
 
     // Para mostrar las fichas de los productos.
     showProductFile(data) {
+        window.history.pushState(this.indexWindow, null);
+        this.indexWindow++;
         this.main.empty();
         //console.log(data);
         //console.log(data instanceof Technology);
@@ -198,6 +264,26 @@ class StoreHouseView {
         this.main.append("<span>(Haz click en 'SkinBits' para volver...)</span>");
 
         this.main.append(htmlChulo);
+
+        // Añado los botones para moverse por el historial.
+        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
+        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        btnRetroceder.click(() => {
+            console.log(window.history);
+            window.history.back();
+        });
+        btnAvanzar.click(() => {
+            console.log(window.history);
+            window.history.forward();
+        });
+        btnInicio.click(() => {
+            console.log(window.history);
+            window.history.go();
+        });
+        this.main.append(btnRetroceder);
+        this.main.append(btnAvanzar);
+        this.main.append(btnInicio);
     }
 
     bindShowProductFile(handler) {
@@ -208,6 +294,8 @@ class StoreHouseView {
 
 
     showCategorias(data) {
+        window.history.pushState(this.indexWindow, null);
+        this.indexWindow++;
         this.main.empty();
         let htmlChulo = "";
         //console.log(data);
@@ -229,6 +317,25 @@ class StoreHouseView {
         }
 
         this.main.append(htmlChulo);
+        // Añado los botones para moverse por el historial.
+        let btnRetroceder = $("<button class='btn btn-primary m-1'>Retroceder</button>");
+        let btnAvanzar = $("<button class='btn btn-primary m-1'>Avanzar</button>");
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        btnRetroceder.click(() => {
+            console.log(window.history);
+            window.history.back();
+        });
+        btnAvanzar.click(() => {
+            console.log(window.history);
+            window.history.forward();
+        });
+        btnInicio.click(() => {
+            console.log(window.history);
+            window.history.go();
+        });
+        this.main.append(btnRetroceder);
+        this.main.append(btnAvanzar);
+        this.main.append(btnInicio);
 
     }
 
