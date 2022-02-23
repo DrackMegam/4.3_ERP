@@ -119,6 +119,7 @@ class StoreHouseView {
         // Añado el botón para cerrar la nueva ventana si es la primera vez que se abre.
         if (this.newWindow.length == 0) {
             this.main.append(cerrarVentana);
+            
         }
 
         // Si no está abierta la ventana, la creo. Si lo está, la focuseo.
@@ -162,13 +163,7 @@ class StoreHouseView {
 
         }, ms);
 
-        // Añado los botones para moverse por el historial.
-        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-        btnInicio.click(() => {
-            console.log(window.history);
-            window.history.go();
-        });
-        this.main.append(btnInicio);
+
     }
     bindShowNewWindow(handler) {
         $(".nuevaVentana").click((event) => {
@@ -177,7 +172,7 @@ class StoreHouseView {
         })
     }
 
- 
+
 
     bindShowShop(handler) {
         // Afecta a todos los botones de las tiendas.
