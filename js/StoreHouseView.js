@@ -14,7 +14,10 @@ class StoreHouseView {
     init(data) {
 
         this.main.empty(); // Evita que se genere siempre.
-        this.main.append("<h1>Tiendas disponibles</h1> <span>(Haz click en 'SkinBits'...)</span>");
+
+        this.main.append("<h1>Tiendas disponibles</h1> <span>(Haz click en 'SkinBits'...)</span><br>");
+
+
 
         //this.main.append("<a name='muestro' id='muestro' class='btn btn-primary' href='#' role='button'>Entrar</a>");
 
@@ -29,7 +32,7 @@ class StoreHouseView {
                 //console.log(tienda);
                 // Creo una nueva fila en la tabla.
                 // Cada botón tiene un ID propio.
-                htmlChulo += ("<tr><td>" + tienda.name + "</td><td>" + tienda.CIF + "</td><td>  <a name='" + tienda.CIF + "' id='" + tienda.CIF + "' class='btn btn-primary tienda' href='#' role='button'>Entrar</a>  </td></tr>");
+                htmlChulo += ("<tr><td>" + tienda.name + "</td><td>" + tienda.CIF + "</td><td>  <a name='" + tienda.CIF + "' id='" + tienda.CIF + "' class='btn btn-primary tienda' href='#Tienda" + tienda.CIF + "' role='button'>Entrar</a>  </td></tr>");
             }
 
             htmlChulo += ("</table>");
@@ -38,20 +41,41 @@ class StoreHouseView {
             // Añado los menús secundarios.
             // No se si esto lo he entendido mal, pero muestro al principio las tiendas y también un botón para listarlas?
             //htmlChulo += "<a id='init' name='init' class='btn btn-primary init' href='#' role='button'>Tiendas</a>";
-            htmlChulo += "<a id='categorias' name='categorias' class='btn btn-primary categorias' href='#' role='button'>Categorias</a>";
+            htmlChulo += "<a id='categorias' name='categorias' class='btn btn-primary categorias' href='#Categorias' role='button'>Categorias</a>";
 
 
             this.main.append(htmlChulo);
 
-
-            // Añado los botones para moverse por el historial.
-            let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-            btnInicio.click(() => {
-                console.log(window.history);
-                window.history.go();
-            });
-            this.main.append(btnInicio);
         }
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+
+
+        // Para que modifique el estado de la página.
+        window.addEventListener('popstate', function(event) {
+            let estado = null;
+            if (event.state) {
+                estado = event.state.cuerpoMain;
+                $("main").empty();
+                $("main").append(estado);
+            }
+
+        });
 
 
 
@@ -61,6 +85,17 @@ class StoreHouseView {
     bindInit(handler) {
         $("#init").click((event) => {
             handler();
+
+            /*
+            // Añado el state del historial.
+            let htmlActual = ($("main")[0].innerHTML);
+            let nuevoEstado = { cuerpoMain: htmlActual };
+
+            history.pushState(nuevoEstado, null);
+            event.preventDefault();
+            */
+
+              
         })
     }
 
@@ -71,26 +106,41 @@ class StoreHouseView {
     */
     showShop(data) {
         //console.log(data);
+        // Añado la historial la situación actual.
+
+
         // Reinicio el contenido del main.
         this.main.empty();
+
+
 
         this.main.append("<h1>" + data.name + " " + data.CIF + "</h1> <span>(Haz click en 'SkinBits' para volver...)</span>");
         let htmlChulo = "<table class='table table-dark'><tr><th>Nº Serie</th><th>Nombre producto</th><th>Cantidad</th><th>Enlace</th><th>Nueva ventana</th></tr>"
 
         /* TODO MOSTRAR LAS CATEGORÍAS Y PRODUCTOS */
         for (let [key, value] of data.products.entries()) {
-            //console.log(key+" "+value)
-            htmlChulo += ("<tr><td>" + key.serialNumber + "</td><td>" + key.name + "</td><td>" + value + "</td> <td>  <a name='" + key.serialNumber + "' id='" + key.serialNumber + "' class='btn btn-primary producto' href='#' role='button'>Entrar</a>  </td>  <td> <a name='" + key.serialNumber + "' id='" + key.serialNumber + "' class='btn btn-primary nuevaVentana' href='#' role='button'>Abrir</a>  </td></tr>");
+            htmlChulo += ("<tr><td>" + key.serialNumber + "</td><td>" + key.name + "</td><td>" + value + "</td> <td>  <a name='" + key.serialNumber + "' id='" + key.serialNumber + "' class='btn btn-primary producto' href='#Producto" + key.serialNumber + "' role='button'>Entrar</a>  </td>  <td> <a name='" + key.serialNumber + "' id='" + key.serialNumber + "' class='btn btn-primary nuevaVentana' href='#' role='button'>Abrir</a>  </td></tr>");
         }
 
         this.main.append(htmlChulo);
+
         // Añado los botones para moverse por el historial.
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
         btnInicio.click(() => {
-            console.log(window.history);
             window.history.go();
         });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
         this.main.append(btnInicio);
+
 
     }
 
@@ -119,7 +169,7 @@ class StoreHouseView {
         // Añado el botón para cerrar la nueva ventana si es la primera vez que se abre.
         if (this.newWindow.length == 0) {
             this.main.append(cerrarVentana);
-            
+
         }
 
         // Si no está abierta la ventana, la creo. Si lo está, la focuseo.
@@ -167,28 +217,26 @@ class StoreHouseView {
     }
     bindShowNewWindow(handler) {
         $(".nuevaVentana").click((event) => {
-            //console.log(event.target);
             handler(event.target.id);
         })
     }
-
-
 
     bindShowShop(handler) {
         // Afecta a todos los botones de las tiendas.
         $(".tienda").click((event) => {
-            //console.log(event.target);
             // Le paso el ID ÚNICO del botón que ha producido el evento.
             handler(event.target.id);
+
+              
         })
     }
+
 
 
     // Para mostrar las fichas de los productos.
     showProductFile(data) {
         this.main.empty();
-        //console.log(data);
-        //console.log(data instanceof Technology);
+
         let htmlChulo = "";
         /*
             Compruebo que tipo de objeto es y lo personalizo.
@@ -214,18 +262,30 @@ class StoreHouseView {
         this.main.append("<span>(Haz click en 'SkinBits' para volver...)</span>");
 
         this.main.append(htmlChulo);
+
         // Añado los botones para moverse por el historial.
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
         btnInicio.click(() => {
-            console.log(window.history);
             window.history.go();
         });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
         this.main.append(btnInicio);
     }
 
     bindShowProductFile(handler) {
         $(".producto").click((event) => {
             handler(event.target.id);
+
+              
         })
     }
 
@@ -233,7 +293,6 @@ class StoreHouseView {
     showCategorias(data) {
         this.main.empty();
         let htmlChulo = "";
-        //console.log(data);
 
         // Aquí me doy cuenta de que las categorías son un poco raras.
         // Pero tienen cierto "orden". [0] = CAT; [1] array de productos.
@@ -255,18 +314,29 @@ class StoreHouseView {
 
         // Añado los botones para moverse por el historial.
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
         btnInicio.click(() => {
-            console.log(window.history);
             window.history.go();
         });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
         this.main.append(btnInicio);
+
 
     }
 
     bindShowCategorias(handler) {
         $("#categorias").click((event) => {
-            //console.log(event);
             handler();
+
+              
         })
     }
 }

@@ -21,6 +21,8 @@ class StoreHouseController{
         this.#viewStoreHouse.bindShowCategorias(this.handleShowCategorias);
         // Nuevo apartado T6.1 para mostrar producto en nueva ventana.
         this.#viewStoreHouse.bindShowNewWindow(this.handleShowNewWindow);
+
+
     }
 
     // Evento privado que carga los objetos.
@@ -141,6 +143,7 @@ class StoreHouseController{
         }
         this.#viewStoreHouse.showNewWindow(data);
     }
+
 
 
 

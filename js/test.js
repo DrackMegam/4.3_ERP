@@ -19,16 +19,3 @@ function testAll() {
 
 window.onload = testAll;
 
-
-
-/*
-    TODO
-        - StoreHouse
-            - Objeto de estilo Singleton
-            - POR QUE POLLAS ME FORMATÉA EL #
-            - Category
-                - Almacena objetos Product
-                    - Subclases heredados de Product
-            - Coords
-            - Store
-*/
