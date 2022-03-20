@@ -43,6 +43,9 @@ class StoreHouseView {
             //htmlChulo += "<a id='init' name='init' class='btn btn-primary init' href='#' role='button'>Tiendas</a>";
             htmlChulo += "<a id='categorias' name='categorias' class='btn btn-primary categorias' href='#Categorias' role='button'>Categorias</a>";
 
+            // Para poder añadir productos
+            htmlChulo += "<a id='newProducto' name='newProducto' class='btn btn-primary newProducto' href='#NuevoProducto' role='button'>Añadir producto</a>";
+
 
             this.main.append(htmlChulo);
 
@@ -95,7 +98,7 @@ class StoreHouseView {
             event.preventDefault();
             */
 
-              
+
         })
     }
 
@@ -227,11 +230,9 @@ class StoreHouseView {
             // Le paso el ID ÚNICO del botón que ha producido el evento.
             handler(event.target.id);
 
-              
+
         })
     }
-
-
 
     // Para mostrar las fichas de los productos.
     showProductFile(data) {
@@ -285,10 +286,9 @@ class StoreHouseView {
         $(".producto").click((event) => {
             handler(event.target.id);
 
-              
+
         })
     }
-
 
     showCategorias(data) {
         this.main.empty();
@@ -335,8 +335,108 @@ class StoreHouseView {
     bindShowCategorias(handler) {
         $("#categorias").click((event) => {
             handler();
+        })
+    }
 
-              
+    
+
+    formAddProduct(data) {
+        this.main.empty();
+        // constructor(serialNumber, name,description,price,tax,images)
+        // Esto lo he hecho con un copia pega de lo que hay en el index.
+        let htmlChulo = "<form>" +
+            "<div class='form-row'>" +
+            "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
+            "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
+            "   <div class='form-group col-md-6'> <label for='name'>Nombre</label> <input type='text'" +
+            "           class='form-control' id='name' placeholder='Nombre'> </div>" +
+            "</div>" +
+            "<div class='form-group'> <label for='description'>Descripción</label> <input type='text'" +
+            "        class='form-control' id='description' placeholder='Descripción del producto'>" +
+            "</div>" +
+            "<div class='form-row'>" +
+            "    <div class='form-group col-md-6'> <label for='price'>Precio</label> <input type='number'" +
+            "            class='form-control' id='price' placeholder='Precio'> </div>" +
+            "    <div class='form-group col-md-6'> <label for='tax'>Impuestos</label> <select id='tax'" +
+            "                    class='form-control'>" +
+            "                    <option selected value='21'>General</option>" +
+            "            <option value='10'>Reducido</option>" +
+            "                    <option value='4'>Superreducido</option>" +
+            "        </select>" +
+            "    </div>" +
+            "    <fieldset class='form-group pl-3'>" +
+            "        <div class='row' onchange='formTipoProducto()'>" +
+            "          <legend class='col-form-label pl-3 pt-0'>Tipo de producto</legend>" +
+            "          <div class='col-sm-10 tipoProducto'>" +
+            "            <div class='form-check pl-3'>" +
+            "              <input class='form-check-input pl-3' type='radio' name='tipoProducto' id='technology' value='technology'>" +
+            "              <label class='form-check-label' for='technology'>" +
+            "                Tecnología" +
+            "              </label>" +
+            "            </div>" +
+            "            <div class='form-check pl-3'>" +
+            "              <input class='form-check-input pl-3' type='radio' name='tipoProducto' id='food' value='food'>" +
+            "              <label class='form-check-label' for='food'>" +
+            "                Comida" +
+            "              </label>" +
+            "            </div>" +
+            "            <div class='form-check pl-3'>" +
+            "              <input class='form-check-input pl-3' type='radio' name='tipoProducto' id='clothing' value='clothing'>" +
+            "              <label class='form-check-label' for='clothing'>" +
+            "                Ropa" +
+            "              </label>" +
+            "            </div>" +
+            "          </div>" +
+            "        </div>" +
+            "      </fieldset>" +
+            "</div> <button type='submit' class='btn btn-primary'>Añadir producto</button>" +
+            "</form>";
+
+
+        this.main.append(htmlChulo);
+
+
+        // Activo los eventos para que muestre el campo específico de los tipos de producto.
+        let tipoProductoSeleccionado = null;
+        ($(".tipoProducto")).click(() => {
+            // Hago un pequeño timeout debido a que me coge 2 valores distintos al clickar?
+            let ms = 300;
+            setTimeout(() => {
+                tipoProductoSeleccionado = document.querySelector('input[name="tipoProducto"]:checked').value
+            }, ms);
+            console.log("Seleccionado: "+tipoProductoSeleccionado);
+
+            // Creo la otra parte del formulario.
+            if(tipoProductoSeleccionado=="technology"){
+                this.main.append("tech");
+            }else if(tipoProductoSeleccionado=="food"){
+                this.main.append("fffff");
+            }else if(tipoProductoSeleccionado=="clothing"){
+                this.main.append("cccc");
+            }
+        })
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+    }
+
+    bindFormAddProduct(handler) {
+        $(".newProducto").click((event) => {
+            handler();
         })
     }
 }

@@ -21,6 +21,7 @@ class StoreHouseController{
         this.#viewStoreHouse.bindShowCategorias(this.handleShowCategorias);
         // Nuevo apartado T6.1 para mostrar producto en nueva ventana.
         this.#viewStoreHouse.bindShowNewWindow(this.handleShowNewWindow);
+        
 
 
     }
@@ -67,7 +68,6 @@ class StoreHouseController{
     
     }
 
-
     // Carga la vista inicial del View con los datos pasados.
     onInit = (data) => {
         this.#viewStoreHouse.init(data);
@@ -88,6 +88,14 @@ class StoreHouseController{
         // Vuelvo a vincular el método, pues ahora hay nuevos botones.
         this.#viewStoreHouse.bindShowShop(this.handleShowShop);
         this.#viewStoreHouse.bindShowCategorias(this.handleShowCategorias);
+        // Menús y formularios para añadir objetos
+        /*
+            RECORDATORIO
+            El bindeo se hace cuando se crea el botón.
+            No siempre se hace en el constructor, pues quizá el botón aún 
+            no exista en ese entonces.
+        */
+        this.#viewStoreHouse.bindFormAddProduct(this.handleFormAddProduct);
     }
 
     // Método para ver productos de una tienda.
@@ -144,9 +152,10 @@ class StoreHouseController{
         this.#viewStoreHouse.showNewWindow(data);
     }
 
-
-
-
+    handleFormAddProduct = () => {
+        let data = "";
+        this.#viewStoreHouse.formAddProduct(data);
+    }
 }
 
 export default StoreHouseController;
