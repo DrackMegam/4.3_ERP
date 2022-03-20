@@ -624,21 +624,23 @@ class StoreHouseView {
     formAddStore(data) {
         this.main.empty();
         //(CIF, name,address,phone,coords)
-        let htmlChulo = "<form>" +
+        let htmlChulo = "<form name='formAddStore' id='formAddStore' role='form' novalidate>" +
             "<div class='form-row'>" +
             "   <div class='form-group col-md-6'> <label for='CIF'>CIF</label> <input type='number'" +
             "           class='form-control' id='CIF' placeholder='CIF'> </div>" +
             "   <div class='form-group col-md-6'> <label for='name'>Nombre</label> <input type='text'" +
             "           class='form-control' id='name' placeholder='Nombre'> </div>" +
             "</div>" +
-            "<div class='form-group'> <label for='description'>Descripción</label> <input type='text'" +
-            "        class='form-control' id='description' placeholder='Descripción del producto'>" +
+            "<div class='form-group'> <label for='address'>Dirección</label> <input type='text'" +
+            "        class='form-control' id='address' placeholder='Dirección de la tienda'>" +
             "</div>" +
             "<div class='form-row'>" +
-            "    <div class='form-group col-md-6'> <label for='price'>Precio</label> <input type='number'" +
-            "            class='form-control' id='price' placeholder='Precio'> </div>" +
-            "    <div class='form-group col-md-6'> <label for='coords'>Coordenadas</label> <input type='number'" +
-            "            class='form-control' id='coords' placeholder='Coordenadas'> </div>" +
+            "    <div class='form-group col-md-6'> <label for='phone'>Telefono</label> <input type='number'" +
+            "            class='form-control' id='phone' placeholder='Telefono'> </div>" +
+            "    <div class='form-group col-md-9'> <label for='coords1'>Coordenadas X</label> <input type='number'" +
+            "            class='form-control' id='coords1' placeholder='X'> </div>" +
+            "    <div class='form-group col-md-9'> <label for='coords2'>Coordenadas Y</label> <input type='number'" +
+            "            class='form-control' id='coords2' placeholder='X'> </div>" +
             "</div>" +
             "<button type='submit' class='btn btn-primary'>Añadir tienda</button>" +
             "</form>";
@@ -668,6 +670,19 @@ class StoreHouseView {
         $(".newStore").click((event) => {
             handler();
         })
+    }
+
+    bindAddStore(handler){
+        validar.validarAddStore(handler);
+    }
+
+    showResultadoStore(done, store, error){
+        $(document.formDeleteProduct).find('div.error').remove();
+        if (done) {
+            this.main.append("<h1 class='text-success'>Se ha añadido la tienda "+store.CIF+".</h1>");
+        } else {
+            this.main.append("<h1 class='text-danger'>Error al añadir la tienda "+store.CIF+".</h1>");
+        }
     }
 
     // Finalmente, para añadir categorías.

@@ -259,3 +259,78 @@ export function validarDeleteProduct(handler) {
 
     $(form.serialNumber).change(defaultCheckElement);
 }
+
+export function validarAddStore(handler) {
+    let form = document.forms.formAddStore;
+    $(form).attr('novalidate', true);
+    $(form).submit(function(event) {
+        let valido = true;
+        let primerInvalido = null;
+
+        // Validaciones de los campos
+        if (!this.CIF.checkValidity() || !(this.CIF.value > 0)) {
+            valido = false;
+            showFeedBack($(this.CIF), false);
+            primerInvalido = this.CIF;
+        } else {
+            showFeedBack($(this.CIF), true);
+        }
+        if (!this.name.checkValidity() || this.name.value.length == 0) {
+            valido = false;
+            showFeedBack($(this.name), false);
+            primerInvalido = this.name;
+        } else {
+            showFeedBack($(this.name), true);
+        }
+        if (!this.address.checkValidity() || this.address.value.length == 0) {
+            valido = false;
+            showFeedBack($(this.address), false);
+            primerInvalido = this.address;
+        } else {
+            showFeedBack($(this.address), true);
+        }
+        if (!this.coords1.checkValidity() || !(this.coords1.value > 0)) {
+            valido = false;
+            showFeedBack($(this.coords1), false);
+            primerInvalido = this.coords1;
+        } else {
+            showFeedBack($(this.coords1), true);
+        }
+        if (!this.coords2.checkValidity() || !(this.coords2.value > 0)) {
+            valido = false;
+            showFeedBack($(this.coords2), false);
+            primerInvalido = this.coords2;
+        } else {
+            showFeedBack($(this.coords2), true);
+        }
+        if (!this.phone.checkValidity() || !(this.phone.value > 0)) {
+            valido = false;
+            showFeedBack($(this.phone), false);
+            primerInvalido = this.phone;
+        } else {
+            showFeedBack($(this.phone), true);
+        }
+
+        if(!valido){
+            primerInvalido.focus();
+        }else{
+            handler(this.CIF.value,this.name.value,this.address.value,this.phone.value,this.coords1.value,this.coords2.value);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset',(function(event){
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }))
+
+    $(form.CIF).change(defaultCheckElement);
+    $(form.name).change(defaultCheckElement);
+    $(form.address).change(defaultCheckElement);
+    $(form.phone).change(defaultCheckElement);
+    $(form.coords1).change(defaultCheckElement);
+    $(form.coords2).change(defaultCheckElement);
+}

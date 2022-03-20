@@ -262,7 +262,30 @@ class StoreHouseController{
     handleFormAddStore = () => {
         let data = "";
         this.#viewStoreHouse.formAddStore(data);
+        this.#viewStoreHouse.bindAddStore(this.addStore);
     }
+
+    addStore = (CIF,name,address,phone,coords1,coords2) => {
+        //CIF, name,address,phone,coords
+        console.log("Creando Store...");
+        let store = new Store(CIF,name,address,phone,new Coords(coords1,coords2));
+        console.log(store);
+        let done, error;
+        try{
+            this.#modelStoreHouse.addShop(store);
+            done=true;
+            console.log("Añadido Store");
+        }catch(e){
+            done = false;
+            error = e;
+            console.log("Fallo al añadir Store");
+            console.log(error);
+        }
+
+        // Ahora notifico al usuario.
+        this.#viewStoreHouse.showResultadoStore(done,store,error);
+    }
+
     handleFormAddCategory = () => {
         let data = "";
         this.#viewStoreHouse.formAddCategory(data);
