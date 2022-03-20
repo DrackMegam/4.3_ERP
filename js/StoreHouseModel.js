@@ -134,7 +134,25 @@ let StoreHouse = (function() {
 
             removeProduct(deletedProduct){
                 // Elimina un producto y TODAS sus relacciones con otros objetos.
-                if(!(deletedProduct instanceof Product)) throw new MyError("Este objeto no es un producto.");
+                /*
+                    Aquí tengo que hacer la misma jugarreta que al añadir producto.
+                */
+                if(!(deletedProduct instanceof Product)){
+                    // Si llega aquí, entonces le he pasado un String
+                    let productFound = null;
+                      this.products.forEach(registeredProduct => {
+                        if(registeredProduct.serialNumber == deletedProduct){
+                            productFound = registeredProduct;
+                        }
+                      });
+                    if(productFound == null){
+                        // Si es nulo, es que el String no ha tenido coincidencias.
+                        throw new MyError("Este objeto no es un producto.");
+                    }else{
+                        // Ahora doy el cambiazo para que todo funcione.
+                        deletedProduct = productFound;
+                    }
+                }
                 if(!this.#products.includes(deletedProduct)) throw new MyError("Este producto no existe.");
 
                 // Lo tenemos que eliminar de 3 sitios: products, categorías y stores.

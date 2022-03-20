@@ -86,7 +86,11 @@ export function validarNewTechnology(handler) {
         inputs.removeClass('is-valid is-invalid');
     }))
 
+    $(form.serialNumber).change(defaultCheckElement);
     $(form.name).change(defaultCheckElement);
+    $(form.description).change(defaultCheckElement);
+    $(form.brand).change(defaultCheckElement);
+    $(form.price).change(defaultCheckElement);
 }
 
 export function validarNewFood(handler) {
@@ -151,7 +155,11 @@ export function validarNewFood(handler) {
         inputs.removeClass('is-valid is-invalid');
     }))
 
+    $(form.serialNumber).change(defaultCheckElement);
     $(form.name).change(defaultCheckElement);
+    $(form.description).change(defaultCheckElement);
+    $(form.expirationDate).change(defaultCheckElement);
+    $(form.price).change(defaultCheckElement);
 }
 
 export function validarNewClothing(handler) {
@@ -211,5 +219,43 @@ export function validarNewClothing(handler) {
         inputs.removeClass('is-valid is-invalid');
     }))
 
+    $(form.serialNumber).change(defaultCheckElement);
     $(form.name).change(defaultCheckElement);
+    $(form.description).change(defaultCheckElement);
+    $(form.price).change(defaultCheckElement);
+}
+
+export function validarDeleteProduct(handler) {
+    let form = document.forms.formDeleteProduct;
+    $(form).attr('novalidate', true);
+    $(form).submit(function(event) {
+        let valido = true;
+        let primerInvalido = null;
+
+        // Validaciones de los campos
+        if (!this.serialNumber.checkValidity() || !(this.serialNumber.value.length > 0)) {
+            valido = false;
+            showFeedBack($(this.serialNumber), false);
+            primerInvalido = this.serialNumber;
+        } else {
+            showFeedBack($(this.serialNumber), true);
+        }
+
+        if(!valido){
+            primerInvalido.focus();
+        }else{
+            handler(this.serialNumber.value);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset',(function(event){
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }))
+
+    $(form.serialNumber).change(defaultCheckElement);
 }

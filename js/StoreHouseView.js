@@ -572,7 +572,7 @@ class StoreHouseView {
     formDeleteProduct(data) {
         this.main.empty();
         // (title, description)
-        let htmlChulo = "<form>" +
+        let htmlChulo = "<form name='formDeleteProduct' id='formDeleteProduct' role='form' novalidate>" +
             "<div class='form-row'>" +
             "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
             "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
@@ -605,6 +605,19 @@ class StoreHouseView {
         $(".deleteProduct").click((event) => {
             handler();
         })
+    }
+
+    bindDeleteProduct(handler){
+        validar.validarDeleteProduct(handler);
+    }
+
+    showResultadoDeleteProduct(done, error){
+        $(document.formDeleteProduct).find('div.error').remove();
+        if (done) {
+            this.main.append("<h1 class='text-success'>Se ha eliminado correctamente.</h1>");
+        } else {
+            this.main.append("<h1 class='text-danger'>Error al eliminar el producto </h1>");
+        }
     }
 
     // Para añadir las tiendas nuevas.

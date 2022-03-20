@@ -241,7 +241,23 @@ class StoreHouseController{
     handleformDeleteProduct= () => {
         let data = "";
         this.#viewStoreHouse.formDeleteProduct(data);
+        this.#viewStoreHouse.bindDeleteProduct(this.deleteProduct);
     }
+
+    deleteProduct = (serialNumber) => {
+        let done, error;
+        try{
+            this.#modelStoreHouse.removeProduct(serialNumber);
+            done = true;
+            console.log("Eliminado el producto con éxito");
+        }catch(e){
+            error = e;
+            console.log("Fallo al eliminar el producto");
+            console.log(error);
+        }
+        this.#viewStoreHouse.showResultadoDeleteProduct(done,error);
+    }
+
     // Handlers adicionales para los Stores y las Categories
     handleFormAddStore = () => {
         let data = "";
