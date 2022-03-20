@@ -42,10 +42,12 @@ class StoreHouseView {
             // No se si esto lo he entendido mal, pero muestro al principio las tiendas y también un botón para listarlas?
             //htmlChulo += "<a id='init' name='init' class='btn btn-primary init' href='#' role='button'>Tiendas</a>";
             htmlChulo += "<a id='categorias' name='categorias' class='btn btn-primary categorias' href='#Categorias' role='button'>Categorias</a>";
-
+            htmlChulo += "<br><br>";
             // Para poder añadir productos
-            htmlChulo += "<a id='newProducto' name='newProducto' class='btn btn-primary newProducto' href='#NuevoProducto' role='button'>Añadir producto</a>";
-
+            htmlChulo += "<a id='newTechnologyProduct' name='newTechnologyProduct' class='btn btn-primary newTechnologyProduct' href='#NuevaTecnologia' role='button'>Añadir tecnología</a>";
+            htmlChulo += "<a id='newFoodProduct' name='newFoodProduct' class='btn btn-primary newFoodProduct' href='#NuevaComida' role='button'>Añadir comida</a>";
+            htmlChulo += "<a id='newClothingProduct' name='newClothingProduct' class='btn btn-primary newClothingProduct' href='#NuevaRopa' role='button'>Añadir ropa</a>";
+            htmlChulo += "<br>";
 
             this.main.append(htmlChulo);
 
@@ -339,8 +341,8 @@ class StoreHouseView {
     }
 
     
-
-    formAddProduct(data) {
+    /* Funciones relaccionadas con añadir productos de varios tipos. */
+    formAddTechnologyProduct(data) {
         this.main.empty();
         // constructor(serialNumber, name,description,price,tax,images)
         // Esto lo he hecho con un copia pega de lo que hay en el index.
@@ -364,32 +366,11 @@ class StoreHouseView {
             "                    <option value='4'>Superreducido</option>" +
             "        </select>" +
             "    </div>" +
-            "    <fieldset class='form-group pl-3'>" +
-            "        <div class='row' onchange='formTipoProducto()'>" +
-            "          <legend class='col-form-label pl-3 pt-0'>Tipo de producto</legend>" +
-            "          <div class='col-sm-10 tipoProducto'>" +
-            "            <div class='form-check pl-3'>" +
-            "              <input class='form-check-input pl-3' type='radio' name='tipoProducto' id='technology' value='technology'>" +
-            "              <label class='form-check-label' for='technology'>" +
-            "                Tecnología" +
-            "              </label>" +
-            "            </div>" +
-            "            <div class='form-check pl-3'>" +
-            "              <input class='form-check-input pl-3' type='radio' name='tipoProducto' id='food' value='food'>" +
-            "              <label class='form-check-label' for='food'>" +
-            "                Comida" +
-            "              </label>" +
-            "            </div>" +
-            "            <div class='form-check pl-3'>" +
-            "              <input class='form-check-input pl-3' type='radio' name='tipoProducto' id='clothing' value='clothing'>" +
-            "              <label class='form-check-label' for='clothing'>" +
-            "                Ropa" +
-            "              </label>" +
-            "            </div>" +
-            "          </div>" +
-            "        </div>" +
-            "      </fieldset>" +
-            "</div> <button type='submit' class='btn btn-primary'>Añadir producto</button>" +
+            "</div>"+
+            "<div class='form-group'> <label for='brand'>Marca</label> <input type='text'" +
+            "        class='form-control' id='brand' placeholder='Marca del producto'>" +
+            "</div>" +
+            "<button type='submit' class='btn btn-primary'>Añadir producto tecnologico</button>" +
             "</form>";
 
 
@@ -397,24 +378,7 @@ class StoreHouseView {
 
 
         // Activo los eventos para que muestre el campo específico de los tipos de producto.
-        let tipoProductoSeleccionado = null;
-        ($(".tipoProducto")).click(() => {
-            // Hago un pequeño timeout debido a que me coge 2 valores distintos al clickar?
-            let ms = 300;
-            setTimeout(() => {
-                tipoProductoSeleccionado = document.querySelector('input[name="tipoProducto"]:checked').value
-            }, ms);
-            console.log("Seleccionado: "+tipoProductoSeleccionado);
 
-            // Creo la otra parte del formulario.
-            if(tipoProductoSeleccionado=="technology"){
-                this.main.append("tech");
-            }else if(tipoProductoSeleccionado=="food"){
-                this.main.append("fffff");
-            }else if(tipoProductoSeleccionado=="clothing"){
-                this.main.append("cccc");
-            }
-        })
 
         // Añado los botones para moverse por el historial.
         let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
@@ -434,8 +398,130 @@ class StoreHouseView {
         this.main.append(btnInicio);
     }
 
-    bindFormAddProduct(handler) {
-        $(".newProducto").click((event) => {
+    bindFormAddTechnologyProduct(handler) {
+        $(".newTechnologyProduct").click((event) => {
+            handler();
+        })
+    }
+
+    formAddFoodProduct(data) {
+        this.main.empty();
+        // constructor(serialNumber, name,description,price,tax,images)
+        // Esto lo he hecho con un copia pega de lo que hay en el index.
+        let htmlChulo = "<form>" +
+            "<div class='form-row'>" +
+            "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
+            "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
+            "   <div class='form-group col-md-6'> <label for='name'>Nombre</label> <input type='text'" +
+            "           class='form-control' id='name' placeholder='Nombre'> </div>" +
+            "</div>" +
+            "<div class='form-group'> <label for='description'>Descripción</label> <input type='text'" +
+            "        class='form-control' id='description' placeholder='Descripción del producto'>" +
+            "</div>" +
+            "<div class='form-row'>" +
+            "    <div class='form-group col-md-6'> <label for='price'>Precio</label> <input type='number'" +
+            "            class='form-control' id='price' placeholder='Precio'> </div>" +
+            "    <div class='form-group col-md-6'> <label for='tax'>Impuestos</label> <select id='tax'" +
+            "                    class='form-control'>" +
+            "                    <option selected value='21'>General</option>" +
+            "            <option value='10'>Reducido</option>" +
+            "                    <option value='4'>Superreducido</option>" +
+            "        </select>" +
+            "    </div>" +
+            "</div>"+
+            "<div class='form-group'> <label for='expirationDate'>Fecha de caducidad</label> <input type='text'" +
+            "        class='form-control' id='expirationDate' placeholder='Fecha de caducidad'>" +
+            "</div>" +
+            "<button type='submit' class='btn btn-primary'>Añadir comida</button>" +
+            "</form>";
+
+
+        this.main.append(htmlChulo);
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+    }
+
+    bindFormAddFoodProduct(handler) {
+        $(".newFoodProduct").click((event) => {
+            handler();
+        })
+    }
+
+    formAddClothingProduct(data) {
+        this.main.empty();
+        // constructor(serialNumber, name,description,price,tax,images)
+        // Esto lo he hecho con un copia pega de lo que hay en el index.
+        let htmlChulo = "<form>" +
+            "<div class='form-row'>" +
+            "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
+            "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
+            "   <div class='form-group col-md-6'> <label for='name'>Nombre</label> <input type='text'" +
+            "           class='form-control' id='name' placeholder='Nombre'> </div>" +
+            "</div>" +
+            "<div class='form-group'> <label for='description'>Descripción</label> <input type='text'" +
+            "        class='form-control' id='description' placeholder='Descripción del producto'>" +
+            "</div>" +
+            "<div class='form-row'>" +
+            "    <div class='form-group col-md-6'> <label for='price'>Precio</label> <input type='number'" +
+            "            class='form-control' id='price' placeholder='Precio'> </div>" +
+            "    <div class='form-group col-md-6'> <label for='tax'>Impuestos</label> <select id='tax'" +
+            "                    class='form-control'>" +
+            "                    <option selected value='21'>General</option>" +
+            "            <option value='10'>Reducido</option>" +
+            "                    <option value='4'>Superreducido</option>" +
+            "        </select>" +
+            "    </div>" +
+            "</div>"+
+            "<div class='form-group'> "+
+            "       <label for='size'>Tamaño de la prenda</label>"+
+            "<select id='size'" +
+            "                    class='form-control'>" +
+            "                    <option selected value='XL'>XL</option>" +
+            "            <option value='M'>M</option>" +
+            "                    <option value='S'>S</option>" +
+            "        </select>" +
+            "</div>" +
+            "<button type='submit' class='btn btn-primary'>Añadir ropa</button>" +
+            "</form>";
+
+
+        this.main.append(htmlChulo);
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+    }
+
+    bindFormAddClothingProduct(handler) {
+        $(".newClothingProduct").click((event) => {
             handler();
         })
     }

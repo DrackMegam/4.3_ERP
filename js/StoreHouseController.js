@@ -95,7 +95,9 @@ class StoreHouseController{
             No siempre se hace en el constructor, pues quizá el botón aún 
             no exista en ese entonces.
         */
-        this.#viewStoreHouse.bindFormAddProduct(this.handleFormAddProduct);
+        this.#viewStoreHouse.bindFormAddTechnologyProduct(this.handleFormAddTechnologyProduct);
+        this.#viewStoreHouse.bindFormAddFoodProduct(this.handleFormAddFoodProduct);
+        this.#viewStoreHouse.bindFormAddClothingProduct(this.handleFormAddClothingProduct);
     }
 
     // Método para ver productos de una tienda.
@@ -152,9 +154,19 @@ class StoreHouseController{
         this.#viewStoreHouse.showNewWindow(data);
     }
 
-    handleFormAddProduct = () => {
+    // Handlers para los distintos tipos de productos.
+    handleFormAddTechnologyProduct = () => {
         let data = "";
-        this.#viewStoreHouse.formAddProduct(data);
+        this.#viewStoreHouse.formAddTechnologyProduct(data);
+    }
+
+    handleFormAddFoodProduct = () => {
+        let data = "";
+        this.#viewStoreHouse.formAddFoodProduct(data);
+    }
+    handleFormAddClothingProduct = () => {
+        let data = "";
+        this.#viewStoreHouse.formAddClothingProduct(data);
     }
 }
 
