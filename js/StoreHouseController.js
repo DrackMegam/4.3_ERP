@@ -98,6 +98,8 @@ class StoreHouseController{
         this.#viewStoreHouse.bindFormAddTechnologyProduct(this.handleFormAddTechnologyProduct);
         this.#viewStoreHouse.bindFormAddFoodProduct(this.handleFormAddFoodProduct);
         this.#viewStoreHouse.bindFormAddClothingProduct(this.handleFormAddClothingProduct);
+        this.#viewStoreHouse.bindFormAddStore(this.handleFormAddStore);
+        this.#viewStoreHouse.bindFormAddCategory(this.handleFormAddCategory);
     }
 
     // Método para ver productos de una tienda.
@@ -167,6 +169,14 @@ class StoreHouseController{
     handleFormAddClothingProduct = () => {
         let data = "";
         this.#viewStoreHouse.formAddClothingProduct(data);
+    }
+    handleFormAddStore = () => {
+        let data = "";
+        this.#viewStoreHouse.formAddStore(data);
+    }
+    handleFormAddCategory = () => {
+        let data = "";
+        this.#viewStoreHouse.formAddCategory(data);
     }
 }
 

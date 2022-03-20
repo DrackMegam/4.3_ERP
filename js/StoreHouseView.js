@@ -39,14 +39,17 @@ class StoreHouseView {
 
 
             // Añado los menús secundarios.
-            // No se si esto lo he entendido mal, pero muestro al principio las tiendas y también un botón para listarlas?
-            //htmlChulo += "<a id='init' name='init' class='btn btn-primary init' href='#' role='button'>Tiendas</a>";
-            htmlChulo += "<a id='categorias' name='categorias' class='btn btn-primary categorias' href='#Categorias' role='button'>Categorias</a>";
+            // Addición de tiendas
+            htmlChulo += "<a id='newStore' name='newStore' class='btn btn-primary ml-2 newStore' href='#NuevaTienda' role='button'>Añadir tienda</a>";
+            htmlChulo += "<br><br>";
+            // Relaccionados con categorías
+            htmlChulo += "<a id='categorias' name='categorias' class=' ml-2 btn btn-primary categorias' href='#Categorias' role='button'>Ver Categorias</a>";
+            htmlChulo += "<a id='newCategory' name='newCategory' class='btn btn-primary ml-2 newCategory' href='#NuevaCategoría' role='button'>Añadir categoría</a>";
             htmlChulo += "<br><br>";
             // Para poder añadir productos
-            htmlChulo += "<a id='newTechnologyProduct' name='newTechnologyProduct' class='btn btn-primary newTechnologyProduct' href='#NuevaTecnologia' role='button'>Añadir tecnología</a>";
-            htmlChulo += "<a id='newFoodProduct' name='newFoodProduct' class='btn btn-primary newFoodProduct' href='#NuevaComida' role='button'>Añadir comida</a>";
-            htmlChulo += "<a id='newClothingProduct' name='newClothingProduct' class='btn btn-primary newClothingProduct' href='#NuevaRopa' role='button'>Añadir ropa</a>";
+            htmlChulo += "<a id='newTechnologyProduct' name='newTechnologyProduct' class='ml-1 btn btn-primary newTechnologyProduct' href='#NuevaTecnologia' role='button'>Añadir tecnología</a>";
+            htmlChulo += "<a id='newFoodProduct' name='newFoodProduct' class='ml-2 btn btn-primary newFoodProduct' href='#NuevaComida' role='button'>Añadir comida</a>";
+            htmlChulo += "<a id='newClothingProduct' name='newClothingProduct' class='ml-2 btn btn-primary newClothingProduct' href='#NuevaRopa' role='button'>Añadir ropa</a>";
             htmlChulo += "<br>";
 
             this.main.append(htmlChulo);
@@ -525,6 +528,99 @@ class StoreHouseView {
             handler();
         })
     }
+
+    // Para añadir las tiendas nuevas.
+    formAddStore(data) {
+        this.main.empty();
+        //(CIF, name,address,phone,coords)
+        let htmlChulo = "<form>" +
+            "<div class='form-row'>" +
+            "   <div class='form-group col-md-6'> <label for='CIF'>CIF</label> <input type='number'" +
+            "           class='form-control' id='CIF' placeholder='CIF'> </div>" +
+            "   <div class='form-group col-md-6'> <label for='name'>Nombre</label> <input type='text'" +
+            "           class='form-control' id='name' placeholder='Nombre'> </div>" +
+            "</div>" +
+            "<div class='form-group'> <label for='description'>Descripción</label> <input type='text'" +
+            "        class='form-control' id='description' placeholder='Descripción del producto'>" +
+            "</div>" +
+            "<div class='form-row'>" +
+            "    <div class='form-group col-md-6'> <label for='price'>Precio</label> <input type='number'" +
+            "            class='form-control' id='price' placeholder='Precio'> </div>" +
+            "    <div class='form-group col-md-6'> <label for='coords'>Coordenadas</label> <input type='number'" +
+            "            class='form-control' id='coords' placeholder='Coordenadas'> </div>" +
+            "</div>"+
+            "<button type='submit' class='btn btn-primary'>Añadir tienda</button>" +
+            "</form>";
+
+
+        this.main.append(htmlChulo);
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+    }
+
+    bindFormAddStore(handler) {
+        $(".newStore").click((event) => {
+            handler();
+        })
+    }
+
+    // Finalmente, para añadir categorías.
+    formAddCategory(data) {
+        this.main.empty();
+        // (title, description)
+        let htmlChulo = "<form>" +
+            "<div class='form-row'>" +
+            "   <div class='form-group col-md-6'> <label for='title'>Título</label> <input type='text'" +
+            "           class='form-control' id='title' placeholder='Título'> </div>" +
+            "</div>" +
+            "<div class='form-group'> <label for='description'>Descripción</label> <input type='text'" +
+            "        class='form-control' id='description' placeholder='Descripción del producto'>" +
+            "</div>" +
+            "<button type='submit' class='btn btn-primary'>Añadir categoría</button>" +
+            "</form>";
+
+
+        this.main.append(htmlChulo);
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+    }
+
+    bindFormAddCategory(handler) {
+        $(".newCategory").click((event) => {
+            handler();
+        })
+    }
+    
 }
 
 export default StoreHouseView;
