@@ -1,5 +1,5 @@
 import { MyError, Category, Coords, Store, Product, Technology, Food, Clothing } from './StoreHouseModel.js';
-
+import * as validar from './validation.js';
 class StoreHouseView {
     // Constructor de lo que se va a visualizar en la página.
     constructor() {
@@ -8,6 +8,7 @@ class StoreHouseView {
         // Defino aquí la nueva ventana, pues así es "única".
         this.newWindow = [];
         this.indexWindow = 0;
+
     }
 
     // Código HTML creado.
@@ -29,7 +30,6 @@ class StoreHouseView {
             let htmlChulo = "<table id='tablaTiendas' class='table table-dark'><tr><th>Nombre Tienda</th><th>CIF</th><th>Enlace</th></tr>"
                 // Voy recorriendo el iterador de tiendas.
             for (let tienda of data) {
-                //console.log(tienda);
                 // Creo una nueva fila en la tabla.
                 // Cada botón tiene un ID propio.
                 htmlChulo += ("<tr><td>" + tienda.name + "</td><td>" + tienda.CIF + "</td><td>  <a name='" + tienda.CIF + "' id='" + tienda.CIF + "' class='btn btn-primary tienda' href='#Tienda" + tienda.CIF + "' role='button'>Entrar</a>  </td></tr>");
@@ -50,6 +50,7 @@ class StoreHouseView {
             htmlChulo += "<a id='newTechnologyProduct' name='newTechnologyProduct' class='ml-1 btn btn-primary newTechnologyProduct' href='#NuevaTecnologia' role='button'>Añadir tecnología</a>";
             htmlChulo += "<a id='newFoodProduct' name='newFoodProduct' class='ml-2 btn btn-primary newFoodProduct' href='#NuevaComida' role='button'>Añadir comida</a>";
             htmlChulo += "<a id='newClothingProduct' name='newClothingProduct' class='ml-2 btn btn-primary newClothingProduct' href='#NuevaRopa' role='button'>Añadir ropa</a>";
+            htmlChulo += "<a id='deleteProduct' name='deleteProduct' class='ml-2 btn btn-primary deleteProduct' href='#EliminarProducto' role='button'>Eliminar producto</a>";
             htmlChulo += "<br>";
 
             this.main.append(htmlChulo);
@@ -113,9 +114,6 @@ class StoreHouseView {
         T6.1
     */
     showShop(data) {
-        //console.log(data);
-        // Añado la historial la situación actual.
-
 
         // Reinicio el contenido del main.
         this.main.empty();
@@ -343,13 +341,13 @@ class StoreHouseView {
         })
     }
 
-    
+
     /* Funciones relaccionadas con añadir productos de varios tipos. */
     formAddTechnologyProduct(data) {
         this.main.empty();
         // constructor(serialNumber, name,description,price,tax,images)
         // Esto lo he hecho con un copia pega de lo que hay en el index.
-        let htmlChulo = "<form>" +
+        let htmlChulo = "<form name='formTechnology' id='formTechnology' role='form' novalidate>" +
             "<div class='form-row'>" +
             "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
             "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
@@ -369,18 +367,25 @@ class StoreHouseView {
             "                    <option value='4'>Superreducido</option>" +
             "        </select>" +
             "    </div>" +
-            "</div>"+
+            "</div>" +
             "<div class='form-group'> <label for='brand'>Marca</label> <input type='text'" +
             "        class='form-control' id='brand' placeholder='Marca del producto'>" +
-            "</div>" +
-            "<button type='submit' class='btn btn-primary'>Añadir producto tecnologico</button>" +
+            "</div>";
+
+        // Añado un SELECT con la categoría a la que va. Odio admitirlo pero eston con PHP me mola más.
+        htmlChulo += "    <div class='form-group col-md-6'> <label for='category'>Impuestos</label> <select id='category' class='form-control'>";
+        for (let category of data) {
+            // Recordemos que tenemos un mapa, donde 0 son las categorías y 1 los productos.
+            htmlChulo += "<option value='" + category[0].title + "'>" + category[0].title + "</option>";
+        }
+        htmlChulo += "        </select></div>";
+
+
+        htmlChulo += "<button type='submit' class='btn btn-primary btnTechnology'>Añadir producto tecnologico</button>" +
             "</form>";
 
 
         this.main.append(htmlChulo);
-
-
-        // Activo los eventos para que muestre el campo específico de los tipos de producto.
 
 
         // Añado los botones para moverse por el historial.
@@ -407,6 +412,20 @@ class StoreHouseView {
         })
     }
 
+    // Llama a la validación para crear el objeto.
+    bindAddTechnology(handler) {
+        validar.validarNewTechnology(handler);
+    }
+
+    showNewTechnologyModal(done, tech, error) {
+        $(document.formTechnology).find('div.error').remove();
+        if (done) {
+            this.main.append("<h1 class='text-success'>Se ha insertado " + tech.name + " correctamente.</h1>");
+        } else {
+            this.main.append("<h1 class='text-danger'>Error al insertar " + tech.name + "</h1>");
+        }
+    }
+
     formAddFoodProduct(data) {
         this.main.empty();
         // constructor(serialNumber, name,description,price,tax,images)
@@ -431,7 +450,7 @@ class StoreHouseView {
             "                    <option value='4'>Superreducido</option>" +
             "        </select>" +
             "    </div>" +
-            "</div>"+
+            "</div>" +
             "<div class='form-group'> <label for='expirationDate'>Fecha de caducidad</label> <input type='text'" +
             "        class='form-control' id='expirationDate' placeholder='Fecha de caducidad'>" +
             "</div>" +
@@ -489,9 +508,9 @@ class StoreHouseView {
             "                    <option value='4'>Superreducido</option>" +
             "        </select>" +
             "    </div>" +
-            "</div>"+
-            "<div class='form-group'> "+
-            "       <label for='size'>Tamaño de la prenda</label>"+
+            "</div>" +
+            "<div class='form-group'> " +
+            "       <label for='size'>Tamaño de la prenda</label>" +
             "<select id='size'" +
             "                    class='form-control'>" +
             "                    <option selected value='XL'>XL</option>" +
@@ -529,6 +548,45 @@ class StoreHouseView {
         })
     }
 
+    // Deletear un producto, da igual el tipo.
+    formDeleteProduct(data) {
+        this.main.empty();
+        // (title, description)
+        let htmlChulo = "<form>" +
+            "<div class='form-row'>" +
+            "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
+            "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
+            "</div>" +
+            "<button type='submit' class='btn btn-primary'>Eliminar</button>" +
+            "</form>";
+
+
+        this.main.append(htmlChulo);
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+    }
+
+    bindFormDeleteProduct(handler) {
+        $(".deleteProduct").click((event) => {
+            handler();
+        })
+    }
+
     // Para añadir las tiendas nuevas.
     formAddStore(data) {
         this.main.empty();
@@ -548,7 +606,7 @@ class StoreHouseView {
             "            class='form-control' id='price' placeholder='Precio'> </div>" +
             "    <div class='form-group col-md-6'> <label for='coords'>Coordenadas</label> <input type='number'" +
             "            class='form-control' id='coords' placeholder='Coordenadas'> </div>" +
-            "</div>"+
+            "</div>" +
             "<button type='submit' class='btn btn-primary'>Añadir tienda</button>" +
             "</form>";
 
@@ -620,7 +678,7 @@ class StoreHouseView {
             handler();
         })
     }
-    
+
 }
 
 export default StoreHouseView;

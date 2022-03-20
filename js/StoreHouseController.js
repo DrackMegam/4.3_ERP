@@ -29,9 +29,9 @@ class StoreHouseController{
     // Evento privado que carga los objetos.
     #loadStoreHouseObjects(){
         // Inicializo tres categorías
-        let ctg1 = new Category("Cucharas","Redondas y perfectas para sopa.");
-        let ctg2 = new Category("Tenedores","No me pinches.");
-        let ctg3 = new Category("Cuchillos","Poco afilados.");
+        let ctg1 = new Category("Objetos de lujo","Categoría donde solo se añaden objetos de lujo.");
+        let ctg2 = new Category("Cacharros","Donde va todo aquello que no va a default.");
+        let ctg3 = new Category("Extra","No me han instanciado con ningún objeto dentro....");
         // Inicializo tres tiendas.
         let shop1 = new Store("A6I4","Tienda chula","En la esquina",652014789,new Coords(19.21,-158.02));
         let shop2 = new Store("T7M2","Tienda distinta","En la otra esquina",926105887,new Coords(-129.21,258.02));
@@ -100,6 +100,7 @@ class StoreHouseController{
         this.#viewStoreHouse.bindFormAddClothingProduct(this.handleFormAddClothingProduct);
         this.#viewStoreHouse.bindFormAddStore(this.handleFormAddStore);
         this.#viewStoreHouse.bindFormAddCategory(this.handleFormAddCategory);
+        this.#viewStoreHouse.bindFormDeleteProduct(this.handleformDeleteProduct);
     }
 
     // Método para ver productos de una tienda.
@@ -158,18 +159,47 @@ class StoreHouseController{
 
     // Handlers para los distintos tipos de productos.
     handleFormAddTechnologyProduct = () => {
-        let data = "";
+        let data = this.#modelStoreHouse.categories;
         this.#viewStoreHouse.formAddTechnologyProduct(data);
+        this.#viewStoreHouse.bindAddTechnology(this.createTechnology);
     }
 
+    // Creación del objeto.
+    createTechnology = (serialNumber, name,description,price,tax,images,brand,category) => {
+        console.log("Creando technology...");
+        let tech = new Technology(serialNumber,name,description,price,tax,images,brand);
+        console.log(tech);
+        let done, error;
+        try{
+            this.#modelStoreHouse.addProduct(tech,category);
+            done=true;
+            console.log("Añadido Technology");
+        }catch(e){
+            done = false;
+            error = e;
+            console.log("Fallo al añadir Technology");
+            console.log(e);
+        }
+
+        // Ahora notifico al usuario.
+        this.#viewStoreHouse.showNewTechnologyModal(done,tech,error);
+    }
+
+
+
     handleFormAddFoodProduct = () => {
-        let data = "";
+        let data = this.#modelStoreHouse.categories;
         this.#viewStoreHouse.formAddFoodProduct(data);
     }
     handleFormAddClothingProduct = () => {
-        let data = "";
+        let data = this.#modelStoreHouse.categories;
         this.#viewStoreHouse.formAddClothingProduct(data);
     }
+    handleformDeleteProduct= () => {
+        let data = "";
+        this.#viewStoreHouse.formDeleteProduct(data);
+    }
+    // Handlers adicionales para los Stores y las Categories
     handleFormAddStore = () => {
         let data = "";
         this.#viewStoreHouse.formAddStore(data);

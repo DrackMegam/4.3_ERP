@@ -754,6 +754,8 @@ function testAll() {
 //window.onload = testAll;
 
 
+
+
 export default StoreHouse;
 export {MyError, Category, Coords, Store, Product, Technology, Food, Clothing};
 
