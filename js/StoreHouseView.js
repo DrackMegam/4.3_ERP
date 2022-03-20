@@ -689,7 +689,7 @@ class StoreHouseView {
     formAddCategory(data) {
         this.main.empty();
         // (title, description)
-        let htmlChulo = "<form>" +
+        let htmlChulo = "<form name='formAddCategory' id='formAddCategory' role='form' novalidate>" +
             "<div class='form-row'>" +
             "   <div class='form-group col-md-6'> <label for='title'>Título</label> <input type='text'" +
             "           class='form-control' id='title' placeholder='Título'> </div>" +
@@ -725,6 +725,19 @@ class StoreHouseView {
         $(".newCategory").click((event) => {
             handler();
         })
+    }
+
+    bindAddCategory(handler){
+        validar.validarAddCategory(handler);
+    }
+
+    showResultadoCategory(done, category, error){
+        $(document.formDeleteProduct).find('div.error').remove();
+        if (done) {
+            this.main.append("<h1 class='text-success'>Se ha añadido la categoría "+category.title+".</h1>");
+        } else {
+            this.main.append("<h1 class='text-danger'>Error al añadir la categoría "+category.title+".</h1>");
+        }
     }
 
 }

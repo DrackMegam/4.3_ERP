@@ -334,3 +334,48 @@ export function validarAddStore(handler) {
     $(form.coords1).change(defaultCheckElement);
     $(form.coords2).change(defaultCheckElement);
 }
+
+export function validarAddCategory(handler) {
+    let form = document.forms.formAddCategory;
+    $(form).attr('novalidate', true);
+    $(form).submit(function(event) {
+        let valido = true;
+        let primerInvalido = null;
+
+        // Validaciones de los campos
+        if (!this.title.checkValidity() || this.title.value.length == 0) {
+            valido = false;
+            showFeedBack($(this.title), false);
+            primerInvalido = this.title;
+        } else {
+            showFeedBack($(this.title), true);
+        }
+        if (!this.description.checkValidity() || this.description.value.length == 0) {
+            valido = false;
+            showFeedBack($(this.description), false);
+            primerInvalido = this.description;
+        } else {
+            showFeedBack($(this.description), true);
+        }
+       
+
+        if(!valido){
+            primerInvalido.focus();
+        }else{
+            handler(this.title.value,this.description.value);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset',(function(event){
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }))
+
+    $(form.description).change(defaultCheckElement);
+    $(form.name).change(defaultCheckElement);
+
+}

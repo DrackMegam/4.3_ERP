@@ -289,6 +289,29 @@ class StoreHouseController{
     handleFormAddCategory = () => {
         let data = "";
         this.#viewStoreHouse.formAddCategory(data);
+        this.#viewStoreHouse.bindAddCategory(this.addCategory);
+
+    }
+
+    addCategory = (title,description) => {
+        //CIF, name,address,phone,coords
+        console.log("Creando Category...");
+        let category = new Category(title,description);
+        console.log(category);
+        let done, error;
+        try{
+            this.#modelStoreHouse.addCategory(category);
+            done=true;
+            console.log("Añadido Category");
+        }catch(e){
+            done = false;
+            error = e;
+            console.log("Fallo al añadir Category");
+            console.log(error);
+        }
+
+        // Ahora notifico al usuario.
+        this.#viewStoreHouse.showResultadoCategory(done,category,error);
     }
 }
 
