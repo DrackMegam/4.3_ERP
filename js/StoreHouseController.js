@@ -166,7 +166,7 @@ class StoreHouseController{
 
     // Creación del objeto.
     createTechnology = (serialNumber, name,description,price,tax,images,brand,category) => {
-        console.log("Creando technology...");
+        console.log("Creando Technology...");
         let tech = new Technology(serialNumber,name,description,price,tax,images,brand);
         console.log(tech);
         let done, error;
@@ -182,19 +182,62 @@ class StoreHouseController{
         }
 
         // Ahora notifico al usuario.
-        this.#viewStoreHouse.showNewTechnologyModal(done,tech,error);
+        this.#viewStoreHouse.showResultado(done,tech,error);
     }
-
-
 
     handleFormAddFoodProduct = () => {
         let data = this.#modelStoreHouse.categories;
         this.#viewStoreHouse.formAddFoodProduct(data);
+        this.#viewStoreHouse.bindAddFood(this.createFood);
     }
+
+    createFood = (serialNumber, name,description,price,tax,images,expirationDate,category) => {
+        console.log("Creando Food...");
+        let food = new Food(serialNumber,name,description,price,tax,images,expirationDate);
+        console.log(food);
+        let done, error;
+        try{
+            this.#modelStoreHouse.addProduct(food,category);
+            done=true;
+            console.log("Añadido Food");
+        }catch(e){
+            done = false;
+            error = e;
+            console.log("Fallo al añadir Food");
+            console.log(error);
+        }
+
+        // Ahora notifico al usuario.
+        this.#viewStoreHouse.showResultado(done,food,error);
+    }
+
+
     handleFormAddClothingProduct = () => {
         let data = this.#modelStoreHouse.categories;
         this.#viewStoreHouse.formAddClothingProduct(data);
+        this.#viewStoreHouse.bindAddClothing(this.createClothing);
     }
+
+    createClothing = (serialNumber, name,description,price,tax,images,size,category) => {
+        console.log("Creando Clothing...");
+        let cloth = new Clothing(serialNumber,name,description,price,tax,images,size);
+        console.log(cloth);
+        let done, error;
+        try{
+            this.#modelStoreHouse.addProduct(cloth,category);
+            done=true;
+            console.log("Añadido Clothing");
+        }catch(e){
+            done = false;
+            error = e;
+            console.log("Fallo al añadir Clothing");
+            console.log(error);
+        }
+
+        // Ahora notifico al usuario.
+        this.#viewStoreHouse.showResultado(done,cloth,error);
+    }
+
     handleformDeleteProduct= () => {
         let data = "";
         this.#viewStoreHouse.formDeleteProduct(data);

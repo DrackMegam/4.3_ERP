@@ -416,7 +416,8 @@ class StoreHouseView {
         validar.validarNewTechnology(handler);
     }
 
-    showNewTechnologyModal(done, tech, error) {
+    // Método para notificar al usuario cuando se realice una operación sobre un producto.
+    showResultado(done, tech, error) {
         $(document.formTechnology).find('div.error').remove();
         if (done) {
             this.main.append("<h1 class='text-success'>Se ha insertado " + tech.name + " correctamente.</h1>");
@@ -429,7 +430,7 @@ class StoreHouseView {
         this.main.empty();
         // constructor(serialNumber, name,description,price,tax,images)
         // Esto lo he hecho con un copia pega de lo que hay en el index.
-        let htmlChulo = "<form>" +
+        let htmlChulo = "<form name='formFood' id='formFood' role='form' novalidate>" +
             "<div class='form-row'>" +
             "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
             "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
@@ -452,8 +453,13 @@ class StoreHouseView {
             "</div>" +
             "<div class='form-group'> <label for='expirationDate'>Fecha de caducidad</label> <input type='text'" +
             "        class='form-control' id='expirationDate' placeholder='Fecha de caducidad'>" +
-            "</div>" +
-            "<button type='submit' class='btn btn-primary'>Añadir comida</button>" +
+            "</div>";
+        htmlChulo += "    <div class='form-group col-md-6'> <label for='category'>Impuestos</label> <select id='category' class='form-control'>";
+        for (let category of data) {
+            htmlChulo += "<option value='" + category[0].title + "'>" + category[0].title + "</option>";
+        }
+        htmlChulo += "        </select></div>";
+        htmlChulo += "<button type='submit' class='btn btn-primary btnFood'>Añadir producto alimenticio</button>" +
             "</form>";
 
 
@@ -483,11 +489,17 @@ class StoreHouseView {
         })
     }
 
+    // Llama a la validación para crear el objeto.
+    bindAddFood(handler) {
+        validar.validarNewFood(handler);
+    }
+
+
     formAddClothingProduct(data) {
         this.main.empty();
         // constructor(serialNumber, name,description,price,tax,images)
         // Esto lo he hecho con un copia pega de lo que hay en el index.
-        let htmlChulo = "<form>" +
+        let htmlChulo = "<form name='formClothing' id='formClothing' role='form' novalidate>" +
             "<div class='form-row'>" +
             "   <div class='form-group col-md-6'> <label for='serialNumber'>Nº Serie</label> <input type='number'" +
             "           class='form-control' id='serialNumber' placeholder='Nº Serie'> </div>" +
@@ -516,8 +528,13 @@ class StoreHouseView {
             "            <option value='M'>M</option>" +
             "                    <option value='S'>S</option>" +
             "        </select>" +
-            "</div>" +
-            "<button type='submit' class='btn btn-primary'>Añadir ropa</button>" +
+            "</div>";
+        htmlChulo += "    <div class='form-group col-md-6'> <label for='category'>Impuestos</label> <select id='category' class='form-control'>";
+        for (let category of data) {
+            htmlChulo += "<option value='" + category[0].title + "'>" + category[0].title + "</option>";
+        }
+        htmlChulo += "        </select></div>";
+        htmlChulo += "<button type='submit' class='btn btn-primary btnClothing'>Añadir prenda de ropa</button>" +
             "</form>";
 
 
@@ -545,6 +562,10 @@ class StoreHouseView {
         $(".newClothingProduct").click((event) => {
             handler();
         })
+    }
+
+    bindAddClothing(handler) {
+        validar.validarNewClothing(handler);
     }
 
     // Deletear un producto, da igual el tipo.
