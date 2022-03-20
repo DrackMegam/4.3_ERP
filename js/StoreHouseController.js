@@ -178,7 +178,7 @@ class StoreHouseController{
             done = false;
             error = e;
             console.log("Fallo al añadir Technology");
-            console.log(e);
+            console.log(error);
         }
 
         // Ahora notifico al usuario.

@@ -341,7 +341,6 @@ class StoreHouseView {
         })
     }
 
-
     /* Funciones relaccionadas con añadir productos de varios tipos. */
     formAddTechnologyProduct(data) {
         this.main.empty();
