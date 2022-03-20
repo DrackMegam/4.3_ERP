@@ -101,7 +101,25 @@ let StoreHouse = (function() {
 
             addProduct(newProduct,category){
                 // Añade un producto asociado a una categoría.
-                if(!(category instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                if(!(category instanceof Category)){
+                    // Si llega aquí, entonces le he pasado un String
+                    // Este es un apaño al crear nuevos productos con formularios.
+                    let categoryFound = null;
+                    for (let registeredCategory of this.#categories.keys()) {
+                        if(registeredCategory.title == category){
+                            categoryFound = registeredCategory;
+                        }
+                      }
+                    if(categoryFound == null){
+                        // Si es nulo, es que el String no ha tenido coincidencias.
+                        throw new MyError("Este objeto no es una cateogría.");
+                    }else{
+                        // Ahora doy el cambiazo para que todo funcione.
+                        category = categoryFound;
+                    }
+                }
+                
+
                 // La instancia funciona tanto como para Product como para herederos.
                 if(!(newProduct instanceof Product)) throw new MyError("Este objeto no es un producto.");
                 if(newProduct == null) throw new MyError("El producto no puede ser nulo.")
