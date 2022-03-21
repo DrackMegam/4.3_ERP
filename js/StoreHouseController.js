@@ -133,8 +133,19 @@ class StoreHouseController{
 
     // Handler del Backup, crea la copia de seguridad.
     handlerBackup = () => {
+        /*
         //let archivo = new Blob(["Así \n es"],{type:"text/plain;charset=utf-8"});
         //saveAs(archivo,"backup.txt");
+        let base = location.protocol + '//' + location.host + location.pathname;
+		let url = new URL('utils.php', base);
+        fetch(url,{
+            method: 'post'
+        }).then(function (response){
+            return response.text();
+        }).catch(function(err){
+
+        });
+        */
     }
 
     // Handler del loggin.
