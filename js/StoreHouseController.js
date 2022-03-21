@@ -67,8 +67,8 @@ class StoreHouseController{
         this.#modelStoreHouse.addProductInShop(shop3,cloth1,8);
         this.#modelStoreHouse.addQuantityProductInShop(shop1,tech1,12);
 
+        /*
         // Creo un archivo JSON
-
         let storeJson = JSON.parse(shop1.toJSON());
         console.log(storeJson);
 
@@ -79,7 +79,7 @@ class StoreHouseController{
         console.log(categoriaJSON);
 
 
-        /*
+        
         let categoriaJSON = JSON.parse(ctg1.toJSON());
         Object.assign(new Category,categoriaJSON);
         console.log(categoriaJSON);
@@ -127,22 +127,17 @@ class StoreHouseController{
         // Bindeo el botón de loggin.
         //this.#viewStoreHouse.bindLoggin(this.handleLoggin);
         this.#viewStoreHouse.bindLogginButton(this.handleLoggin);
+        // Bindeación del backup.
+        this.#viewStoreHouse.bindBackup(this.handlerBackup);
     }
 
-    /*
+    // Handler del Backup, crea la copia de seguridad.
+    handlerBackup = () => {
+        //let archivo = new Blob(["Así \n es"],{type:"text/plain;charset=utf-8"});
+        //saveAs(archivo,"backup.txt");
+    }
+
     // Handler del loggin.
-    handleLoggin = (username,password) => {
-        console.log("Comprobando credenciales...");
-        if(username == "admin" && password == "admin"){
-            ck.setCookie("username","admin",30);
-            ck.setCookie("password","admin",30);
-            this.#viewStoreHouse.showResultadoLoggin(true);
-        }else{
-            this.#viewStoreHouse.showResultadoLoggin(false);
-        }
-    }
-    */
-
     handleLoggin = (username, password) =>{
         if(username == "admin" && password == "admin"){
             ck.setCookie("username","admin",30);

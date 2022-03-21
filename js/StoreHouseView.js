@@ -59,11 +59,11 @@ class StoreHouseView {
 
                 // Añado los menús secundarios.
                 // Addición de tiendas
-                htmlChulo += "<a id='newStore' name='newStore' class='btn btn-primary ml-2 newStore' href='#NuevaTienda' role='button'>Añadir tienda</a>";
+                htmlChulo += "<a id='newStore' name='newStore' class='btn btn-primary ml-1 newStore' href='#NuevaTienda' role='button'>Añadir tienda</a>";
                 htmlChulo += "<a id='deleteStore' name='deleteStore' class='btn btn-danger ml-2 deleteStore' href='#EliminarTienda' role='button'>Eliminar tienda</a>";
                 htmlChulo += "<br><br>";
                 // Relaccionados con categorías
-                htmlChulo += "<a id='categorias' name='categorias' class=' ml-2 btn btn-primary categorias' href='#Categorias' role='button'>Ver Categorias</a>";
+                htmlChulo += "<a id='categorias' name='categorias' class=' ml-1 btn btn-primary categorias' href='#Categorias' role='button'>Ver Categorias</a>";
                 htmlChulo += "<a id='newCategory' name='newCategory' class='btn btn-primary ml-2 newCategory' href='#NuevaCategoría' role='button'>Añadir categoría</a>";
                 htmlChulo += "<a id='deleteCategory' name='deleteCategory' class='btn btn-danger ml-2 deleteCategory' href='#EliminarCategoria' role='button'>Eliminar categoría</a>";
                 htmlChulo += "<br><br>";
@@ -72,6 +72,10 @@ class StoreHouseView {
                 htmlChulo += "<a id='newFoodProduct' name='newFoodProduct' class='ml-2 btn btn-primary newFoodProduct' href='#NuevaComida' role='button'>Añadir comida</a>";
                 htmlChulo += "<a id='newClothingProduct' name='newClothingProduct' class='ml-2 btn btn-primary newClothingProduct' href='#NuevaRopa' role='button'>Añadir ropa</a>";
                 htmlChulo += "<a id='deleteProduct' name='deleteProduct' class='ml-2 btn btn-danger deleteProduct' href='#EliminarProducto' role='button'>Eliminar producto</a>";
+                htmlChulo += "<br>";
+
+                // Copia de seguridad a JSON.
+                htmlChulo += "<a id='backup' name='backup' class='ml-1 mt-2 mb-2 btn btn-primary backup' href='#Backup' role='button'>Copia de seguridad</a>";
                 htmlChulo += "<br>";
 
                 this.main.append(htmlChulo);
@@ -118,6 +122,13 @@ class StoreHouseView {
         }
 
 
+    }
+
+    // Botón para crear el backup.
+    bindBackup(handler){
+        $(".backup").click((event) => {
+            handler();
+        });
     }
 
     // Evento, al clickar en "SkinBits", se ejecuta la acción.
