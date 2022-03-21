@@ -1,5 +1,0 @@
-El cambio principal, el de las ventanas emergentes, se encuentra en los
-productos dentro de cada tienda.
-Al lado de cada producto se ha añadido un botón con dicha función.
-
-Github: https://github.com/DrackMegam/4.3_ERP

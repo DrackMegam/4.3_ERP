@@ -1,0 +1,102 @@
+{
+    "cat": [
+        {
+            "title": "Categoría JSON",
+            "description": "Categoría donde solo se añaden objetos de lujo."
+        },
+        {
+            "title": "Secundaria",
+            "description": "Secundaria JSON."
+        },
+        {
+            "title": "Terciaria",
+            "description": "Terciaria JSON."
+        }
+    ],
+    "shop": [
+        {
+            "CIF": 1598,
+            "name": "Tienda AJAX",
+            "address": "Primera a la izquierda",
+            "phone": 689152354,
+            "coords1": 1654,
+            "coords2": 5712
+        },
+        {
+            "CIF": 9874,
+            "name": "Segunda AJAX",
+            "address": "Al otro lado",
+            "phone": 689152354,
+            "coords1": 1654,
+            "coords2": 5712
+        },
+        {
+            "CIF": 4785,
+            "name": "Terciaria AJAX",
+            "address": "Enfrete del mercadona",
+            "phone": 689152354,
+            "coords1": 1654,
+            "coords2": 5712
+        }
+    ],
+    "tech": [
+        {
+            "serialNumber": 1548,
+            "name": "Tecnologia Ajax",
+            "description": "Funciono y aun no se muy bien por que",
+            "price": 150,
+            "tax": 21,
+            "images": "...",
+            "brand" : "MSI"
+        },
+        {
+            "serialNumber": 954,
+            "name": "PC Ajax",
+            "description": "Funciono y aun no se muy bien por que",
+            "price": 950,
+            "tax": 10,
+            "images": "...",
+            "brand" : "Windows"
+        }
+    ],
+    "food": [
+        {
+            "serialNumber": 654,
+            "name": "Tortilla",
+            "description": "Muy rica",
+            "price": 15,
+            "tax": 21,
+            "images": "...",
+            "expirationDate" : "Antesde ayer"
+        },
+        {
+            "serialNumber": 784,
+            "name": "Pimiento",
+            "description": "Va en todas las comidas",
+            "price": 7,
+            "tax": 10,
+            "images": "...",
+            "expirationDate" : "Mañana temprano"
+        }
+    ],
+    "clothing": [
+        {
+            "serialNumber": 987,
+            "name": "Zapato",
+            "description": "Ajustados",
+            "price": 15,
+            "tax": 21,
+            "images": "...",
+            "size" : "42"
+        },
+        {
+            "serialNumber": 355,
+            "name": "Chaqueta",
+            "description": "Para cuando haga frio",
+            "price": 45,
+            "tax": 10,
+            "images": "...",
+            "size" : "XL"
+        }
+    ]
+}

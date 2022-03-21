@@ -1,12 +1,12 @@
 // Importo los objetos, productos y demases.
-import {MyError, Category, Coords, Store, Product, Technology, Food, Clothing} from './StoreHouseModel.js';
+import { MyError, Category, Coords, Store, Product, Technology, Food, Clothing } from './StoreHouseModel.js';
 import * as ck from './cookies.js';
 
-class StoreHouseController{
+class StoreHouseController {
     #modelStoreHouse;
     #viewStoreHouse;
 
-    constructor(modelStoreHouse,viewStoreHouse){
+    constructor(modelStoreHouse, viewStoreHouse) {
         this.#modelStoreHouse = modelStoreHouse;
         this.#viewStoreHouse = viewStoreHouse;
 
@@ -22,55 +22,55 @@ class StoreHouseController{
         // Nuevo apartado T6.1 para mostrar producto en nueva ventana.
         this.#viewStoreHouse.bindShowNewWindow(this.handleShowNewWindow);
         this.#viewStoreHouse.bindLogginButton(this.handleLoggin);
-        
+
 
 
     }
 
     // Evento privado que carga los objetos.
-    #loadStoreHouseObjects(){
+    #loadStoreHouseObjects(catAjax,shopAjax,techAjax,foodAjax,clothingAjax) {
         // Inicializo tres categorías
-        let ctg1 = new Category("Objetos de lujo","Categoría donde solo se añaden objetos de lujo.");
-        let ctg2 = new Category("Cacharros","Donde va todo aquello que no va a default.");
-        let ctg3 = new Category("Extra","No me han instanciado con ningún objeto dentro....");
+        let ctg1 = new Category("Objetos de lujo", "Categoría donde solo se añaden objetos de lujo.");
+        let ctg2 = new Category("Cacharros", "Donde va todo aquello que no va a default.");
+        let ctg3 = new Category("Extra", "No me han instanciado con ningún objeto dentro....");
         // Inicializo tres tiendas.
-        let shop1 = new Store("A6I4","Tienda chula","En la esquina",652014789,new Coords(19.21,-158.02));
-        let shop2 = new Store("T7M2","Tienda distinta","En la otra esquina",926105887,new Coords(-129.21,258.02));
-        let shop3 = new Store("78E6","Tienda rara","Por ahí perdida",654877033,new Coords(-185.26,-208.02));
+        let shop1 = new Store("A6I4", "Tienda chula", "En la esquina", 652014789, new Coords(19.21, -158.02));
+        let shop2 = new Store("T7M2", "Tienda distinta", "En la otra esquina", 926105887, new Coords(-129.21, 258.02));
+        let shop3 = new Store("78E6", "Tienda rara", "Por ahí perdida", 654877033, new Coords(-185.26, -208.02));
         // Inicializo productos varios.
-        let tech1 = new Technology(155,"Laptop","Ligero y portable", 800, 21, "...","MSI");
-        let tech2 = new Technology(199,"Movil","Batería durarera",200, 21, "...","Iphone");
-        let tech3 = new Technology(295,"Camara","A tope de zoom",650, 22, "...","Xiagochan");
-        let food1 = new Food(905,"Queso","Increiblemente rico y malholiente", 15, 21, "...","Ayer");
-        let cloth1 = new Clothing(225,"Sudadera","Cálida y suave", 25, 21, "...","XXL");
+        let tech1 = new Technology(155, "Laptop", "Ligero y portable", 800, 21, "...", "MSI");
+        let tech2 = new Technology(199, "Movil", "Batería durarera", 200, 21, "...", "Iphone");
+        let tech3 = new Technology(295, "Camara", "A tope de zoom", 650, 22, "...", "Xiagochan");
+        let food1 = new Food(905, "Queso", "Increiblemente rico y malholiente", 15, 21, "...", "Ayer");
+        let cloth1 = new Clothing(225, "Sudadera", "Cálida y suave", 25, 21, "...", "XXL");
 
 
         // Aquí van los métodos para añadir productos.
         this.#modelStoreHouse.addCategory(ctg1);
         this.#modelStoreHouse.addCategory(ctg2);
         this.#modelStoreHouse.addCategory(ctg3);
-        this.#modelStoreHouse.addProduct(tech1,ctg1)
-        this.#modelStoreHouse.addProduct(tech2,ctg1)
-        this.#modelStoreHouse.addProduct(tech3,ctg1)
-        this.#modelStoreHouse.addProduct(food1,ctg2)
-        this.#modelStoreHouse.addProduct(cloth1,ctg2)
+        this.#modelStoreHouse.addProduct(tech1, ctg1)
+        this.#modelStoreHouse.addProduct(tech2, ctg1)
+        this.#modelStoreHouse.addProduct(tech3, ctg1)
+        this.#modelStoreHouse.addProduct(food1, ctg2)
+        this.#modelStoreHouse.addProduct(cloth1, ctg2)
         this.#modelStoreHouse.addShop(shop1);
         this.#modelStoreHouse.addShop(shop2);
         this.#modelStoreHouse.addShop(shop3);
-        this.#modelStoreHouse.addProductInShop(shop1,tech1,8);
-        this.#modelStoreHouse.addProductInShop(shop1,tech2,2);
-        this.#modelStoreHouse.addProductInShop(shop1,tech3,6);
-        this.#modelStoreHouse.addProductInShop(shop1,food1,3);
-        this.#modelStoreHouse.addProductInShop(shop2,tech3,6);
-        this.#modelStoreHouse.addProductInShop(shop2,food1,3);
-        this.#modelStoreHouse.addProductInShop(shop2,cloth1,1);
-        this.#modelStoreHouse.addProductInShop(shop3,cloth1,8);
-        this.#modelStoreHouse.addQuantityProductInShop(shop1,tech1,12);
+        this.#modelStoreHouse.addProductInShop(shop1, tech1, 8);
+        this.#modelStoreHouse.addProductInShop(shop1, tech2, 2);
+        this.#modelStoreHouse.addProductInShop(shop1, tech3, 6);
+        this.#modelStoreHouse.addProductInShop(shop1, food1, 3);
+        this.#modelStoreHouse.addProductInShop(shop2, tech3, 6);
+        this.#modelStoreHouse.addProductInShop(shop2, food1, 3);
+        this.#modelStoreHouse.addProductInShop(shop2, cloth1, 1);
+        this.#modelStoreHouse.addProductInShop(shop3, cloth1, 8);
+        this.#modelStoreHouse.addQuantityProductInShop(shop1, tech1, 12);
 
         /*
         // Creo un archivo JSON
-        let storeJson = JSON.parse(shop1.toJSON());
-        console.log(storeJson);
+        let categ = ctg1.toJSON();
+        console.log(categ);
 
         let productJson = JSON.parse(cloth1.toJSON());
         console.log(productJson);
@@ -86,7 +86,29 @@ class StoreHouseController{
         console.log(ctg1);
         console.log(categoriaJSON instanceof Category);
         */
-    
+
+         // Espero a que acabe la carga del JSON.
+         let ms = 100;
+         setTimeout(() => {
+             // Ahora, cargo los datos en la APP.
+             catAjax.forEach(categoria => {
+                 this.#modelStoreHouse.addCategory(new Category(categoria.title,categoria.description));
+             });
+             shopAjax.forEach(store => {
+                 this.#modelStoreHouse.addShop(new Store(store.CIF,store.name,store.address,store.phone,new Coords(store.coords1,store.coords2)));
+             });
+             techAjax.forEach(product => {
+                 this.#modelStoreHouse.addProduct(new Technology(product.serialNumber,product.name,product.description,product.price,product.tax,product.images,product.size),"DEFAULT");
+             });
+             foodAjax.forEach(product => {
+                 this.#modelStoreHouse.addProduct(new Food(product.serialNumber,product.name,product.description,product.price,product.tax,product.images,product.size),"DEFAULT");
+             });
+             clothingAjax.forEach(product => {
+                 this.#modelStoreHouse.addProduct(new Clothing(product.serialNumber,product.name,product.description,product.price,product.tax,product.images,product.size),"DEFAULT");
+             });
+         }, ms);
+         
+         
     }
 
     // Carga la vista inicial del View con los datos pasados.
@@ -96,14 +118,62 @@ class StoreHouseController{
 
     // Inicializa todo el "testeo" de crear objetos y demases.
     onLoad = () => {
-        this.#loadStoreHouseObjects();
+        // Array donde guardo las categorías
+        let catAjax = [];
+        let shopAjax = [];
+        let techAjax = [];
+        let foodAjax = [];
+        let clothingAjax = [];
+        // Inicializo el ajax
+        $.ajax({
+            // Llamo al archivo, tipo de dato JSON.
+            url: 'cat.json',
+            dataType: 'json',
+            method: 'get',
+            // Con data eligo la cantidad de resultados que quiero.
+            // data : { results : 5},
+            success: function(data) {
+                //console.log(data.cat);
+                // Una vez haya leido el archivo...
+                let main = $('main');
+                //main.empty();
+                // Cargo las categorías
+                data.cat.forEach(categoria => {
+                    /*
+                    let html = "<div class='card bg-dark text-white'><div class='card-header'><h1>" + categoria.title + "</h1>";
+                    html += "<h4>" + categoria.description + "</h4></div>";
+                    main.append(html);
+                    */
+                    catAjax.push(new Category(categoria.title,categoria.description))
+                });
+                // Cargo las categorías
+                data.shop.forEach(store => {
+                    shopAjax.push(new Store(store.CIF,store.name,store.address,store.phone,new Coords(store.coords1,store.coords2)));
+                });
+                // Los tres tipos de productos.
+                data.tech.forEach(product => {
+                    techAjax.push(new Technology(product.serialNumber,product.name,product.description,product.price,product.tax,product.images,product.brand));
+                });
+                data.food.forEach(product => {
+                    foodAjax.push(new Food(product.serialNumber,product.name,product.description,product.price,product.tax,product.images,product.expirationDate));
+                });
+                data.clothing.forEach(product => {
+                    clothingAjax.push(new Clothing(product.serialNumber,product.name,product.description,product.price,product.tax,product.images,product.size));
+                });
+               
+            }
+        });
+
+        // Llamo al método para cargar los datos, le paso como parámetros los arrays de objetos.
+        this.#loadStoreHouseObjects(catAjax,shopAjax,techAjax,foodAjax,clothingAjax);
+
     }
 
     // Este solo se carga al clickar en "SkinBits";
     handleInit = () => {
         // La página inicial solo requiere de info sobre las tiendas.
         let data = this.#modelStoreHouse.shops;
-        
+
         // Le paso la info de las tiendas.
         this.onInit(data);
         // Vuelvo a vincular el método, pues ahora hay nuevos botones.
@@ -149,12 +219,12 @@ class StoreHouseController{
     }
 
     // Handler del loggin.
-    handleLoggin = (username, password) =>{
-        if(username == "admin" && password == "admin"){
-            ck.setCookie("username","admin",30);
-            ck.setCookie("password","admin",30);
+    handleLoggin = (username, password) => {
+        if (username == "admin" && password == "admin") {
+            ck.setCookie("username", "admin", 30);
+            ck.setCookie("password", "admin", 30);
             this.#viewStoreHouse.showResultadoLoggin(true);
-        }else{
+        } else {
             this.#viewStoreHouse.showResultadoLoggin(false);
         }
     }
@@ -165,8 +235,8 @@ class StoreHouseController{
         // Con el CIF de la tienda es suficiente.
         let tiendas = this.#modelStoreHouse.shops;
         let data;
-        for (let tienda of tiendas){
-            if(tienda.CIF==target){
+        for (let tienda of tiendas) {
+            if (tienda.CIF == target) {
                 data = tienda;
             }
         }
@@ -182,8 +252,8 @@ class StoreHouseController{
         let data;
         //console.log(productos);
         // Solo necesito un único producto, así que lo busco.
-        for(let producto of productos){
-            if(producto.serialNumber==target){
+        for (let producto of productos) {
+            if (producto.serialNumber == target) {
                 data = producto;
             }
         }
@@ -205,8 +275,8 @@ class StoreHouseController{
         let data;
         //console.log(productos);
         // Solo necesito un único producto, así que lo busco.
-        for(let producto of productos){
-            if(producto.serialNumber==target){
+        for (let producto of productos) {
+            if (producto.serialNumber == target) {
                 data = producto;
             }
         }
@@ -221,16 +291,16 @@ class StoreHouseController{
     }
 
     // Creación del objeto.
-    createTechnology = (serialNumber, name,description,price,tax,images,brand,category) => {
+    createTechnology = (serialNumber, name, description, price, tax, images, brand, category) => {
         console.log("Creando Technology...");
-        let tech = new Technology(serialNumber,name,description,price,tax,images,brand);
+        let tech = new Technology(serialNumber, name, description, price, tax, images, brand);
         console.log(tech);
         let done, error;
-        try{
-            this.#modelStoreHouse.addProduct(tech,category);
-            done=true;
+        try {
+            this.#modelStoreHouse.addProduct(tech, category);
+            done = true;
             console.log("Añadido Technology");
-        }catch(e){
+        } catch (e) {
             done = false;
             error = e;
             console.log("Fallo al añadir Technology");
@@ -238,7 +308,7 @@ class StoreHouseController{
         }
 
         // Ahora notifico al usuario.
-        this.#viewStoreHouse.showResultado(done,tech,error);
+        this.#viewStoreHouse.showResultado(done, tech, error);
     }
 
     handleFormAddFoodProduct = () => {
@@ -247,16 +317,16 @@ class StoreHouseController{
         this.#viewStoreHouse.bindAddFood(this.createFood);
     }
 
-    createFood = (serialNumber, name,description,price,tax,images,expirationDate,category) => {
+    createFood = (serialNumber, name, description, price, tax, images, expirationDate, category) => {
         console.log("Creando Food...");
-        let food = new Food(serialNumber,name,description,price,tax,images,expirationDate);
+        let food = new Food(serialNumber, name, description, price, tax, images, expirationDate);
         console.log(food);
         let done, error;
-        try{
-            this.#modelStoreHouse.addProduct(food,category);
-            done=true;
+        try {
+            this.#modelStoreHouse.addProduct(food, category);
+            done = true;
             console.log("Añadido Food");
-        }catch(e){
+        } catch (e) {
             done = false;
             error = e;
             console.log("Fallo al añadir Food");
@@ -264,7 +334,7 @@ class StoreHouseController{
         }
 
         // Ahora notifico al usuario.
-        this.#viewStoreHouse.showResultado(done,food,error);
+        this.#viewStoreHouse.showResultado(done, food, error);
     }
 
 
@@ -274,16 +344,16 @@ class StoreHouseController{
         this.#viewStoreHouse.bindAddClothing(this.createClothing);
     }
 
-    createClothing = (serialNumber, name,description,price,tax,images,size,category) => {
+    createClothing = (serialNumber, name, description, price, tax, images, size, category) => {
         console.log("Creando Clothing...");
-        let cloth = new Clothing(serialNumber,name,description,price,tax,images,size);
+        let cloth = new Clothing(serialNumber, name, description, price, tax, images, size);
         console.log(cloth);
         let done, error;
-        try{
-            this.#modelStoreHouse.addProduct(cloth,category);
-            done=true;
+        try {
+            this.#modelStoreHouse.addProduct(cloth, category);
+            done = true;
             console.log("Añadido Clothing");
-        }catch(e){
+        } catch (e) {
             done = false;
             error = e;
             console.log("Fallo al añadir Clothing");
@@ -291,10 +361,10 @@ class StoreHouseController{
         }
 
         // Ahora notifico al usuario.
-        this.#viewStoreHouse.showResultado(done,cloth,error);
+        this.#viewStoreHouse.showResultado(done, cloth, error);
     }
 
-    handleformDeleteProduct= () => {
+    handleformDeleteProduct = () => {
         let data = "";
         this.#viewStoreHouse.formDeleteProduct(data);
         this.#viewStoreHouse.bindDeleteProduct(this.deleteProduct);
@@ -302,16 +372,16 @@ class StoreHouseController{
 
     deleteProduct = (serialNumber) => {
         let done, error;
-        try{
+        try {
             this.#modelStoreHouse.removeProduct(serialNumber);
             done = true;
             console.log("Eliminado el producto con éxito");
-        }catch(e){
+        } catch (e) {
             error = e;
             console.log("Fallo al eliminar el producto");
             console.log(error);
         }
-        this.#viewStoreHouse.showResultadoDeleteProduct(done,error);
+        this.#viewStoreHouse.showResultadoDeleteProduct(done, error);
     }
 
     // Handlers adicionales para los Stores y las Categories
@@ -321,17 +391,17 @@ class StoreHouseController{
         this.#viewStoreHouse.bindAddStore(this.addStore);
     }
 
-    addStore = (CIF,name,address,phone,coords1,coords2) => {
+    addStore = (CIF, name, address, phone, coords1, coords2) => {
         //CIF, name,address,phone,coords
         console.log("Creando Store...");
-        let store = new Store(CIF,name,address,phone,new Coords(coords1,coords2));
+        let store = new Store(CIF, name, address, phone, new Coords(coords1, coords2));
         console.log(store);
         let done, error;
-        try{
+        try {
             this.#modelStoreHouse.addShop(store);
-            done=true;
+            done = true;
             console.log("Añadido Store");
-        }catch(e){
+        } catch (e) {
             done = false;
             error = e;
             console.log("Fallo al añadir Store");
@@ -339,12 +409,12 @@ class StoreHouseController{
         }
 
         // Ahora notifico al usuario.
-        this.#viewStoreHouse.showResultadoStore(done,store,error);
+        this.#viewStoreHouse.showResultadoStore(done, store, error);
     }
 
     handleShowFormDeleteStore = () => {
         let data = this.#modelStoreHouse.shops
-        //console.log(data);
+            //console.log(data);
         this.#viewStoreHouse.formDeleteStore(data);
         this.#viewStoreHouse.bindDeleteStore(this.deleteStore);
 
@@ -352,16 +422,16 @@ class StoreHouseController{
 
     deleteStore = (CIF) => {
         let done, error;
-        try{
+        try {
             this.#modelStoreHouse.removeShop(CIF);
             done = true;
             console.log("Eliminada la tienda con éxito");
-        }catch(e){
+        } catch (e) {
             error = e;
             console.log("Fallo al eliminar la tienda");
             console.log(error);
         }
-        this.#viewStoreHouse.showResultadoDeleteStore(done,error);
+        this.#viewStoreHouse.showResultadoDeleteStore(done, error);
     }
 
     handleFormAddCategory = () => {
@@ -371,17 +441,17 @@ class StoreHouseController{
 
     }
 
-    addCategory = (title,description) => {
+    addCategory = (title, description) => {
         //CIF, name,address,phone,coords
         console.log("Creando Category...");
-        let category = new Category(title,description);
+        let category = new Category(title, description);
         console.log(category);
         let done, error;
-        try{
+        try {
             this.#modelStoreHouse.addCategory(category);
-            done=true;
+            done = true;
             console.log("Añadido Category");
-        }catch(e){
+        } catch (e) {
             done = false;
             error = e;
             console.log("Fallo al añadir Category");
@@ -389,28 +459,28 @@ class StoreHouseController{
         }
 
         // Ahora notifico al usuario.
-        this.#viewStoreHouse.showResultadoCategory(done,category,error);
+        this.#viewStoreHouse.showResultadoCategory(done, category, error);
     }
 
     handleShowFormDeleteCategory = () => {
         let data = this.#modelStoreHouse.categories
-        //console.log(data);
+            //console.log(data);
         this.#viewStoreHouse.formDeleteCategory(data);
         this.#viewStoreHouse.bindDeleteCategory(this.deleteCategory);
     }
 
     deleteCategory = (title) => {
         let done, error;
-        try{
+        try {
             this.#modelStoreHouse.removeCategory(title);
             done = true;
             console.log("Eliminada la categoría con éxito");
-        }catch(e){
+        } catch (e) {
             error = e;
             console.log("Fallo al eliminar la categoría");
             console.log(error);
         }
-        this.#viewStoreHouse.showResultadoDeleteCategory(done,error);
+        this.#viewStoreHouse.showResultadoDeleteCategory(done, error);
     }
 }
 
