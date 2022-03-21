@@ -66,6 +66,26 @@ class StoreHouseController{
         this.#modelStoreHouse.addProductInShop(shop2,cloth1,1);
         this.#modelStoreHouse.addProductInShop(shop3,cloth1,8);
         this.#modelStoreHouse.addQuantityProductInShop(shop1,tech1,12);
+
+        // Creo un archivo JSON
+
+        let storeJson = JSON.parse(shop1.toJSON());
+        console.log(storeJson);
+
+        let productJson = JSON.parse(cloth1.toJSON());
+        console.log(productJson);
+
+        let categoriaJSON = JSON.parse(ctg1.toJSON());
+        console.log(categoriaJSON);
+
+
+        /*
+        let categoriaJSON = JSON.parse(ctg1.toJSON());
+        Object.assign(new Category,categoriaJSON);
+        console.log(categoriaJSON);
+        console.log(ctg1);
+        console.log(categoriaJSON instanceof Category);
+        */
     
     }
 

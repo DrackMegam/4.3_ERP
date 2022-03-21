@@ -391,6 +391,10 @@ class Category {
         return this.#title + " - " + this.#description;
     }
 
+    toJSON(){
+        return '{"#title":"'+this.#title+'","#description":"'+this.#description+'"}';
+    }
+
 }
 
 class Coords {
@@ -421,6 +425,10 @@ class Coords {
     // Funciones del objeto.
     toString() {
         return this.#latitude + " - " + this.#longitude;
+    }
+
+    toJSON(){
+        return '{"#latitude":"'+this.#latitude+'","#longitude":"'+this.#longitude+'"}';
     }
 
 }
@@ -487,6 +495,16 @@ class Store {
     // Funciones del objeto.
     toString() {
         return this.#CIF + " - " + this.#name+ " - " + this.#address + " - " + this.#phone + " - " + this.#coords ;
+    }
+
+    toJSON(){
+        return '{'+
+                '"#CIF":"'+this.#CIF+'",'+
+                '"#name":"'+this.#name+'",'+
+                '"#address":"'+this.#address+'",'+
+                '"#phone":'+this.#phone+','+
+                '"#coords": '+this.#coords.toJSON()+
+                '}';
     }
 
 }
@@ -585,6 +603,18 @@ class Technology extends Product {
         return this.serialNumber + " - " + this.name+ " - " + this.description + " - " + this.price + " - " + this.tax + " - " + this.images + " - " + this.#brand;
     }
 
+    toJSON(){
+        return '{'+
+                    '"#serialNumber":'+this.serialNumber+','+
+                    '"#name":"'+this.name+'",'+
+                    '"#description":"'+this.description+'",'+
+                    '"#price":'+this.price+','+
+                    '"#tax":'+this.tax+','+
+                    '"#images":"'+this.images+'",'+
+                    '"#brand":"'+this.#brand+'"'+
+                '}';
+    }
+
 }
 
 class Food extends Product {
@@ -608,6 +638,18 @@ class Food extends Product {
         return this.serialNumber + " - " + this.name+ " - " + this.description + " - " + this.price + " - " + this.tax + " - " + this.images + " - " + this.#expirationDate;
     }
 
+    toJSON(){
+        return '{'+
+                    '"#serialNumber":'+this.serialNumber+','+
+                    '"#name":"'+this.name+'",'+
+                    '"#description":"'+this.description+'",'+
+                    '"#price":'+this.price+','+
+                    '"#tax":'+this.tax+','+
+                    '"#images":"'+this.images+'",'+
+                    '"#expirationDate":"'+this.#expirationDate+'"'+
+                '}';
+    }
+
 }
 
 class Clothing extends Product {
@@ -629,6 +671,18 @@ class Clothing extends Product {
     toString() {
         // Los atributos heredados sin "#", pues los pillo del "get" heredado de Product.
         return this.serialNumber + " - " + this.name+ " - " + this.description + " - " + this.price + " - " + this.tax + " - " + this.images + " - " + this.#size;
+    }
+
+    toJSON(){
+        return '{'+
+                    '"#serialNumber":'+this.serialNumber+','+
+                    '"#name":"'+this.name+'",'+
+                    '"#description":"'+this.description+'",'+
+                    '"#price":'+this.price+','+
+                    '"#tax":'+this.tax+','+
+                    '"#images":"'+this.images+'",'+
+                    '"#size":"'+this.#size+'"'+
+                '}';
     }
 
 }
