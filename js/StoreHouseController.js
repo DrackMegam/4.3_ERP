@@ -1,6 +1,6 @@
 // Importo los objetos, productos y demases.
 import {MyError, Category, Coords, Store, Product, Technology, Food, Clothing} from './StoreHouseModel.js';
-
+import * as ck from './cookies.js';
 
 class StoreHouseController{
     #modelStoreHouse;
@@ -21,6 +21,7 @@ class StoreHouseController{
         this.#viewStoreHouse.bindShowCategorias(this.handleShowCategorias);
         // Nuevo apartado T6.1 para mostrar producto en nueva ventana.
         this.#viewStoreHouse.bindShowNewWindow(this.handleShowNewWindow);
+        this.#viewStoreHouse.bindLogginButton(this.handleLoggin);
         
 
 
@@ -103,6 +104,33 @@ class StoreHouseController{
         this.#viewStoreHouse.bindFormDeleteProduct(this.handleformDeleteProduct);
         this.#viewStoreHouse.bindFormDeleteStore(this.handleShowFormDeleteStore);
         this.#viewStoreHouse.bindFormAddCategory(this.handleShowFormDeleteCategory);
+        // Bindeo el botón de loggin.
+        //this.#viewStoreHouse.bindLoggin(this.handleLoggin);
+        this.#viewStoreHouse.bindLogginButton(this.handleLoggin);
+    }
+
+    /*
+    // Handler del loggin.
+    handleLoggin = (username,password) => {
+        console.log("Comprobando credenciales...");
+        if(username == "admin" && password == "admin"){
+            ck.setCookie("username","admin",30);
+            ck.setCookie("password","admin",30);
+            this.#viewStoreHouse.showResultadoLoggin(true);
+        }else{
+            this.#viewStoreHouse.showResultadoLoggin(false);
+        }
+    }
+    */
+
+    handleLoggin = (username, password) =>{
+        if(username == "admin" && password == "admin"){
+            ck.setCookie("username","admin",30);
+            ck.setCookie("password","admin",30);
+            this.#viewStoreHouse.showResultadoLoggin(true);
+        }else{
+            this.#viewStoreHouse.showResultadoLoggin(false);
+        }
     }
 
     // Método para ver productos de una tienda.

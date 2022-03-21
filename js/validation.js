@@ -429,3 +429,51 @@ export function validarDeleteCategory(handler) {
     $(form.name).change(defaultCheckElement);
 
 }
+
+
+export function validarLoggin(handler) {
+    let form = document.forms.formLoggin;
+    console.log("Comprobando el formulario de loggin...");
+    $(form).attr('novalidate', true);
+    $(form).submit(function(event) {
+        let valido = true;
+        let primerInvalido = null;
+
+        // Validaciones de los campos
+        if (!this.username.checkValidity() || this.username.value.length == 0) {
+            valido = false;
+            showFeedBack($(this.username), false);
+            primerInvalido = this.username;
+        } else {
+            showFeedBack($(this.username), true);
+        }
+        if (!this.password.checkValidity() || this.password.value.length == 0) {
+            valido = false;
+            showFeedBack($(this.password), false);
+            primerInvalido = this.password;
+        } else {
+            showFeedBack($(this.password), true);
+        }
+       
+
+
+        if (!valido) {
+            primerInvalido.focus();
+        } else {
+            handler(this.username.value,this.password.value);
+        }
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset', (function(event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }))
+
+    $(form.username).change(defaultCheckElement);
+    $(form.password).change(defaultCheckElement);
+
+}

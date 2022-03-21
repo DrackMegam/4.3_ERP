@@ -1,5 +1,6 @@
 import { MyError, Category, Coords, Store, Product, Technology, Food, Clothing } from './StoreHouseModel.js';
 import * as validar from './validation.js';
+import * as ck from './cookies.js';
 class StoreHouseView {
     // Constructor de lo que se va a visualizar en la página.
     constructor() {
@@ -16,78 +17,105 @@ class StoreHouseView {
 
         this.main.empty(); // Evita que se genere siempre.
 
-        this.main.append("<h1>Tiendas disponibles</h1> <span>(Haz click en 'SkinBits'...)</span><br>");
 
+        console.log(document.cookie);
 
+        // Compruebo si hay cookies de "username" y "password"
+        if (ck.getCookie("username").length == 0 && ck.getCookie("password").length == 0) {
+            // No hay cosas del usuario, por lo que procedo a crear el mini formulario.
+            this.main.append("<h1>Inicio de sesión.</h1>");
 
-        //this.main.append("<a name='muestro' id='muestro' class='btn btn-primary' href='#' role='button'>Entrar</a>");
+            let htmlChulo = "<form name='formLoggin' id='formLoggin' role='form' novalidate>" +
+                "<div class='form-row'>" +
+                "   <div class='form-group col-md-6'> <label for='username'>Nombre de usuario</label> <input type='text'" +
+                "           class='form-control' id='username' placeholder='Nombre de usuario'> </div>" +
+                "   <div class='form-group col-md-6'> <label for='password'>Contraseña</label> <input type='password'" +
+                "           class='form-control' id='password' placeholder='Contraseña'> </div>" +
+                "</div>" +
+                "<button type='button' class='btn btn-primary btnLoggin'>Iniciar sesión</button>" +
+                "</form>";
 
-
-        // Para que no explote al cargar la primera vez
-        // Pues no se pasa ningún dato.
-        if (data != undefined) {
-            // Creo una nueva tabla...
-            let htmlChulo = "<table id='tablaTiendas' class='table table-dark'><tr><th>Nombre Tienda</th><th>CIF</th><th>Enlace</th></tr>"
-                // Voy recorriendo el iterador de tiendas.
-            for (let tienda of data) {
-                // Creo una nueva fila en la tabla.
-                // Cada botón tiene un ID propio.
-                htmlChulo += ("<tr><td>" + tienda.name + "</td><td>" + tienda.CIF + "</td><td>  <a name='" + tienda.CIF + "' id='" + tienda.CIF + "' class='btn btn-primary tienda' href='#Tienda" + tienda.CIF + "' role='button'>Entrar</a>  </td></tr>");
-            }
-
-            htmlChulo += ("</table>");
-
-
-            // Añado los menús secundarios.
-            // Addición de tiendas
-            htmlChulo += "<a id='newStore' name='newStore' class='btn btn-primary ml-2 newStore' href='#NuevaTienda' role='button'>Añadir tienda</a>";
-            htmlChulo += "<a id='deleteStore' name='deleteStore' class='btn btn-danger ml-2 deleteStore' href='#EliminarTienda' role='button'>Eliminar tienda</a>";
-            htmlChulo += "<br><br>";
-            // Relaccionados con categorías
-            htmlChulo += "<a id='categorias' name='categorias' class=' ml-2 btn btn-primary categorias' href='#Categorias' role='button'>Ver Categorias</a>";
-            htmlChulo += "<a id='newCategory' name='newCategory' class='btn btn-primary ml-2 newCategory' href='#NuevaCategoría' role='button'>Añadir categoría</a>";
-            htmlChulo += "<a id='deleteCategory' name='deleteCategory' class='btn btn-danger ml-2 deleteCategory' href='#EliminarCategoria' role='button'>Eliminar categoría</a>";
-            htmlChulo += "<br><br>";
-            // Para poder añadir productos
-            htmlChulo += "<a id='newTechnologyProduct' name='newTechnologyProduct' class='ml-1 btn btn-primary newTechnologyProduct' href='#NuevaTecnologia' role='button'>Añadir tecnología</a>";
-            htmlChulo += "<a id='newFoodProduct' name='newFoodProduct' class='ml-2 btn btn-primary newFoodProduct' href='#NuevaComida' role='button'>Añadir comida</a>";
-            htmlChulo += "<a id='newClothingProduct' name='newClothingProduct' class='ml-2 btn btn-primary newClothingProduct' href='#NuevaRopa' role='button'>Añadir ropa</a>";
-            htmlChulo += "<a id='deleteProduct' name='deleteProduct' class='ml-2 btn btn-danger deleteProduct' href='#EliminarProducto' role='button'>Eliminar producto</a>";
-            htmlChulo += "<br>";
 
             this.main.append(htmlChulo);
+        } else {
 
-        }
+            this.main.append("<h2>Saludos, "+ck.getCookie("username")+"</h2>");
+            this.main.append("<h1>Tiendas disponibles</h1> <span>(Haz click en 'SkinBits'...)</span><br>");
 
-        // Añado los botones para moverse por el historial.
-        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
-        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
-        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
-        btnInicio.click(() => {
-            window.history.go();
-        });
-        btnAtras.click(() => {
-            window.history.go(-1);
-        });
-        btnAdelante.click(() => {
-            window.history.go(1);
-        });
-        this.main.append(btnAtras);
-        this.main.append(btnAdelante);
-        this.main.append(btnInicio);
+            // Para que no explote al cargar la primera vez
+            // Pues no se pasa ningún dato.
+            if (data != undefined) {
+                // Creo una nueva tabla...
+                let htmlChulo = "<table id='tablaTiendas' class='table table-dark'><tr><th>Nombre Tienda</th><th>CIF</th><th>Enlace</th></tr>"
+                    // Voy recorriendo el iterador de tiendas.
+                for (let tienda of data) {
+                    // Creo una nueva fila en la tabla.
+                    // Cada botón tiene un ID propio.
+                    htmlChulo += ("<tr><td>" + tienda.name + "</td><td>" + tienda.CIF + "</td><td>  <a name='" + tienda.CIF + "' id='" + tienda.CIF + "' class='btn btn-primary tienda' href='#Tienda" + tienda.CIF + "' role='button'>Entrar</a>  </td></tr>");
+                }
+
+                htmlChulo += ("</table>");
 
 
-        // Para que modifique el estado de la página.
-        window.addEventListener('popstate', function(event) {
-            let estado = null;
-            if (event.state) {
-                estado = event.state.cuerpoMain;
-                $("main").empty();
-                $("main").append(estado);
+                // Añado los menús secundarios.
+                // Addición de tiendas
+                htmlChulo += "<a id='newStore' name='newStore' class='btn btn-primary ml-2 newStore' href='#NuevaTienda' role='button'>Añadir tienda</a>";
+                htmlChulo += "<a id='deleteStore' name='deleteStore' class='btn btn-danger ml-2 deleteStore' href='#EliminarTienda' role='button'>Eliminar tienda</a>";
+                htmlChulo += "<br><br>";
+                // Relaccionados con categorías
+                htmlChulo += "<a id='categorias' name='categorias' class=' ml-2 btn btn-primary categorias' href='#Categorias' role='button'>Ver Categorias</a>";
+                htmlChulo += "<a id='newCategory' name='newCategory' class='btn btn-primary ml-2 newCategory' href='#NuevaCategoría' role='button'>Añadir categoría</a>";
+                htmlChulo += "<a id='deleteCategory' name='deleteCategory' class='btn btn-danger ml-2 deleteCategory' href='#EliminarCategoria' role='button'>Eliminar categoría</a>";
+                htmlChulo += "<br><br>";
+                // Para poder añadir productos
+                htmlChulo += "<a id='newTechnologyProduct' name='newTechnologyProduct' class='ml-1 btn btn-primary newTechnologyProduct' href='#NuevaTecnologia' role='button'>Añadir tecnología</a>";
+                htmlChulo += "<a id='newFoodProduct' name='newFoodProduct' class='ml-2 btn btn-primary newFoodProduct' href='#NuevaComida' role='button'>Añadir comida</a>";
+                htmlChulo += "<a id='newClothingProduct' name='newClothingProduct' class='ml-2 btn btn-primary newClothingProduct' href='#NuevaRopa' role='button'>Añadir ropa</a>";
+                htmlChulo += "<a id='deleteProduct' name='deleteProduct' class='ml-2 btn btn-danger deleteProduct' href='#EliminarProducto' role='button'>Eliminar producto</a>";
+                htmlChulo += "<br>";
+
+                this.main.append(htmlChulo);
+
             }
 
-        });
+            // Añado los botones para moverse por el historial.
+            let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+            let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+            let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+            btnInicio.click(() => {
+                window.history.go();
+            });
+            btnAtras.click(() => {
+                window.history.go(-1);
+            });
+            btnAdelante.click(() => {
+                window.history.go(1);
+            });
+            this.main.append(btnAtras);
+            this.main.append(btnAdelante);
+            this.main.append(btnInicio);
 
+            // Botón addicional para desconectarse.
+            let btnDesc = $("<button class='btn btn-danger m-1'>Desconectarse</button>");
+            btnDesc.click(() => {
+                ck.setCookie("username","",0);
+                ck.setCookie("password","",0);
+                location.reload();
+            });
+            this.main.append(btnDesc);
+
+
+            // Para que modifique el estado de la página.
+            window.addEventListener('popstate', function(event) {
+                let estado = null;
+                if (event.state) {
+                    estado = event.state.cuerpoMain;
+                    $("main").empty();
+                    $("main").append(estado);
+                }
+
+            });
+        }
 
 
     }
@@ -109,6 +137,35 @@ class StoreHouseView {
 
         })
     }
+
+
+    bindLogginButton(handler) {
+        $(".btnLoggin").click((event) => {
+            // Pillo los valores del formulario.
+            let username = document.getElementById("username").value;
+            let password = document.getElementById("password").value;
+            console.log("Bind: "+username+password);
+            handler(username,password);
+        })
+    }
+
+
+    /*
+    // Bindeos para el botón de loggin inicial.
+    bindLoggin(handler) {
+        validar.validarLoggin(handler);
+    }
+*/
+
+    showResultadoLoggin(done) {
+        if (done) {
+            // Si lo hace bien, recargo la página, pues el loggin ha sido exitoso.
+            location.reload();
+        } else {
+            this.main.append("<h1 class='text-danger'>Loggin incorrecto.</h1>");
+        }
+    }
+    
 
     /*
         Evento para mostrar un producto en una ventana distinta.
@@ -609,11 +666,11 @@ class StoreHouseView {
         })
     }
 
-    bindDeleteProduct(handler){
+    bindDeleteProduct(handler) {
         validar.validarDeleteProduct(handler);
     }
 
-    showResultadoDeleteProduct(done, error){
+    showResultadoDeleteProduct(done, error) {
         $(document.formDeleteProduct).find('div.error').remove();
         if (done) {
             this.main.append("<h1 class='text-success'>Se ha eliminado correctamente.</h1>");
@@ -674,16 +731,16 @@ class StoreHouseView {
         })
     }
 
-    bindAddStore(handler){
+    bindAddStore(handler) {
         validar.validarAddStore(handler);
     }
 
-    showResultadoStore(done, store, error){
+    showResultadoStore(done, store, error) {
         $(document.formDeleteProduct).find('div.error').remove();
         if (done) {
-            this.main.append("<h1 class='text-success'>Se ha añadido la tienda "+store.CIF+".</h1>");
+            this.main.append("<h1 class='text-success'>Se ha añadido la tienda " + store.CIF + ".</h1>");
         } else {
-            this.main.append("<h1 class='text-danger'>Error al añadir la tienda "+store.CIF+".</h1>");
+            this.main.append("<h1 class='text-danger'>Error al añadir la tienda " + store.CIF + ".</h1>");
         }
     }
 
@@ -728,11 +785,11 @@ class StoreHouseView {
         })
     }
 
-    bindDeleteStore(handler){
+    bindDeleteStore(handler) {
         validar.validarDeleteStore(handler);
     }
 
-    showResultadoDeleteStore(done, error){
+    showResultadoDeleteStore(done, error) {
         $(document.formDeleteProduct).find('div.error').remove();
         if (done) {
             this.main.append("<h1 class='text-success'>Se ha eliminado la tienda.</h1>");
@@ -783,16 +840,16 @@ class StoreHouseView {
         })
     }
 
-    bindAddCategory(handler){
+    bindAddCategory(handler) {
         validar.validarAddCategory(handler);
     }
 
-    showResultadoCategory(done, category, error){
+    showResultadoCategory(done, category, error) {
         $(document.formDeleteProduct).find('div.error').remove();
         if (done) {
-            this.main.append("<h1 class='text-success'>Se ha añadido la categoría "+category.title+".</h1>");
+            this.main.append("<h1 class='text-success'>Se ha añadido la categoría " + category.title + ".</h1>");
         } else {
-            this.main.append("<h1 class='text-danger'>Error al añadir la categoría "+category.title+".</h1>");
+            this.main.append("<h1 class='text-danger'>Error al añadir la categoría " + category.title + ".</h1>");
         }
     }
 
@@ -837,11 +894,11 @@ class StoreHouseView {
         })
     }
 
-    bindDeleteCategory(handler){
+    bindDeleteCategory(handler) {
         validar.validarDeleteCategory(handler);
     }
 
-    showResultadoDeleteCategory(done, error){
+    showResultadoDeleteCategory(done, error) {
         $(document.formDeleteCategory).find('div.error').remove();
         if (done) {
             this.main.append("<h1 class='text-success'>Se ha eliminado la categoría.</h1>");
