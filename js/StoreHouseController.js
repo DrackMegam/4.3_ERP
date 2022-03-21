@@ -88,7 +88,7 @@ class StoreHouseController {
         */
 
          // Espero a que acabe la carga del JSON.
-         let ms = 100;
+         let ms = 300;
          setTimeout(() => {
              // Ahora, cargo los datos en la APP.
              catAjax.forEach(categoria => {
@@ -125,6 +125,8 @@ class StoreHouseController {
         let foodAjax = [];
         let clothingAjax = [];
         // Inicializo el ajax
+
+        let controller = this;
         $.ajax({
             // Llamo al archivo, tipo de dato JSON.
             url: 'cat.json',
@@ -216,6 +218,31 @@ class StoreHouseController {
 
         });
         */
+
+        console.log("Creando backup...");
+
+        $.ajax({
+            type : 'POST',
+            url : 'utils.php',          
+            data : { datos: "escribir"},
+            success : function(result){
+                console.log("Exito al crear el backup.");
+                console.log(result);
+            }
+
+        })
+
+        /*
+        // Pruebo con XHTTP
+        let xhttp = new XMLHttpRequest();
+        xhttp.open("GET", "utils.php" + "?datos=AAAAA", true);
+        xhttp.send("datos=AA");
+        */
+
+        // Esto devuelve, en formato JSON, TODOS los objetos de la APP.
+        console.log(this.#modelStoreHouse.generateBackup());
+
+        
     }
 
     // Handler del loggin.

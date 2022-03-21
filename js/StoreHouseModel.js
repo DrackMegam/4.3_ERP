@@ -76,6 +76,29 @@ let StoreHouse = (function() {
                 return this.#products;
             }
 
+            generateBackup(){
+                let stringTodo = "";
+                // Primero las categorías
+                for (let [categories,products] of this.#categories.entries()){
+                    stringTodo+= categories.toJSON();
+                    // Ahora, sus productos.
+                    products.forEach(product => {
+                        stringTodo+= product.toJSON();
+                    });
+                }
+
+                // Ahora las tiendas.
+                this.#shops.forEach(store => {
+                    stringTodo+= store.toJSON();
+                });
+
+                // Finalmente le añado la fecha.
+                stringTodo += new Date().toLocaleDateString();
+
+                return stringTodo;
+
+            }
+
             addCategory(newCategory){
                 if(newCategory==null) throw new MyError("La categoría no puede ser nula.");
                 if(!(newCategory instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
@@ -392,7 +415,7 @@ class Category {
     }
 
     toJSON(){
-        return '{"#title":"'+this.#title+'","#description":"'+this.#description+'"}';
+        return '{"title":"'+this.#title+'","description":"'+this.#description+'"}';
     }
 
 }
@@ -428,7 +451,7 @@ class Coords {
     }
 
     toJSON(){
-        return '{"#latitude":"'+this.#latitude+'","#longitude":"'+this.#longitude+'"}';
+        return '{"latitude":"'+this.#latitude+'","longitude":"'+this.#longitude+'"}';
     }
 
 }
@@ -499,11 +522,11 @@ class Store {
 
     toJSON(){
         return '{'+
-                '"#CIF":"'+this.#CIF+'",'+
-                '"#name":"'+this.#name+'",'+
-                '"#address":"'+this.#address+'",'+
-                '"#phone":'+this.#phone+','+
-                '"#coords": '+this.#coords.toJSON()+
+                '"CIF":"'+this.#CIF+'",'+
+                '"name":"'+this.#name+'",'+
+                '"address":"'+this.#address+'",'+
+                '"phone":'+this.#phone+','+
+                '"coords": '+this.#coords.toJSON()+
                 '}';
     }
 
@@ -605,13 +628,13 @@ class Technology extends Product {
 
     toJSON(){
         return '{'+
-                    '"#serialNumber":'+this.serialNumber+','+
-                    '"#name":"'+this.name+'",'+
-                    '"#description":"'+this.description+'",'+
-                    '"#price":'+this.price+','+
-                    '"#tax":'+this.tax+','+
-                    '"#images":"'+this.images+'",'+
-                    '"#brand":"'+this.#brand+'"'+
+                    '"serialNumber":'+this.serialNumber+','+
+                    '"name":"'+this.name+'",'+
+                    '"description":"'+this.description+'",'+
+                    '"price":'+this.price+','+
+                    '"tax":'+this.tax+','+
+                    '"images":"'+this.images+'",'+
+                    '"brand":"'+this.#brand+'"'+
                 '}';
     }
 
@@ -640,13 +663,13 @@ class Food extends Product {
 
     toJSON(){
         return '{'+
-                    '"#serialNumber":'+this.serialNumber+','+
-                    '"#name":"'+this.name+'",'+
-                    '"#description":"'+this.description+'",'+
-                    '"#price":'+this.price+','+
-                    '"#tax":'+this.tax+','+
-                    '"#images":"'+this.images+'",'+
-                    '"#expirationDate":"'+this.#expirationDate+'"'+
+                    '"serialNumber":'+this.serialNumber+','+
+                    '"name":"'+this.name+'",'+
+                    '"description":"'+this.description+'",'+
+                    '"price":'+this.price+','+
+                    '"tax":'+this.tax+','+
+                    '"images":"'+this.images+'",'+
+                    '"expirationDate":"'+this.#expirationDate+'"'+
                 '}';
     }
 
@@ -675,13 +698,13 @@ class Clothing extends Product {
 
     toJSON(){
         return '{'+
-                    '"#serialNumber":'+this.serialNumber+','+
-                    '"#name":"'+this.name+'",'+
-                    '"#description":"'+this.description+'",'+
-                    '"#price":'+this.price+','+
-                    '"#tax":'+this.tax+','+
-                    '"#images":"'+this.images+'",'+
-                    '"#size":"'+this.#size+'"'+
+                    '"serialNumber":'+this.serialNumber+','+
+                    '"name":"'+this.name+'",'+
+                    '"description":"'+this.description+'",'+
+                    '"price":'+this.price+','+
+                    '"tax":'+this.tax+','+
+                    '"images":"'+this.images+'",'+
+                    '"size":"'+this.#size+'"'+
                 '}';
     }
 
