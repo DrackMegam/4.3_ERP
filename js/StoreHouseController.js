@@ -123,7 +123,7 @@ class StoreHouseController{
         this.#viewStoreHouse.bindFormAddCategory(this.handleFormAddCategory);
         this.#viewStoreHouse.bindFormDeleteProduct(this.handleformDeleteProduct);
         this.#viewStoreHouse.bindFormDeleteStore(this.handleShowFormDeleteStore);
-        this.#viewStoreHouse.bindFormAddCategory(this.handleShowFormDeleteCategory);
+        this.#viewStoreHouse.bindFormDeleteCategory(this.handleShowFormDeleteCategory);
         // Bindeo el botón de loggin.
         //this.#viewStoreHouse.bindLoggin(this.handleLoggin);
         this.#viewStoreHouse.bindLogginButton(this.handleLoggin);

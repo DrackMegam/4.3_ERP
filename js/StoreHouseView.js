@@ -888,7 +888,7 @@ class StoreHouseView {
         this.main.append(btnInicio);
     }
 
-    bindFormAddCategory(handler) {
+    bindFormDeleteCategory(handler) {
         $(".deleteCategory").click((event) => {
             handler();
         })
