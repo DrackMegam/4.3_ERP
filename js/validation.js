@@ -404,3 +404,28 @@ export function validarDeleteStore(handler) {
     $(form.name).change(defaultCheckElement);
 
 }
+
+export function validarDeleteCategory(handler) {
+    let form = document.forms.formDeleteCategory;
+    $(form).attr('novalidate', true);
+    $(form).submit(function(event) {
+
+        // No tengo que comprobar nada, es un select.
+
+        handler(this.category.value);
+
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset', (function(event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }))
+
+    $(form.description).change(defaultCheckElement);
+    $(form.name).change(defaultCheckElement);
+
+}

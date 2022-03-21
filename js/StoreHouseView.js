@@ -796,6 +796,60 @@ class StoreHouseView {
         }
     }
 
+    // Botón para eliminar categorías.
+    formDeleteCategory(data) {
+        this.main.empty();
+        // constructor(serialNumber, name,description,price,tax,images)
+        // Esto lo he hecho con un copia pega de lo que hay en el index.
+        let htmlChulo = "<form name='formDeleteCategory' id='formDeleteCategory' role='form' novalidate>";
+        htmlChulo += "    <div class='form-group col-md-6'> <label for='category'>Categorías</label> <select id='category' class='form-control'>";
+        for (let category of data) {
+            htmlChulo += "<option value='" + category[0].title + "'>" + category[0].title + "</option>";
+        }
+        htmlChulo += "        </select></div>";
+        htmlChulo += "<button type='submit' class='btn btn-primary btnDelTienda'>Eliminar categoría</button>" +
+            "</form>";
+
+
+        this.main.append(htmlChulo);
+
+        // Añado los botones para moverse por el historial.
+        let btnInicio = $("<button class='btn btn-primary m-1'>Inicio</button>");
+        let btnAtras = $("<button class='btn btn-primary m-1'><-</button>");
+        let btnAdelante = $("<button class='btn btn-primary m-1'>-></button>");
+        btnInicio.click(() => {
+            window.history.go();
+        });
+        btnAtras.click(() => {
+            window.history.go(-1);
+        });
+        btnAdelante.click(() => {
+            window.history.go(1);
+        });
+        this.main.append(btnAtras);
+        this.main.append(btnAdelante);
+        this.main.append(btnInicio);
+    }
+
+    bindFormAddCategory(handler) {
+        $(".deleteCategory").click((event) => {
+            handler();
+        })
+    }
+
+    bindDeleteCategory(handler){
+        validar.validarDeleteCategory(handler);
+    }
+
+    showResultadoDeleteCategory(done, error){
+        $(document.formDeleteCategory).find('div.error').remove();
+        if (done) {
+            this.main.append("<h1 class='text-success'>Se ha eliminado la categoría.</h1>");
+        } else {
+            this.main.append("<h1 class='text-danger'>Esta categoría ya ha sido eliminada.</h1>");
+        }
+    }
+
 }
 
 export default StoreHouseView;

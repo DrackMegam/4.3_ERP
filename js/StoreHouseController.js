@@ -102,6 +102,7 @@ class StoreHouseController{
         this.#viewStoreHouse.bindFormAddCategory(this.handleFormAddCategory);
         this.#viewStoreHouse.bindFormDeleteProduct(this.handleformDeleteProduct);
         this.#viewStoreHouse.bindFormDeleteStore(this.handleShowFormDeleteStore);
+        this.#viewStoreHouse.bindFormAddCategory(this.handleShowFormDeleteCategory);
     }
 
     // Método para ver productos de una tienda.
@@ -335,6 +336,27 @@ class StoreHouseController{
 
         // Ahora notifico al usuario.
         this.#viewStoreHouse.showResultadoCategory(done,category,error);
+    }
+
+    handleShowFormDeleteCategory = () => {
+        let data = this.#modelStoreHouse.categories
+        //console.log(data);
+        this.#viewStoreHouse.formDeleteCategory(data);
+        this.#viewStoreHouse.bindDeleteCategory(this.deleteCategory);
+    }
+
+    deleteCategory = (title) => {
+        let done, error;
+        try{
+            this.#modelStoreHouse.removeCategory(title);
+            done = true;
+            console.log("Eliminada la categoría con éxito");
+        }catch(e){
+            error = e;
+            console.log("Fallo al eliminar la categoría");
+            console.log(error);
+        }
+        this.#viewStoreHouse.showResultadoDeleteCategory(done,error);
     }
 }
 

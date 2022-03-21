@@ -84,7 +84,22 @@ let StoreHouse = (function() {
 
             }
             removeCategory(deleteCategory){
-                if(!(deleteCategory instanceof Category)) throw new MyError("Este objeto no es una cateogría.");
+                /* Una vez más a cambiarlo por si se pasa un "title" */
+                if(!(deleteCategory instanceof Category)) {
+                    let categoryFound = null;
+                    for (let registeredCategory of this.#categories.keys()) {
+                        if(registeredCategory.title == deleteCategory){
+                            categoryFound = registeredCategory;
+                        }
+                      }
+                    if(categoryFound == null){
+                        // Si es nulo, es que el String no ha tenido coincidencias.
+                        throw new MyError("Este objeto no es una cateogría.");
+                    }else{
+                        // Ahora doy el cambiazo para que todo funcione.
+                        deleteCategory = categoryFound;
+                    }
+                }
                 if(!this.#categories.has(deleteCategory)) throw new MyError("No se ha encontrado la categoría.");
                 if(deleteCategory==this.#defaultCategory) throw new MyError("No puedes eliminar la categoría por defecto.");
                 // Lo primero será guardar los productos de esa categoría para pasarlos a default.
