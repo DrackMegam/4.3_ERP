@@ -228,7 +228,26 @@ let StoreHouse = (function() {
                 // Lo primero será obtener los productos registrados en la tienda.
                 // No se especifica si el stock también se mantiene, pero lo haré por si acaso.
                 let index = this.#shops.findIndex((v) => v == shop);
-                if(index==-1) throw new MyError("No se ha encontrado la tienda.");
+
+                /*
+                    Lo mismo de siempre para esta práctica de formularios, 
+                    hay que tocar el método para poder pasarle un objeto
+                    o bien el CIF.
+                */
+               let nuevoIndex = -1;
+                if(index==-1){
+                    // Si llego aquí, "shop" es un CIF.
+                    nuevoIndex = this.#shops.findIndex((v) => v.CIF == shop);
+                }
+                if(nuevoIndex==-1){
+                    // Aquí si que no hay nada de nada.
+                    throw new MyError("No se ha encontrado la tienda.");
+                }else{
+                    index = nuevoIndex;
+                }
+                
+                
+                
                 
                 let savedProducts = 0;
                 for (let [k,v] of this.#shops[index].products.entries()){

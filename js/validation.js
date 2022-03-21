@@ -69,17 +69,17 @@ export function validarNewTechnology(handler) {
 
 
 
-        if(!valido){
+        if (!valido) {
             primerInvalido.focus();
-        }else{
+        } else {
             // Esto llama al método "createTechnology";
-            handler(this.serialNumber.value,this.name.value,this.description.value,this.price.value,this.tax.value,"...",this.brand.value,this.category.value);
+            handler(this.serialNumber.value, this.name.value, this.description.value, this.price.value, this.tax.value, "...", this.brand.value, this.category.value);
         }
         event.preventDefault();
         event.stopPropagation();
     });
 
-    form.addEventListener('reset',(function(event){
+    form.addEventListener('reset', (function(event) {
         let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
         feedDivs.removeClass('d-block').addClass('d-none');
         let inputs = $(this).find('input');
@@ -139,16 +139,16 @@ export function validarNewFood(handler) {
 
 
 
-        if(!valido){
+        if (!valido) {
             primerInvalido.focus();
-        }else{
-            handler(this.serialNumber.value,this.name.value,this.description.value,this.price.value,this.tax.value,"...",this.expirationDate.value,this.category.value);
+        } else {
+            handler(this.serialNumber.value, this.name.value, this.description.value, this.price.value, this.tax.value, "...", this.expirationDate.value, this.category.value);
         }
         event.preventDefault();
         event.stopPropagation();
     });
 
-    form.addEventListener('reset',(function(event){
+    form.addEventListener('reset', (function(event) {
         let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
         feedDivs.removeClass('d-block').addClass('d-none');
         let inputs = $(this).find('input');
@@ -203,16 +203,16 @@ export function validarNewClothing(handler) {
 
 
 
-        if(!valido){
+        if (!valido) {
             primerInvalido.focus();
-        }else{
-            handler(this.serialNumber.value,this.name.value,this.description.value,this.price.value,this.tax.value,"...",this.size.value,this.category.value);
+        } else {
+            handler(this.serialNumber.value, this.name.value, this.description.value, this.price.value, this.tax.value, "...", this.size.value, this.category.value);
         }
         event.preventDefault();
         event.stopPropagation();
     });
 
-    form.addEventListener('reset',(function(event){
+    form.addEventListener('reset', (function(event) {
         let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
         feedDivs.removeClass('d-block').addClass('d-none');
         let inputs = $(this).find('input');
@@ -241,16 +241,16 @@ export function validarDeleteProduct(handler) {
             showFeedBack($(this.serialNumber), true);
         }
 
-        if(!valido){
+        if (!valido) {
             primerInvalido.focus();
-        }else{
+        } else {
             handler(this.serialNumber.value);
         }
         event.preventDefault();
         event.stopPropagation();
     });
 
-    form.addEventListener('reset',(function(event){
+    form.addEventListener('reset', (function(event) {
         let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
         feedDivs.removeClass('d-block').addClass('d-none');
         let inputs = $(this).find('input');
@@ -268,7 +268,7 @@ export function validarAddStore(handler) {
         let primerInvalido = null;
 
         // Validaciones de los campos
-        if (!this.CIF.checkValidity() || !(this.CIF.value > 0)) {
+        if (!this.CIF.checkValidity() || this.name.value.length == 0) {
             valido = false;
             showFeedBack($(this.CIF), false);
             primerInvalido = this.CIF;
@@ -311,16 +311,16 @@ export function validarAddStore(handler) {
             showFeedBack($(this.phone), true);
         }
 
-        if(!valido){
+        if (!valido) {
             primerInvalido.focus();
-        }else{
-            handler(this.CIF.value,this.name.value,this.address.value,this.phone.value,this.coords1.value,this.coords2.value);
+        } else {
+            handler(this.CIF.value, this.name.value, this.address.value, this.phone.value, this.coords1.value, this.coords2.value);
         }
         event.preventDefault();
         event.stopPropagation();
     });
 
-    form.addEventListener('reset',(function(event){
+    form.addEventListener('reset', (function(event) {
         let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
         feedDivs.removeClass('d-block').addClass('d-none');
         let inputs = $(this).find('input');
@@ -357,18 +357,43 @@ export function validarAddCategory(handler) {
         } else {
             showFeedBack($(this.description), true);
         }
-       
 
-        if(!valido){
+
+        if (!valido) {
             primerInvalido.focus();
-        }else{
-            handler(this.title.value,this.description.value);
+        } else {
+            handler(this.title.value, this.description.value);
         }
         event.preventDefault();
         event.stopPropagation();
     });
 
-    form.addEventListener('reset',(function(event){
+    form.addEventListener('reset', (function(event) {
+        let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
+        feedDivs.removeClass('d-block').addClass('d-none');
+        let inputs = $(this).find('input');
+        inputs.removeClass('is-valid is-invalid');
+    }))
+
+    $(form.description).change(defaultCheckElement);
+    $(form.name).change(defaultCheckElement);
+
+}
+
+export function validarDeleteStore(handler) {
+    let form = document.forms.deleteStore;
+    $(form).attr('novalidate', true);
+    $(form).submit(function(event) {
+
+        // No tengo que comprobar nada, es un select.
+
+        handler(this.store.value);
+
+        event.preventDefault();
+        event.stopPropagation();
+    });
+
+    form.addEventListener('reset', (function(event) {
         let feedDivs = $(this).find('div.valid-feedback, div.invalid-feedback');
         feedDivs.removeClass('d-block').addClass('d-none');
         let inputs = $(this).find('input');
